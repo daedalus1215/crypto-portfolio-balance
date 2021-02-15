@@ -1,0 +1,11 @@
+version: "2"
+services:
+  express:
+    volumes: ["apps"]
+    restart: "always"
+    container_name: "express"
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports: 
+      - "8081:8081"

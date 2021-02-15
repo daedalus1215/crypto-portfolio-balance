@@ -1,5 +1,8 @@
-# Express-Docker-Template
-A template we can use to create an Express app with that has a Dockerfile and a docker-compose.yml file so we can just spin up a image and container real quick.
+# crypto-portfolio-balance
+App to display line graphs of portfolio balances across multiple wallets. 
+
+Tired of Coinbase portfolio balance graph dropping off when we move assets over to 
+many wallets. 
 
 ## Remember
 #### Things you might want to change, when using template multiple times in the same dev environment
