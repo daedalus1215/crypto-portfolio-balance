@@ -4,6 +4,14 @@ App to display line graphs of portfolio balances across multiple wallets.
 Tired of Coinbase portfolio balance graph dropping off when we move assets over to 
 many wallets. 
 
+## Setup
+* When initially setting up the app, make sure we drop a `.env` file, as a sibling to `src` directory. In it we need:
+```
+NODE_PATH=src/
+PORT=8081
+NOMIC_API=${insert_nomic_key_here}
+```
+
 ## Remember
 #### Things you might want to change, when using template multiple times in the same dev environment
 ##### `docker-compose.yml`
