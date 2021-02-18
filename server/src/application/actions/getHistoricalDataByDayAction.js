@@ -8,7 +8,7 @@ const getHistoricalDataByDayAction = () => (req, response) => {
 
     axios
         .get(url)
-        .then(resp => { response.send(resp.data); })
+        .then(async resp => { await response.send(resp.data); })
         .catch(err => { response.send('Error fetching data from nomics ' + err); });
 };
 
