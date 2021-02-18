@@ -6,5 +6,4 @@ const routes = (app, key) => {
     app.get('/api/history/:currency', getHistoryByDay)
 }
 
-
 module.exports = routes;
