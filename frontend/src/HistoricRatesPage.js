@@ -14,8 +14,9 @@ function HistoricRatesPage() {
 
     useEffect(() => {
         const labels = hData.map(timeUnit => {
-            const date = new Date(timeUnit.timestamp);
-            return (date.getMonth() + 1) + "/" + date.getDay() + "/" + date.getFullYear();
+            return timeUnit.timestamp;
+            // const date = timeUnit.timestamp);
+            // return (date.getMonth() + 1) + "/" + date.getDay() + "/" + date.getFullYear();
         });
 
         const lineGraphData = {
