@@ -2,3 +2,4 @@ server/node_modules/
 frontend/node_modules/
 server/.env
 frontend/.env
+frontend/src/temp/
