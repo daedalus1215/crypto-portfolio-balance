@@ -28,6 +28,11 @@ function TopBar({ location }) {
                         active={pathname.includes("/historicBtcPurchases")}>
                         Btc Purchases
                     </Nav.Link>
+                    <Nav.Link
+                        href="/explore"
+                        active={pathname.includes("/explore")}>
+                        Explore
+                    </Nav.Link>
                 </Nav>
             </Navbar.Collapse>
         </Navbar>

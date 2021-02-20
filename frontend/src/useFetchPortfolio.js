@@ -1,7 +1,5 @@
 const portfolio = require('./temp/portfolio.json');
 
-const useFetchPortfolio = () => {
-    return portfolio;
-};
+const useFetchPortfolio = () => portfolio;
 
 export default useFetchPortfolio;
