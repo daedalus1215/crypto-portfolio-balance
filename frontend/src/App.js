@@ -5,6 +5,7 @@ import { createBrowserHistory as createHistory } from 'history';
 import TopBar from './TopBar';
 import HistoricRatesBetweenCurrenciesPage from './HistoricRatesBetweenCurrenciesPage';
 import HistoricRatesPage from './HistoricRatesPage';
+import HistoricBtcPurchases from './HistoricBtcPurchases';
 import './App.css';
 
 const history = createHistory();
@@ -23,6 +24,7 @@ const App = () => {
         <Route path="/" exact component={HomePage} />
         <Route path="/historicrates" exact component={HistoricRatesPage} />
         <Route path="/historicrates2currencies" exact component={HistoricRatesBetweenCurrenciesPage} />
+        <Route path="/historicBtcPurchases" exact component={HistoricBtcPurchases} />
 
       </Router>
     </div>

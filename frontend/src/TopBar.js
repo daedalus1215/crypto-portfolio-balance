@@ -12,19 +12,22 @@ function TopBar({ location }) {
                 <Nav className="mr-auto">
                     <Nav.Link href="/" active={pathname == "/"}>
                         Home
-          </Nav.Link>
+                    </Nav.Link>
                     <Nav.Link
                         href="/historicrates"
-                        active={pathname.includes("/historicrates")}
-                    >
+                        active={pathname.includes("/historicrates")}>
                         Historic Rates
-          </Nav.Link>
+                    </Nav.Link>
                     <Nav.Link
                         href="/historicrates2currencies"
-                        active={pathname.includes("/historicrates2currencies")}
-                    >
+                        active={pathname.includes("/historicrates2currencies")}>
                         Historic Rates Between 2 Currencies
-          </Nav.Link>
+                    </Nav.Link>
+                    <Nav.Link
+                        href="/historicBtcPurchases"
+                        active={pathname.includes("/historicBtcPurchases")}>
+                        Btc Purchases
+                    </Nav.Link>
                 </Nav>
             </Navbar.Collapse>
         </Navbar>
