@@ -6,14 +6,14 @@ import Button from "react-bootstrap/esm/Button";
 
 function HistoricRatesPage() {
     const [data, setData] = React.useState({});
-    const [hData, setHData] = useState([]);
+    const [btcHistory, setBtcHistory] = useState([]);
 
     useEffect(() => {
-        getHistoricStuff(setHData);
+        getHistoricStuff(setBtcHistory);
     }, []);
 
     useEffect(() => {
-        const labels = hData.map(timeUnit => {
+        const labels = btcHistory.map(timeUnit => {
             return timeUnit.timestamp;
             // const date = timeUnit.timestamp);
             // return (date.getMonth() + 1) + "/" + date.getDay() + "/" + date.getFullYear();
@@ -23,7 +23,7 @@ function HistoricRatesPage() {
             labels,
             datasets: [
                 {
-                    data: hData.map(timeUnit => timeUnit.rate),
+                    data: btcHistory.map(timeUnit => timeUnit.rate),
                     label: 'Bitcoin',
                     borderColor: "#FFD700",
                     fill: false,
@@ -31,7 +31,7 @@ function HistoricRatesPage() {
             ],
         };
         setData(lineGraphData);
-    }, [hData]);
+    }, [btcHistory]);
 
     return (
         <div className="historic-rates-page">
