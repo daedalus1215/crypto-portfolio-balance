@@ -27,43 +27,39 @@ function Explore() {
 
 
     React.useEffect(() => {
+        const sumMultiplePurchasesInSameDay = (btc) => {
+            return portfolio
+                .filter(folio => (folio.timestamp === btc.timestamp)
+                    ? true
+                    : false)
+                .map(folio => folio.amount)
+                .reduce((first, second) => {
+                    console.log('first: ', first);
+                    console.log('second: ', second);
+                    const total = +first + +second;
+                    console.log('total: ', total)
+                    return total;
+                }, 0);
+        }
         let lastSatoshis = 0;
         const computeCurrentHoldingValue = (satoshis, rate) => {
-            console.log('satoshis', satoshis);
-
+            console.log('last satoshi', lastSatoshis);
+            console.log('now satoshi', satoshis);
             lastSatoshis += lastSatoshis + +satoshis;
-
-            return lastSatoshis * (rate / 100000000);
+            console.log('combined satoshi', lastSatoshis);
+            const marketValueForSatoshis = (lastSatoshis * (+rate / 100000000));
+            console.log('market value: ', marketValueForSatoshis);
+            return marketValueForSatoshis;
         }
         let labels = btcHistory?.map(btc => btc.timestamp);
 
         let totalAmount = btcHistory.map(btc => {
-            const tAmount = portfolio
-                .filter(folio => {
-                    if (folio.timestamp === btc.timestamp) {
-                        console.log('true!');
-                        console.log(folio.timestamp);
-                        console.log(btc.timestamp);
-                        return true;
-                    } else {
-                        console.log('false!');
-                        console.log(folio.timestamp);
-                        console.log(btc.timestamp);
-                        return false;
-                    }
-                })
-                .map(folio => {
-                    console.log('portfolio amount this time: ', folio.amount);
-                    return folio.amount;
-                })
-                .reduce((first, second) => {
-                    console.log('first', first);
-                    console.log('second', second);
-                    console.log('combined', +first + +second);
-                    return +first + +second
-                }, 0);
-            return computeCurrentHoldingValue(tAmount, btc.rate);
+            const totalAmountOfSatoshisInTheSameDay = sumMultiplePurchasesInSameDay(btc);
+            console.log('tAmount?', totalAmountOfSatoshisInTheSameDay);
+            return computeCurrentHoldingValue(totalAmountOfSatoshisInTheSameDay, btc.rate);
         });
+
+
 
         if (timePeriod === TIME_LAPSE.MTH) {
             totalAmount = totalAmount.splice(totalAmount.length - 20, totalAmount.length - 1);
