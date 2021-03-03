@@ -11,7 +11,7 @@ const TIME_LAPSE = {
 }
 
 function Explore() {
-    const [timePeriod, setTimePeriod] = React.useState(TIME_LAPSE.YR);
+    const [timePeriod, setTimePeriod] = React.useState(TIME_LAPSE.MTH);
     const [data, setData] = React.useState({});
     const [portfolioData, setPortfolioData] = React.useState([]);
     const [btcHistory, setBtcHistory] = React.useState([]);
@@ -45,9 +45,12 @@ function Explore() {
         const computeCurrentHoldingValue = (satoshis, rate) => {
             console.log('last satoshi', lastSatoshis);
             console.log('now satoshi', satoshis);
-            lastSatoshis += lastSatoshis + +satoshis;
+            lastSatoshis = lastSatoshis + +satoshis;
             console.log('combined satoshi', lastSatoshis);
-            const marketValueForSatoshis = (lastSatoshis * (+rate / 100000000));
+            console.log('rate:', rate)
+            const satoshiRate = rate / 100000000;
+            console.log('satoshiRate', satoshiRate)
+            const marketValueForSatoshis = (lastSatoshis * satoshiRate);
             console.log('market value: ', marketValueForSatoshis);
             return marketValueForSatoshis;
         }
@@ -55,15 +58,18 @@ function Explore() {
 
         let totalAmount = btcHistory.map(btc => {
             const totalAmountOfSatoshisInTheSameDay = sumMultiplePurchasesInSameDay(btc);
+            console.log('-------------------------');
             console.log('tAmount?', totalAmountOfSatoshisInTheSameDay);
+            console.log('btc.timestamp', btc.timestamp);
+            console.log('btc.rate', btc.rate);
+            console.log('-------------------------');
             return computeCurrentHoldingValue(totalAmountOfSatoshisInTheSameDay, btc.rate);
         });
 
 
-
         if (timePeriod === TIME_LAPSE.MTH) {
-            totalAmount = totalAmount.splice(totalAmount.length - 20, totalAmount.length - 1);
-            labels = labels.splice(labels.length - 20, labels.length - 1);
+            totalAmount = totalAmount.splice(totalAmount.length - 34, totalAmount.length - 1);
+            labels = labels.splice(labels.length - 34, labels.length - 1);
         }
 
         console.log('timePeriod equals', totalAmount);
