@@ -1,12 +1,10 @@
 import React from 'react';
 import { Router, Route } from 'react-router-dom';
-import HomePage from './HomePage';
 import { createBrowserHistory as createHistory } from 'history';
 import TopBar from './TopBar';
-import HistoricRatesBetweenCurrenciesPage from './HistoricRatesBetweenCurrenciesPage';
-import HistoricRatesPage from './HistoricRatesPage';
-import Explore from './Explore';
-import HistoricBtcPurchases from './HistoricBtcPurchases';
+import HistoricRatesPage from './historicRatesPages/HistoricRatesPage';
+import BitcoinPortfolio from './bitcoinPortfolio/BitcoinPortfolio';
+import HistoricBtcPurchases from './historidBtcPurchases/HistoricBtcPurchases';
 import './App.css';
 
 const history = createHistory();
@@ -22,11 +20,10 @@ const App = () => {
     <div className="App">
       <Router history={history}>
         <TopBar />
-        <Route path="/" exact component={HomePage} />
+        <Route path="/" exact component={HistoricRatesPage} />
         <Route path="/historicrates" exact component={HistoricRatesPage} />
-        <Route path="/historicrates2currencies" exact component={HistoricRatesBetweenCurrenciesPage} />
         <Route path="/historicBtcPurchases" exact component={HistoricBtcPurchases} />
-        <Route path="/explore" exact component={Explore} />
+        <Route path="/bitcoin-portfolio" exact component={BitcoinPortfolio} />
 
       </Router>
     </div>

@@ -6,22 +6,13 @@ function TopBar({ location }) {
     const { pathname } = location;
     return (
         <Navbar bg="primary" expand="lg" variant="dark">
-            <Navbar.Brand href="#home">Currenc Converter App</Navbar.Brand>
+            <Navbar.Brand href="#home">Crypto Currency Portfolio App</Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="mr-auto">
-                    <Nav.Link href="/" active={pathname == "/"}>
-                        Home
-                    </Nav.Link>
-                    <Nav.Link
-                        href="/historicrates"
-                        active={pathname.includes("/historicrates")}>
-                        Historic Rates
-                    </Nav.Link>
-                    <Nav.Link
-                        href="/historicrates2currencies"
-                        active={pathname.includes("/historicrates2currencies")}>
-                        Historic Rates Between 2 Currencies
+                    <Nav.Link href="/" active={pathname == "/"}
+                        href="/">
+                        Bitcoin Historical Rate
                     </Nav.Link>
                     <Nav.Link
                         href="/historicBtcPurchases"
@@ -29,9 +20,9 @@ function TopBar({ location }) {
                         Btc Purchases
                     </Nav.Link>
                     <Nav.Link
-                        href="/explore"
-                        active={pathname.includes("/explore")}>
-                        Explore
+                        href="/bitcoin-portfolio"
+                        active={pathname.includes("/bitcoin-portfolio")}>
+                        Bitcoin Portfolio
                     </Nav.Link>
                 </Nav>
             </Navbar.Collapse>
