@@ -1,30 +1,29 @@
 import React, { useEffect, useState } from "react";
+import { getHistoricStuff } from "../requests";
 import { Line } from "react-chartjs-2";
-import "./HistoricRatesPage.css";
 import Button from "react-bootstrap/esm/Button";
-import useFetchPortfolio from "./useFetchPortfolio";
+import "./HistoricRatesPage.css";
 
-function HistoricBtcPurchases() {
+function HistoricRatesPage() {
     const [data, setData] = React.useState({});
-    const [hData, setHData] = useState([]);
-    const response = useFetchPortfolio();
-    const thegoods = response;
-    console.log('thegoods: ', response);
+    const [btcHistory, setBtcHistory] = useState([]);
 
     useEffect(() => {
-        setHData(thegoods);
-    }, [thegoods]);
+        getHistoricStuff(setBtcHistory);
+    }, []);
 
     useEffect(() => {
-        const labels = hData.map(timeUnit => {
+        const labels = btcHistory.map(timeUnit => {
             return timeUnit.timestamp;
+            // const date = timeUnit.timestamp);
+            // return (date.getMonth() + 1) + "/" + date.getDay() + "/" + date.getFullYear();
         });
 
         const lineGraphData = {
             labels,
             datasets: [
                 {
-                    data: hData.map(timeUnit => timeUnit.amount),
+                    data: btcHistory.map(timeUnit => timeUnit.rate),
                     label: 'Bitcoin',
                     borderColor: "#FFD700",
                     fill: false,
@@ -32,7 +31,7 @@ function HistoricBtcPurchases() {
             ],
         };
         setData(lineGraphData);
-    }, [hData]);
+    }, [btcHistory]);
 
     return (
         <div className="historic-rates-page">
@@ -44,4 +43,4 @@ function HistoricBtcPurchases() {
         </div>
     );
 }
-export default HistoricBtcPurchases;
+export default HistoricRatesPage;
