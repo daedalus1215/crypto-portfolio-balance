@@ -22,7 +22,8 @@ const useGetHistoryOfBitcoin = setBtcHistory => {
     }, []);
 };
 
-const useDisplayHistoricalExchangeRate = (setData, portfolioData, btcHistory, timePeriod, portfolio) => {
+const useDisplayHistoricalExchangeRate = (setData, portfolioData, btcHistory, timePeriod, portfolio, setTotalValue) => {
+
     React.useEffect(() => {
         const sumMultiplePurchasesInSameDay = (btc) => {
             return portfolio
@@ -34,42 +35,31 @@ const useDisplayHistoricalExchangeRate = (setData, portfolioData, btcHistory, ti
                     console.log('first: ', first);
                     console.log('second: ', second);
                     const total = +first + +second;
-                    console.log('total: ', total)
+                    console.log('fiatInvestment: ', total)
                     return total;
                 }, 0);
         }
         let lastSatoshis = 0;
         const computeCurrentHoldingValue = (satoshis, rate) => {
-            console.log('last satoshi', lastSatoshis);
-            console.log('now satoshi', satoshis);
             lastSatoshis = lastSatoshis + +satoshis;
-            console.log('combined satoshi', lastSatoshis);
-            console.log('rate:', rate)
             const satoshiRate = rate / 100000000;
-            console.log('satoshiRate', satoshiRate)
             const marketValueForSatoshis = (lastSatoshis * satoshiRate);
-            console.log('market value: ', marketValueForSatoshis);
             return marketValueForSatoshis;
         }
         let labels = btcHistory?.map(btc => btc.timestamp);
 
-        let totalAmount = btcHistory.map(btc => {
-            const totalAmountOfSatoshisInTheSameDay = sumMultiplePurchasesInSameDay(btc);
-            console.log('-------------------------');
-            console.log('tAmount?', totalAmountOfSatoshisInTheSameDay);
-            console.log('btc.timestamp', btc.timestamp);
-            console.log('btc.rate', btc.rate);
-            console.log('-------------------------');
-            return computeCurrentHoldingValue(totalAmountOfSatoshisInTheSameDay, btc.rate);
-        });
-
+        let totalAmount = btcHistory
+            .map(btc => {
+                const totalAmountOfSatoshisInTheSameDay = sumMultiplePurchasesInSameDay(btc);
+                return computeCurrentHoldingValue(totalAmountOfSatoshisInTheSameDay, btc.rate);
+            });
 
         if (timePeriod === TIME_LAPSE.MTH) {
             totalAmount = totalAmount.splice(totalAmount.length - 34, totalAmount.length - 1);
             labels = labels.splice(labels.length - 34, labels.length - 1);
         }
 
-        console.log('timePeriod equals', totalAmount);
+        setTotalValue(totalAmount[totalAmount.length - 1]?.toFixed(2));
         const lineGraphData = {
             labels,
             datasets: [
@@ -90,18 +80,23 @@ function BitcoinPortfolio() {
     const [data, setData] = React.useState({});
     const [portfolioData, setPortfolioData] = React.useState([]);
     const [btcHistory, setBtcHistory] = React.useState([]);
-    const { portfolio } = useFetchPortfolioWithTotal();
+    const [totalValue, setTotalValue] = React.useState(0);
+    const { portfolio, fiatInvestment } = useFetchPortfolioWithTotal();
 
     useSetPortfolioData(setPortfolioData, portfolioData);
     useGetHistoryOfBitcoin(setBtcHistory);
 
 
-    useDisplayHistoricalExchangeRate(setData, portfolioData, btcHistory, timePeriod, portfolio);
+    useDisplayHistoricalExchangeRate(setData, portfolioData, btcHistory, timePeriod, portfolio, setTotalValue);
 
     return (
         <div className="historic-rates-page">
             <div><Button onClick={() => setTimePeriod(TIME_LAPSE.YR)}>Year</Button><Button onClick={() => setTimePeriod(TIME_LAPSE.MTH)}>Month</Button></div>
             <br />
+            <div>
+                <p>Cash invested: ${fiatInvestment.toFixed(2)}</p>
+                <p>Valued at: ${totalValue}</p>
+            </div>
             <div className="grid">
                 <Line data={data} />
             </div>
