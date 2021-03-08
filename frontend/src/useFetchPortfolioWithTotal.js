@@ -3,7 +3,7 @@ const portfolio = require('./temp/portfolio.json');
 
 const useFetchPortfolioWithTotal = () => {
     return React.useMemo(() => {
-        const total = portfolio
+        const fiatInvestment = portfolio
             .map(p => p.order)
             .reduce((sum, order) => {
                 console.log('order', order)
@@ -11,10 +11,10 @@ const useFetchPortfolioWithTotal = () => {
                 return parseFloat(order) + parseFloat(sum)
             }, 0);
 
-        console.log('the total is: ', total);
+        console.log('the total is: ', fiatInvestment);
         return {
             portfolio,
-            total
+            fiatInvestment
         }
     }, [portfolio]);
 };
