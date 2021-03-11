@@ -1,7 +1,7 @@
 import React from "react";
 import Button from "react-bootstrap/esm/Button";
 import { Line } from "react-chartjs-2";
-import { getHistoricStuff } from "../requests";
+import { fetchBitcoinHistory } from "../requests";
 import useFetchPortfolioWithTotal from "../useFetchPortfolioWithTotal";
 import "./BitcoinPortfolio.css";
 
@@ -18,7 +18,7 @@ const useSetPortfolioData = (setPortfolioData, portfolio) => {
 
 const useGetHistoryOfBitcoin = setBtcHistory => {
     React.useEffect(() => {
-        getHistoricStuff(setBtcHistory);
+        fetchBitcoinHistory(setBtcHistory);
     }, []);
 };
 

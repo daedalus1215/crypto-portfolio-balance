@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getHistoricStuff } from "../requests";
+import { fetchBitcoinHistory } from "../requests";
 import { Line } from "react-chartjs-2";
 import Button from "react-bootstrap/esm/Button";
 import "./HistoricRatesPage.css";
@@ -9,7 +9,7 @@ function HistoricRatesPage() {
     const [btcHistory, setBtcHistory] = useState([]);
 
     useEffect(() => {
-        getHistoricStuff(setBtcHistory);
+        fetchBitcoinHistory(setBtcHistory);
     }, []);
 
     useEffect(() => {
