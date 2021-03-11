@@ -14,7 +14,7 @@ function TopBar({ location }) {
                         href="/">
                         Bitcoin Historical Rate
                     </Nav.Link>
-                    <Nav.Link
+                    <Nav.Link 
                         href="/historicBtcPurchases"
                         active={pathname.includes("/historicBtcPurchases")}>
                         Btc Purchases
@@ -23,6 +23,11 @@ function TopBar({ location }) {
                         href="/bitcoin-portfolio"
                         active={pathname.includes("/bitcoin-portfolio")}>
                         Bitcoin Portfolio
+                    </Nav.Link>
+                    <Nav.Link
+                        href="/ether-portfolio"
+                        active={pathname.includes("/ether-portfolio")}>
+                        Ether Portfolio
                     </Nav.Link>
                 </Nav>
             </Navbar.Collapse>
