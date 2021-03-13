@@ -1,8 +1,8 @@
 import React from "react";
 import Button from "react-bootstrap/esm/Button";
 import { Line } from "react-chartjs-2";
-import { getHistoricStuff } from "../requests";
-import useFetchPortfolioWithTotal from "../useFetchPortfolioWithTotal";
+import { fetchEtherHistory } from "../requests";
+import useFetchEther from "../useFetchEther";
 import "./EtherPortfolio.css";
 
 const TIME_LAPSE = {
@@ -16,18 +16,19 @@ const useSetPortfolioData = (setPortfolioData, portfolio) => {
     }, [portfolio]);
 }
 
-const useGetHistoryOfBitcoin = setBtcHistory => {
+const useGetHistoryOfEther = setEtherHistory => {
     React.useEffect(() => {
-        getHistoricStuff(setBtcHistory);
+        fetchEtherHistory(setEtherHistory);
     }, []);
 };
 
-const useDisplayHistoricalExchangeRate = (setData, portfolioData, btcHistory, timePeriod, portfolio, setTotalValue) => {
+const useDisplayHistoricalExchangeRate = (setData, portfolioData, etherHistory, timePeriod, portfolio, setTotalValue) => {
 
     React.useEffect(() => {
         const sumMultiplePurchasesInSameDay = (btc) => {
-            return portfolio
-                .filter(folio => (folio.timestamp === btc.timestamp)
+            console.log('what is this', portfolio)
+            console.log('what is this btc:', btc)
+            return portfolio?.filter(folio => (folio.timestamp === btc.timestamp)
                     ? true
                     : false)
                 .map(folio => folio.amount)
@@ -39,19 +40,24 @@ const useDisplayHistoricalExchangeRate = (setData, portfolioData, btcHistory, ti
                     return total;
                 }, 0);
         }
-        let lastSatoshis = 0;
-        const computeCurrentHoldingValue = (satoshis, rate) => {
-            lastSatoshis = lastSatoshis + +satoshis;
-            const satoshiRate = rate / 100000000;
-            const marketValueForSatoshis = (lastSatoshis * satoshiRate);
-            return marketValueForSatoshis;
-        }
-        let labels = btcHistory?.map(btc => btc.timestamp);
 
-        let totalAmount = btcHistory
+        let lastwei = 0;
+        const computeCurrentHoldingValue = (wei, rate) => {
+            lastwei = lastwei + +wei;
+            const weiRate = rate / 100000000;
+            const marketValueForwei = (lastwei * weiRate);
+            return marketValueForwei;
+        }
+
+        let labels = etherHistory?.map(btc => btc.timestamp);
+        console.log('labels')
+        let totalAmount = etherHistory
             .map(btc => {
-                const totalAmountOfSatoshisInTheSameDay = sumMultiplePurchasesInSameDay(btc);
-                return computeCurrentHoldingValue(totalAmountOfSatoshisInTheSameDay, btc.rate);
+                const totalAmountOfweiInTheSameDay = sumMultiplePurchasesInSameDay(btc);
+                console.log('totalAmountOfweiInTheSameDay', totalAmountOfweiInTheSameDay)
+                const computedCurrentHoldingValue = computeCurrentHoldingValue(totalAmountOfweiInTheSameDay, btc.rate);
+                console.log('computedCurrentHoldingValue', computedCurrentHoldingValue)
+                return computedCurrentHoldingValue
             });
 
         if (timePeriod === TIME_LAPSE.MTH) {
@@ -65,36 +71,38 @@ const useDisplayHistoricalExchangeRate = (setData, portfolioData, btcHistory, ti
             datasets: [
                 {
                     data: totalAmount,
-                    label: 'Portfolio',
-                    borderColor: "#FFD700",
+                    label: 'Ethereum',
+                    borderColor: "#77f",
                     fill: false,
                 },
             ],
         };
         setData(lineGraphData);
-    }, [portfolioData, btcHistory, timePeriod]);
+    }, [portfolioData, etherHistory, timePeriod]);
 };
 
 function EtherPortfolio() {
     const [timePeriod, setTimePeriod] = React.useState(TIME_LAPSE.MTH);
     const [data, setData] = React.useState({});
     const [portfolioData, setPortfolioData] = React.useState([]);
-    const [btcHistory, setBtcHistory] = React.useState([]);
+    const [etherHistory, setEtherHistory] = React.useState([]);
     const [totalValue, setTotalValue] = React.useState(0);
-    const { portfolio, fiatInvestment } = useFetchPortfolioWithTotal();
+    const ether  = useFetchEther();
+    const portfolio = ether;
 
     useSetPortfolioData(setPortfolioData, portfolioData);
-    useGetHistoryOfBitcoin(setBtcHistory);
+    useGetHistoryOfEther(setEtherHistory);
 
-
-    useDisplayHistoricalExchangeRate(setData, portfolioData, btcHistory, timePeriod, portfolio, setTotalValue);
+    console.log('etherHistory', etherHistory)
+    console.log('portfolio', portfolio)
+    useDisplayHistoricalExchangeRate(setData, portfolioData, etherHistory, timePeriod, portfolio, setTotalValue);
 
     return (
         <div className="historic-rates-page">
             <div><Button onClick={() => setTimePeriod(TIME_LAPSE.YR)}>Year</Button><Button onClick={() => setTimePeriod(TIME_LAPSE.MTH)}>Month</Button></div>
             <br />
             <div>
-                <p>Cash invested: ${fiatInvestment.toFixed(2)}</p>
+                {/* <p>Cash invested: ${fiatInvestment.toFixed(2)}</p> */}
                 <p>Valued at: ${totalValue}</p>
             </div>
             <div className="grid">
