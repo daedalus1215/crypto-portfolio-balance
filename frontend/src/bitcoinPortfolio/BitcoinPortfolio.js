@@ -8,6 +8,8 @@ import "./BitcoinPortfolio.css";
 const TIME_LAPSE = {
     YR: "YR",
     MTH: "MTH",
+    WEEK: "WEEK",
+    THREE_MTH: "THREE_MTH",
 }
 
 const useSetPortfolioData = (setPortfolioData, portfolio) => {
@@ -54,9 +56,20 @@ const useDisplayHistoricalExchangeRate = (setData, portfolioData, btcHistory, ti
                 return computeCurrentHoldingValue(totalAmountOfSatoshisInTheSameDay, btc.rate);
             });
 
+
+        if (timePeriod === TIME_LAPSE.WEEK) {
+            totalAmount = totalAmount.splice(totalAmount.length - 10, totalAmount.length - 1);
+            labels = labels.splice(labels.length - 10, labels.length - 1);
+        }
+
         if (timePeriod === TIME_LAPSE.MTH) {
             totalAmount = totalAmount.splice(totalAmount.length - 34, totalAmount.length - 1);
             labels = labels.splice(labels.length - 34, labels.length - 1);
+        }
+
+        if (timePeriod === TIME_LAPSE.THREE_MTH) {
+            totalAmount = totalAmount.splice(totalAmount.length - 90, totalAmount.length - 1);
+            labels = labels.splice(labels.length - 90, labels.length - 1);
         }
 
         setTotalValue(totalAmount[totalAmount.length - 1]?.toFixed(2));
@@ -91,11 +104,18 @@ function BitcoinPortfolio() {
 
     return (
         <div className="historic-rates-page">
-            <div><Button onClick={() => setTimePeriod(TIME_LAPSE.YR)}>Year</Button><Button onClick={() => setTimePeriod(TIME_LAPSE.MTH)}>Month</Button></div>
-            <br />
             <div>
-                <p>Cash invested: ${fiatInvestment.toFixed(2)}</p>
-                <p>Valued at: ${totalValue}</p>
+                <Button onClick={() => setTimePeriod(TIME_LAPSE.YR)}>Year</Button>
+                <Button onClick={() => setTimePeriod(TIME_LAPSE.THREE_MTH)}>Three Month</Button>
+                <Button onClick={() => setTimePeriod(TIME_LAPSE.MTH)}>Month</Button>
+                <Button onClick={() => setTimePeriod(TIME_LAPSE.WEEK)}>Week</Button>
+            </div>
+            <br />
+            <div className="title-container">
+                <div className="title">
+                    <p>Invested: ${fiatInvestment.toFixed(2)}</p>
+                    <p>Valued at: ${totalValue}</p>
+                </div>
             </div>
             <div className="grid">
                 <Line data={data} />
