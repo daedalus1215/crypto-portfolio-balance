@@ -29,6 +29,11 @@ function TopBar({ location }) {
                         active={pathname.includes("/ether-portfolio")}>
                         Ether Portfolio
                     </Nav.Link>
+                    <Nav.Link
+                        href="/combine-portfolio"
+                        active={pathname.includes("/combine-portfolio")}>
+                        Combine Portfolio
+                    </Nav.Link>
                 </Nav>
             </Navbar.Collapse>
         </Navbar>
