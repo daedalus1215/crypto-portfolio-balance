@@ -2,7 +2,7 @@ import React from "react";
 import Button from "react-bootstrap/esm/Button";
 import { Line } from "react-chartjs-2";
 import { fetchBitcoinHistory } from "../requests";
-import useFetchPortfolioWithTotal from "../useFetchPortfolioWithTotal";
+import useFetchBtcWithTotal from "../useFetchBtcWithTotal";
 import "./BitcoinPortfolio.css";
 
 const TIME_LAPSE = {
@@ -44,7 +44,7 @@ const useDisplayHistoricalExchangeRate = (setData, portfolioData, btcHistory, ti
         let lastSatoshis = 0;
         const computeCurrentHoldingValue = (satoshis, rate) => {
             lastSatoshis = lastSatoshis + +satoshis;
-            const satoshiRate = rate / 100000000;
+            const satoshiRate = rate;
             const marketValueForSatoshis = (lastSatoshis * satoshiRate);
             return marketValueForSatoshis;
         }
@@ -94,7 +94,7 @@ function BitcoinPortfolio() {
     const [portfolioData, setPortfolioData] = React.useState([]);
     const [btcHistory, setBtcHistory] = React.useState([]);
     const [totalValue, setTotalValue] = React.useState(0);
-    const { portfolio, fiatInvestment } = useFetchPortfolioWithTotal();
+    const { portfolio, fiatInvestment } = useFetchBtcWithTotal();
 
     useSetPortfolioData(setPortfolioData, portfolioData);
     useGetHistoryOfBitcoin(setBtcHistory);
