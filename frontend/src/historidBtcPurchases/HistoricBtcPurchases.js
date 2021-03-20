@@ -9,7 +9,6 @@ function HistoricBtcPurchases() {
     const [hData, setHData] = useState([]);
     const response = useFetchPortfolio();
     const thegoods = response;
-    console.log('thegoods: ', response);
 
     useEffect(() => {
         setHData(thegoods);
@@ -25,7 +24,7 @@ function HistoricBtcPurchases() {
             datasets: [
                 {
                     data: hData.map(timeUnit => timeUnit.amount),
-                    label: 'Bitcoin',
+                    label: 'Bitcoin Activity',
                     borderColor: "#FFD700",
                     fill: false,
                 },
