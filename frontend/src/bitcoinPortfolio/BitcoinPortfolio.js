@@ -94,7 +94,7 @@ function BitcoinPortfolio() {
     const [portfolioData, setPortfolioData] = React.useState([]);
     const [btcHistory, setBtcHistory] = React.useState([]);
     const [totalValue, setTotalValue] = React.useState(0);
-    const { portfolio, fiatInvestment } = useFetchBtcWithTotal();
+    const { portfolio, fiatInvestment, totalAmountOfAsset } = useFetchBtcWithTotal();
 
     useSetPortfolioData(setPortfolioData, portfolioData);
     useGetHistoryOfBitcoin(setBtcHistory);
@@ -115,6 +115,7 @@ function BitcoinPortfolio() {
                 <div className="title">
                     <p>Invested: ${fiatInvestment.toFixed(2)}</p>
                     <p>Valued at: ${totalValue}</p>
+                    <p>Total: {totalAmountOfAsset}</p>
                 </div>
             </div>
             <div className="grid">
