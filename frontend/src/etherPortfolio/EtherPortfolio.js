@@ -109,8 +109,6 @@ function EtherPortfolio() {
     useSetPortfolioData(setPortfolioData, portfolioData);
     useGetHistoryOfEther(setEtherHistory);
 
-    console.log('etherHistory', etherHistory)
-    console.log('portfolio', portfolio)
     useDisplayHistoricalExchangeRate(setData, portfolioData, etherHistory, timePeriod, portfolio, setTotalValue);
 
     return (
