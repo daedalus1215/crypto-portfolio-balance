@@ -32,7 +32,7 @@ const App = () => {
         <Route path="/bitcoin-portfolio" exact component={BitcoinPortfolio} />
         <Route path="/ether-portfolio" exact component={EtherPortfolio} />
         <Route path="/combine-portfolio" exact component={CombinePortfolio} />
-        {portfolios.map(p => <Route path={"/" + p.code} exact component={PortfolioPage} />)}
+        {portfolios.map(p => <Route path={"/" + p.code} exact render={props => <PortfolioPage portfolioOfAsset={p} {...props} />} />)}
       </Router>
     </div>
   );
