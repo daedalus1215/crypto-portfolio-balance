@@ -4,6 +4,7 @@ import { Line } from "react-chartjs-2";
 import { fetchBitcoinHistory } from "../requests";
 import useFetchBtcWithTotal from "../useFetchBtcWithTotal";
 import "./PortfolioPage.css";
+import useFetchActivityForAsset from "./useFetchActivityForAsset";
 
 const TIME_LAPSE = {
     YR: "YR",
@@ -18,13 +19,16 @@ const useSetPortfolioData = (setPortfolioData, portfolio) => {
     }, [portfolio]);
 }
 
-const useGetHistoryOfBitcoin = setBtcHistory => {
-    React.useEffect(() => {
-        fetchBitcoinHistory(setBtcHistory);
-    }, []);
-};
-
-const useDisplayHistoricalExchangeRate = (setData, portfolioData, btcHistory, timePeriod, portfolio, setTotalValue) => {
+/**
+ * @TODO: Clean this up 
+ * @param {*} setData 
+ * @param {*} portfolioData 
+ * @param {*} btcHistory 
+ * @param {*} timePeriod 
+ * @param {*} portfolio 
+ * @param {*} setTotalValue 
+ */
+const useDisplayHistoricalExchangeRate = (setData, portfolioData, btcHistory, timePeriod, portfolio, setTotalValue, color) => {
 
     React.useEffect(() => {
         const sumMultiplePurchasesInSameDay = (btc) => {
@@ -49,7 +53,7 @@ const useDisplayHistoricalExchangeRate = (setData, portfolioData, btcHistory, ti
             return marketValueForSatoshis;
         }
         let labels = btcHistory?.map(btc => btc.timestamp);
-
+        console.log('labels', btcHistory);
         let totalAmount = btcHistory
             .map(btc => {
                 const totalAmountOfSatoshisInTheSameDay = sumMultiplePurchasesInSameDay(btc);
@@ -79,7 +83,7 @@ const useDisplayHistoricalExchangeRate = (setData, portfolioData, btcHistory, ti
                 {
                     data: totalAmount,
                     label: 'Portfolio',
-                    borderColor: "#FFD700",
+                    borderColor: color,
                     fill: false,
                 },
             ],
@@ -88,19 +92,20 @@ const useDisplayHistoricalExchangeRate = (setData, portfolioData, btcHistory, ti
     }, [portfolioData, btcHistory, timePeriod]);
 };
 
-const PortfolioPage = (folio) => {
+const PortfolioPage = ({ portfolioOfAsset }) => {
     const [timePeriod, setTimePeriod] = React.useState(TIME_LAPSE.MTH);
     const [data, setData] = React.useState({});
     const [portfolioData, setPortfolioData] = React.useState([]);
-    const [btcHistory, setBtcHistory] = React.useState([]);
+    const [assetHistory, setAssetHistory] = React.useState([]);
     const [totalValue, setTotalValue] = React.useState(0);
-    const { portfolio, fiatInvestment, totalAmountOfAsset } = useFetchBtcWithTotal();
-
+    const { portfolio, fiatInvestment, totalAmountOfAsset } = portfolioOfAsset.assetActivity;
+    console.log('portfolioOfAsset', portfolioOfAsset);
+    console.log('assetActivity', portfolioOfAsset.assetActivity);
     useSetPortfolioData(setPortfolioData, portfolioData);
-    useGetHistoryOfBitcoin(setBtcHistory);
+    useFetchActivityForAsset(portfolioOfAsset.code, setAssetHistory)
 
 
-    useDisplayHistoricalExchangeRate(setData, portfolioData, btcHistory, timePeriod, portfolio, setTotalValue);
+    useDisplayHistoricalExchangeRate(setData, portfolioData, assetHistory, timePeriod, portfolio, setTotalValue, portfolioOfAsset.color);
 
     return (
         <div className="historic-rates-page">
