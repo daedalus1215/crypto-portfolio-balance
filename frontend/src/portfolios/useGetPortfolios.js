@@ -1,14 +1,18 @@
+import useFetchBtcWithTotal from "../useFetchBtcWithTotal";
+
 const useGetPortfolios = () => {
     return [
         {
             name: "Bitcoin",
             code: "btc",
-            path: "../temp/btc.json"
+            color: "#FFD700",
+            assetActivity: useFetchBtcWithTotal("../temp/btc.json")
         },
         {
             name: "Ether",
             code: "eth",
-            path: "../temp/ether.json"
+            color: "#77f",
+            assetActivity: useFetchBtcWithTotal("../temp/ether.json")
         },
     ];
 };
