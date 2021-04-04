@@ -24,8 +24,16 @@ export const fetchBitcoinHistory = async (setHData) => await axios
     .catch(err => err);
 
 export const fetchEtherHistory = async (setHData) => await axios
-    .get(`http://localhost:8081/api/history/ETH`)
+    .get('http://localhost:8081/api/history/ETH')
     .then(async resp => {
         setHData(await resp.data);
     })
     .catch(err => err);
+
+export const fetchAssetHistory = async (code, setHData) => await axios
+    .get(`http://localhost:8081/api/history/${code}`)
+    .then(async resp => setHData(await resp.data))
+    .catch(err => {
+        console.log(`issue with fetching asset history: ${err}`);
+        return err;
+    });
