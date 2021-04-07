@@ -1,10 +1,10 @@
 import React from "react";
 import Button from "react-bootstrap/esm/Button";
 import { Line } from "react-chartjs-2";
-import { fetchBitcoinHistory } from "../requests";
-import useFetchBtcWithTotal from "../useFetchBtcWithTotal";
+import useFetchAssetHistory from "./useFetchAssetHistory";
 import "./PortfolioPage.css";
 import useFetchActivityForAsset from "./useFetchActivityForAsset";
+import useFetchActivityWithTotal from "./useFetchWithTotal";
 
 const TIME_LAPSE = {
     YR: "YR",
@@ -47,6 +47,7 @@ const useDisplayHistoricalExchangeRate = (setData, portfolioData, btcHistory, ti
         }
         let lastSatoshis = 0;
         const computeCurrentHoldingValue = (satoshis, rate) => {
+            lastSatoshis = isNaN(lastSatoshis) ? 0 : lastSatoshis
             lastSatoshis = lastSatoshis + +satoshis;
             const satoshiRate = rate;
             const marketValueForSatoshis = (lastSatoshis * satoshiRate);
@@ -95,17 +96,16 @@ const useDisplayHistoricalExchangeRate = (setData, portfolioData, btcHistory, ti
 const PortfolioPage = ({ portfolioOfAsset }) => {
     const [timePeriod, setTimePeriod] = React.useState(TIME_LAPSE.MTH);
     const [data, setData] = React.useState({});
-    const [portfolioData, setPortfolioData] = React.useState([]);
+    const [activity, setActivity] = React.useState({});
     const [assetHistory, setAssetHistory] = React.useState([]);
     const [totalValue, setTotalValue] = React.useState(0);
-    const { portfolio, fiatInvestment, totalAmountOfAsset } = portfolioOfAsset.assetActivity;
-    console.log('portfolioOfAsset', portfolioOfAsset);
-    console.log('assetActivity', portfolioOfAsset.assetActivity);
-    useSetPortfolioData(setPortfolioData, portfolioData);
-    useFetchActivityForAsset(portfolioOfAsset.code, setAssetHistory)
+    useFetchAssetHistory(portfolioOfAsset.code, setAssetHistory)
+    useFetchActivityWithTotal(portfolioOfAsset.code, setActivity);
+    const { portfolio, fiatInvestment, totalAmountOfAsset } = activity;
 
+    console.log('activity', activity)
 
-    useDisplayHistoricalExchangeRate(setData, portfolioData, assetHistory, timePeriod, portfolio, setTotalValue, portfolioOfAsset.color);
+    useDisplayHistoricalExchangeRate(setData, activity.portfolio, assetHistory, timePeriod, portfolio, setTotalValue, portfolioOfAsset.color);
 
     return (
         <div className="historic-rates-page">
@@ -118,7 +118,7 @@ const PortfolioPage = ({ portfolioOfAsset }) => {
             <br />
             <div className="title-container">
                 <div className="title">
-                    <p>Invested: ${fiatInvestment.toFixed(2)}</p>
+                    <p>Invested: ${fiatInvestment?.toFixed(2)}</p>
                     <p>Valued at: ${totalValue}</p>
                     <p>Total: {totalAmountOfAsset}</p>
                 </div>
