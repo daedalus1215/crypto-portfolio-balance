@@ -38,3 +38,11 @@ export const fetchAssetHistory = async (code, setHData) => await axios
         console.log(`issue with fetching asset history: ${err}`);
         return err;
     });
+
+export const fetchAssetActivity = async (code, setActivity) => await axios
+    .get(`http://localhost:8081/api/activity/${code}`)
+    .then(async resp => setActivity(await resp.data))
+    .catch(err => {
+        console.log(`issue with fetching asset activity: ${err}`);
+        return err;
+    });
