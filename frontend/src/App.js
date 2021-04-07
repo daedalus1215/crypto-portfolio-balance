@@ -29,10 +29,8 @@ const App = () => {
         <Route path="/" exact component={HistoricRatesPage} />
         <Route path="/historicrates" exact component={HistoricRatesPage} />
         <Route path="/historicBtcPurchases" exact component={HistoricBtcPurchases} />
-        <Route path="/bitcoin-portfolio" exact component={BitcoinPortfolio} />
-        <Route path="/ether-portfolio" exact component={EtherPortfolio} />
-        <Route path="/combine-portfolio" exact component={CombinePortfolio} />
         {portfolios.map(p => <Route path={"/" + p.code} exact render={props => <PortfolioPage portfolioOfAsset={p} {...props} />} />)}
+        {/* <Route path="/combine-portfolio" exact component={CombinePortfolio} /> */}
       </Router>
     </div>
   );
