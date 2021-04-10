@@ -47,13 +47,13 @@ export const fetchAssetActivity = async (code, setActivity) => await axios
         //@TODO: Might need to do something with isNaN here
         const fiatInvestment = portfolio
             .map(p => parseFloat(p.order))
-            .reduce((sum, order) => order + sum, 0);
+            .reduce((sum, order) => order + sum);
 
         //@TODO: Might need to do something with isNaN here
         const totalAmountOfAsset = portfolio
             .map(p => parseFloat(p.amount))
-            .reduce((p1, p2) => p1 + p2, 0)
-            .toFixed(9);
+            .reduce((p1, p2) => p1 + p2)
+            .toFixed(9); //@TODO: Might need to do this dynamically, based off of a config or something.
 
         setActivity({
             portfolio,
