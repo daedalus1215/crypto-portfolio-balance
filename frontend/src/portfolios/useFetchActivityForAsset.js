@@ -1,9 +1,9 @@
 import { useEffect } from "react";
-import { fetchAssetHistory } from "../requests";
+import { fetchAssetActivity } from "../requests";
 
 const useFetchActivityForAsset = (code, setData) => {
     useEffect(() => {
-        fetchAssetHistory(code, setData);
+        fetchAssetActivity(code, setData);
     }, [code]);
 };
 
