@@ -23,21 +23,11 @@ function TopBar({ location }) {
                         active={pathname.includes("/historicBtcPurchases")}>
                         Btc Purchases
                     </Nav.Link>
-                    <Nav.Link
-                        href="/bitcoin-portfolio"
-                        active={pathname.includes("/bitcoin-portfolio")}>
-                        Bitcoin Portfolio
-                    </Nav.Link>
-                    <Nav.Link
-                        href="/ether-portfolio"
-                        active={pathname.includes("/ether-portfolio")}>
-                        Ether Portfolio
-                    </Nav.Link>
-                    <Nav.Link
+                    {/* <Nav.Link
                         href="/combine-portfolio"
                         active={pathname.includes("/combine-portfolio")}>
                         Combine Portfolio
-                    </Nav.Link>
+                    </Nav.Link> */}
                     {portfolios?.map(p => (<Nav.Link
                         href={"/" + p.code}
                         active={pathname.includes("/" + p.code)}>
