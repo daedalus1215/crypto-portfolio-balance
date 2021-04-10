@@ -11,6 +11,11 @@ const useGetPortfolios = () => {
             code: "eth",
             color: "#77f",
         },
+        {
+            name: "Harmony",
+            code: "one",
+            color: "##16c784"
+        }
     ];
 };
 
