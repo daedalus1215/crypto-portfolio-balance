@@ -30,35 +30,26 @@ const useSetPortfolioData = (setPortfolioData, portfolio) => {
  */
 const useDisplayHistoricalExchangeRate = (setData, portfolioData, btcHistory, timePeriod, portfolio, setTotalValue, color) => {
 
+    const sumMultiplePurchasesInSameDay = (btc) => {
+        return portfolio
+            .filter(folio => folio.timestamp === btc.timestamp)
+            .map(folio => folio.amount)
+            .reduce((first, second) => +first + +second, 0);
+    }
+
     React.useEffect(() => {
-        const sumMultiplePurchasesInSameDay = (btc) => {
-            return portfolio
-                .filter(folio => (folio.timestamp === btc.timestamp)
-                    ? true
-                    : false)
-                .map(folio => folio.amount)
-                .reduce((first, second) => {
-                    console.log('first: ', first);
-                    console.log('second: ', second);
-                    const total = +first + +second;
-                    console.log('fiatInvestment: ', total)
-                    return total;
-                }, 0);
-        }
         let lastSatoshis = 0;
-        const computeCurrentHoldingValue = (satoshis, rate) => {
+        const getMarketValueForSatoshis = (satoshis, rate) => {
             lastSatoshis = isNaN(lastSatoshis) ? 0 : lastSatoshis
             lastSatoshis = lastSatoshis + +satoshis;
-            const satoshiRate = rate;
-            const marketValueForSatoshis = (lastSatoshis * satoshiRate);
-            return marketValueForSatoshis;
+            return (lastSatoshis * rate);
         }
         let labels = btcHistory?.map(btc => btc.timestamp);
-        console.log('labels', btcHistory);
+        // console.log('labels', btcHistory);
         let totalAmount = btcHistory
             .map(btc => {
                 const totalAmountOfSatoshisInTheSameDay = sumMultiplePurchasesInSameDay(btc);
-                return computeCurrentHoldingValue(totalAmountOfSatoshisInTheSameDay, btc.rate);
+                return getMarketValueForSatoshis(totalAmountOfSatoshisInTheSameDay, btc.rate);
             });
 
 
@@ -76,6 +67,12 @@ const useDisplayHistoricalExchangeRate = (setData, portfolioData, btcHistory, ti
             totalAmount = totalAmount.splice(totalAmount.length - 90, totalAmount.length - 1);
             labels = labels.splice(labels.length - 90, labels.length - 1);
         }
+
+        if (timePeriod === TIME_LAPSE.YR) {
+            totalAmount = totalAmount.splice(totalAmount.length - 150, totalAmount.length - 1);
+            labels = labels.splice(labels.length - 150, labels.length - 1);
+        }
+
 
         setTotalValue(totalAmount[totalAmount.length - 1]?.toFixed(2));
         const lineGraphData = {
@@ -103,7 +100,7 @@ const PortfolioPage = ({ portfolioOfAsset }) => {
     useFetchActivityWithTotal(portfolioOfAsset.code, setActivity);
     const { portfolio, fiatInvestment, totalAmountOfAsset } = activity;
 
-    console.log('activity', activity)
+    // console.log('activity', activity)
 
     useDisplayHistoricalExchangeRate(setData, activity.portfolio, assetHistory, timePeriod, portfolio, setTotalValue, portfolioOfAsset.color);
 
