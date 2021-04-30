@@ -1,20 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { Line } from "react-chartjs-2";
-import useFetchPortfolio from "../useFetchPortfolio";
+import useFetchActivityWithTotal from "../portfolios/useFetchWithTotal";
 import "./HistoricBtcPurchases.css";
 
 function HistoricBtcPurchases() {
     const [data, setData] = React.useState({});
     const [hData, setHData] = useState([]);
-    const response = useFetchPortfolio();
-    const thegoods = response;
+    useFetchActivityWithTotal('btc', setHData);
 
     useEffect(() => {
-        setHData(thegoods);
-    }, [thegoods]);
-
-    useEffect(() => {
-        const labels = hData.map(timeUnit => {
+        const labels = hData.portfolio?.map(timeUnit => {
             return timeUnit.timestamp;
         });
 
@@ -22,7 +17,7 @@ function HistoricBtcPurchases() {
             labels,
             datasets: [
                 {
-                    data: hData.map(timeUnit => timeUnit.amount),
+                    data: hData.portfolio?.map(timeUnit => timeUnit.amount),
                     label: 'Bitcoin Activity',
                     borderColor: "#FFD700",
                     fill: false,
