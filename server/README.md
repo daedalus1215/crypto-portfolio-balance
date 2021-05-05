@@ -10,6 +10,7 @@ many wallets.
 NODE_PATH=src/
 PORT=8081
 NOMIC_API=${insert_nomic_key_here}
+X_CMC_PRO_API_KEY=${insert_coin_market_cap}
 ```
 
 ## Remember
