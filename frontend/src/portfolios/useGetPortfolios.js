@@ -1,22 +1,7 @@
+const portfolio = require('../portfolio.json');
 
 const useGetPortfolios = () => {
-    return [
-        {
-            name: "Bitcoin",
-            code: "btc",
-            color: "#FFD700",
-        },
-        {
-            name: "Ether",
-            code: "eth",
-            color: "#77f",
-        },
-        {
-            name: "Harmony",
-            code: "one",
-            color: "##16c784"
-        }
-    ];
+    return portfolio;
 };
 
 export default useGetPortfolios;
