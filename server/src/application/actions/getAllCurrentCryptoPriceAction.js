@@ -11,32 +11,26 @@ module.exports = (req, response) => {
     axios
         .get(url)
         .then(async resp => {
-            console.log('response');
             const currentCryptos = await resp.data;
 
             const timestamp = currentCryptos.status.timestamp;
-            console.log('timestamp', timestamp);
-
-            console.log('data', currentCryptos.data);
-            const e = portfolio.map(p => {
+            const g = portfolio.map(p => {
                 return currentCryptos.data.filter(c => {
-                    if(p.code.toUpperCase() === c.symbol) {
+                    if (p.code.toUpperCase() === c.symbol) {
                         return true;
-                    }  
+                    }
                     return false;
-                })
+                }).map(d => {
+                    return {
+                        symbol: `${d.symbol}/USD`,
+                        date: d.last_updated,
+                        close: d.quote.USD.price
+                    }
+                });
             });
-            // const e = currentCryptos.data.map(c => {
-            //     return portfolio.filter(p => {
-            //         if (p.code.toUpperCase() === c.symbol) {
-            //             return true;
-            //         }
-            //         return false;
-            //     });
-            // });
-            console.log('sweeeee', e)
-            response.send(resp.data);
 
+            console.log('xxxxx', g);
+            response.send(resp.data);
         })
         .catch(err => { response.send('Error fetching data from coinmarket' + err); });
 };
