@@ -1,4 +1,4 @@
-const portfolio = require('../portfolio.json');
+const portfolio = require('../temp/portfolio.json');
 
 const useGetPortfolios = () => {
     return portfolio;
