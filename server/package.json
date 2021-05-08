@@ -20,6 +20,7 @@
     "express": "^4.17.1",
     "fs": "^0.0.1-security",
     "log4js": "^6.3.0",
+    "mongoose": "^5.12.7",
     "nodemon": "^2.0.2",
     "ts-node": "^9.1.1",
     "typescript": "^4.1.5"
