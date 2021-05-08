@@ -14,13 +14,51 @@ X_CMC_PRO_API_KEY=${insert_coin_market_cap}
 ```
 
 ## Remember
-#### Things you might want to change, when using template multiple times in the same dev environment
-##### `docker-compose.yml`
-1. `ports`
-1. `container_name`
-##### `Dockerfile`
-1. `EXPOSE`
 #### Run and Update
 1. `yarn install`, to install the packages
 1. `yarn start`, hit up the url and make sure we get a response.
 1. `yarn upgrade`, to upgrade all the packages, then rerun the app to make sure it runs.
+
+## Setup for Front End
+* Trying to make it so we can add cryptos as effortlessly to the project as possible. For the front end there is a `frontend/src/temp/portfolio.json` file that we can use to drive the front end's available pages. Every entry in the json file will indicate a page that will wire into the backend. 
+* For instance, if we wanted to have 2 pages, 1 for btc and 1 for eth, we would have a `portfolio.json :
+```
+[
+  {
+    "name": "Bitcoin",
+    "code": "btc",
+    "color": "#FFD700"
+  },
+  {
+    "name": "Ether",
+    "code": "eth",
+    "color": "#77f"
+  },
+  ...
+]
+```
+## Setup for Back End
+* Since the backend and front end can be their own projects, there is a slight duplication of effort here. As we try to make the backend as easy as the front end is for adding new assets we are using a separate file for the backend: `server/src/temp/portfolio.json`. It should have the same values as the file in `frontend/src/temp/portfolio.json`. 
+* For instance, if we had the above example for the frontend's .json file, we would expect the backend file to look the same (although, we really only care about the `code`s): 
+```
+[
+  {
+    "name": "Bitcoin",
+    "code": "btc",
+  },
+  {
+    "name": "Ether",
+    "code": "eth",
+  },
+  ...
+]
+```
+* For the backend we also need to create collection(s) we plan on working with. We need to name them after the codes from the `server/src/temp/portfolio.json` file, but with an *s* at the end - due to mongoose's limitations. `eth` will actually have a collection in mongo called: `eths`, `btc` will have a collection in mongo called `btcs`.
+* We then need to load them up with daily data for the past. So go get the data from coindesk or whatever and make sure when uploading into mongo, that the columns are like `getGenericCryptoModels.js` has them declared. Can get away with only 3 fields:
+```
+{
+        "date": String,
+        "symbol": String,
+        "close": String,
+    }
+```
