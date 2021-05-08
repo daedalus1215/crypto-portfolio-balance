@@ -60,5 +60,5 @@ X_CMC_PRO_API_KEY=${insert_coin_market_cap}
         "date": String,
         "symbol": String,
         "close": String,
-    }
+}
 ```
