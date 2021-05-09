@@ -21,8 +21,8 @@ function HistoricRatesPage() {
     }, []);
 
     useEffect(() => {
-        let labels = btcHistory.map(timeUnit => timeUnit.timestamp);
-        let data = btcHistory.map(timeUnit => timeUnit.rate);
+        let labels = btcHistory.map(btc => btc.date);
+        let data = btcHistory.map(btc => btc.close);
 
         if (timePeriod === TIME_LAPSE.MTH) {
             data = data.splice(data.length - 34, data.length - 1);
