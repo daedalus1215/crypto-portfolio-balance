@@ -10,14 +10,14 @@ function HistoricBtcPurchases() {
 
     useEffect(() => {
         const labels = hData.portfolio?.map(timeUnit => {
-            return timeUnit.timestamp;
+            return timeUnit.Date;
         });
 
         const lineGraphData = {
             labels,
             datasets: [
                 {
-                    data: hData.portfolio?.map(timeUnit => timeUnit.amount),
+                    data: hData.portfolio?.map(timeUnit => timeUnit.Amount),
                     label: 'Bitcoin Activity',
                     borderColor: "#FFD700",
                     fill: false,
