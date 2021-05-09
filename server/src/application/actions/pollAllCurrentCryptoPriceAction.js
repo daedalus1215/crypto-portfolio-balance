@@ -4,6 +4,13 @@ const portfolio = require('../../portfolio.json');
 const key = process.env.X_CMC_PRO_API_KEY;
 const COIN_MARKET_CAP_URL = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest";
 
+/**
+ * Using this endpoint:
+ * 1. Retrieve crypto prices (for all cryptos) 
+ * 2. Save the ones we have specified based on portfolio.json
+ * @param {import('express').Request} req
+ * @param {import('express').Response} response
+ */
 module.exports = (req, response) => {
     console.log('getAllCurrentCryptoPriceAction');
     const url = COIN_MARKET_CAP_URL;
