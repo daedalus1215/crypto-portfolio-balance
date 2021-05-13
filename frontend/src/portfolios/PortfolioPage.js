@@ -29,29 +29,46 @@ const useSetPortfolioData = (setPortfolioData, portfolio) => {
  * @param {*} setTotalValue 
  */
 const useDisplayHistoricalExchangeRate = (setData, portfolioData, btcHistory, timePeriod, portfolio, setTotalValue, color) => {
-
+    console.log('portfolio ', portfolio);
     const sumMultiplePurchasesInSameDay = (btc) => {
-        return portfolio
-            .filter(folio => folio.timestamp === btc.timestamp)
-            .map(folio => folio.amount)
+        // return portfolio
+        //     .filter(folio => folio.timestamp === btc.Date)
+        //     .map(folio => folio.amount)
+        //     .reduce((first, second) => +first + +second, 0);
+            return portfolio?.filter(folio => {
+                if (folio.Date === btc.date) {
+                    return true;
+                } 
+                return false;
+            })
+            .map(folio => {
+                console.log('amoutn', folio.Amount)
+                return folio.Amount
+            })
             .reduce((first, second) => +first + +second, 0);
     }
 
     React.useEffect(() => {
         let lastSatoshis = 0;
         const getMarketValueForSatoshis = (satoshis, rate) => {
+            // console.log('satoshis', satoshis)
+            // console.log('rate', rate)
             lastSatoshis = isNaN(lastSatoshis) ? 0 : lastSatoshis
             lastSatoshis = lastSatoshis + +satoshis;
             return (lastSatoshis * rate);
         }
-        let labels = btcHistory?.map(btc => btc.timestamp);
-        // console.log('labels', btcHistory);
+        let labels = btcHistory?.map(btc => btc.date);
+        // console.log('labels', labels);
         let totalAmount = btcHistory
             .map(btc => {
                 const totalAmountOfSatoshisInTheSameDay = sumMultiplePurchasesInSameDay(btc);
-                return getMarketValueForSatoshis(totalAmountOfSatoshisInTheSameDay, btc.rate);
+                console.log('totalAmountOfSatoshisInTheSameDay', totalAmountOfSatoshisInTheSameDay)
+                const d = getMarketValueForSatoshis(totalAmountOfSatoshisInTheSameDay, btc.close);
+                // console.log('getMarketValueForSatoshis', d);
+                return d;
             });
 
+            // console.log('totalAmount', totalAmount)
 
         if (timePeriod === TIME_LAPSE.WEEK) {
             totalAmount = totalAmount.splice(totalAmount.length - 10, totalAmount.length - 1);
@@ -72,7 +89,6 @@ const useDisplayHistoricalExchangeRate = (setData, portfolioData, btcHistory, ti
             totalAmount = totalAmount.splice(totalAmount.length - 150, totalAmount.length - 1);
             labels = labels.splice(labels.length - 150, labels.length - 1);
         }
-
 
         setTotalValue(totalAmount[totalAmount.length - 1]?.toFixed(2));
         const lineGraphData = {
