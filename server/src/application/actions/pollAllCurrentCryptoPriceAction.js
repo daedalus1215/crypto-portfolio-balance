@@ -20,7 +20,7 @@ module.exports = (req, response) => {
         .get(url)
         .then(async resp => {
             const currentCryptos = await resp.data;
-
+            
             const timestamp = currentCryptos.status.timestamp;
             console.log('timestamp', timestamp)
             const g = portfolio.map(p => {
