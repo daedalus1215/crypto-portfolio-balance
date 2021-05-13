@@ -2,21 +2,14 @@ import React from "react";
 import Button from "react-bootstrap/esm/Button";
 import { Line } from "react-chartjs-2";
 import useFetchAssetHistory from "./useFetchAssetHistory";
-import "./PortfolioPage.css";
-import useFetchActivityForAsset from "./useFetchActivityForAsset";
 import useFetchActivityWithTotal from "./useFetchWithTotal";
+import "./PortfolioPage.css";
 
 const TIME_LAPSE = {
     YR: "YR",
     MTH: "MTH",
     WEEK: "WEEK",
     THREE_MTH: "THREE_MTH",
-}
-
-const useSetPortfolioData = (setPortfolioData, portfolio) => {
-    React.useEffect(() => {
-        setPortfolioData(portfolio);
-    }, [portfolio]);
 }
 
 /**
@@ -29,22 +22,18 @@ const useSetPortfolioData = (setPortfolioData, portfolio) => {
  * @param {*} setTotalValue 
  */
 const useDisplayHistoricalExchangeRate = (setData, portfolioData, btcHistory, timePeriod, portfolio, setTotalValue, color) => {
-    console.log('portfolio ', portfolio);
+    // console.log('portfolio ', portfolio);
     const sumMultiplePurchasesInSameDay = (btc) => {
         // return portfolio
         //     .filter(folio => folio.timestamp === btc.Date)
         //     .map(folio => folio.amount)
         //     .reduce((first, second) => +first + +second, 0);
-            return portfolio?.filter(folio => {
-                if (folio.Date === btc.date) {
-                    return true;
-                } 
-                return false;
-            })
-            .map(folio => {
-                console.log('amoutn', folio.Amount)
-                return folio.Amount
-            })
+        return portfolio?.filter(folio => folio.Date === btc.Date)
+            // .map(folio => {
+            //     console.log('amoutn', folio.Amount)
+            //     return folio.Amount
+            // })
+            .map(folio => folio.Amount)
             .reduce((first, second) => +first + +second, 0);
     }
 
@@ -57,18 +46,19 @@ const useDisplayHistoricalExchangeRate = (setData, portfolioData, btcHistory, ti
             lastSatoshis = lastSatoshis + +satoshis;
             return (lastSatoshis * rate);
         }
-        let labels = btcHistory?.map(btc => btc.date);
+        let labels = btcHistory?.map(btc => btc.Date);
         // console.log('labels', labels);
         let totalAmount = btcHistory
-            .map(btc => {
-                const totalAmountOfSatoshisInTheSameDay = sumMultiplePurchasesInSameDay(btc);
-                console.log('totalAmountOfSatoshisInTheSameDay', totalAmountOfSatoshisInTheSameDay)
-                const d = getMarketValueForSatoshis(totalAmountOfSatoshisInTheSameDay, btc.close);
-                // console.log('getMarketValueForSatoshis', d);
-                return d;
-            });
+            // .map(btc => {
+            //     const assetQuantityForAGivenDay = sumMultiplePurchasesInSameDay(btc);
+            //     // console.log('totalAmountOfSatoshisInTheSameDay', assetQuantityForAGivenDay)
+            //     const marketValueForAssetQuantity = getMarketValueForSatoshis(assetQuantityForAGivenDay, btc.Close);
+            //     // console.log('getMarketValueForSatoshis', marketValueForAssetQuantity);
+            //     return marketValueForAssetQuantity;
+            // });
+            .map(btc => getMarketValueForSatoshis(sumMultiplePurchasesInSameDay(btc), btc.Close));
 
-            // console.log('totalAmount', totalAmount)
+        // console.log('totalAmount', totalAmount)
 
         if (timePeriod === TIME_LAPSE.WEEK) {
             totalAmount = totalAmount.splice(totalAmount.length - 10, totalAmount.length - 1);
