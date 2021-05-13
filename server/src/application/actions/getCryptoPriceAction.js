@@ -7,7 +7,8 @@ const getCryptoPriceAction = (req, response) => {
 
     const model = getGenericCryptoModel(currency.toLowerCase());
 
-    model.find({}, {}, { sort: { unix: ASC } }, async (err, doc) => {
+    model.find({}, {}, { sort: { Unix: ASC } }, async (err, doc) => {
+        
         response.jsonp(await doc)
     });
 };
