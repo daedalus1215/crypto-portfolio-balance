@@ -21,24 +21,27 @@ function HistoricRatesPage() {
     }, []);
 
     useEffect(() => {
-        let labels = btcHistory.map(btc => btc.date);
-        let data = btcHistory.map(btc => btc.close);
+        let labels = btcHistory.map(btc => btc.Date);
+        let cryptoData = btcHistory.map(btc => btc.Close);
 
         if (timePeriod === TIME_LAPSE.MTH) {
-            data = data.splice(data.length - 34, data.length - 1);
+            cryptoData = cryptoData.splice(cryptoData.length - 34, cryptoData.length - 1);
             labels = labels.splice(labels.length - 34, labels.length - 1);
         }
 
         if (timePeriod === TIME_LAPSE.THREE_MTH) {
-            data = data.splice(data.length - 90, data.length - 1);
+            cryptoData = cryptoData.splice(cryptoData.length - 90, cryptoData.length - 1);
             labels = labels.splice(labels.length - 90, labels.length - 1);
         }
+
+        // console.log('labels', labels)
+        // console.log('cryptoData', cryptoData);
 
         const lineGraphData = {
             labels,
             datasets: [
                 {
-                    data: data,
+                    data: cryptoData,
                     label: 'Bitcoin',
                     borderColor: "#FFD700",
                     fill: false,
