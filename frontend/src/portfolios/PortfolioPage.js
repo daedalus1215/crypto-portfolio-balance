@@ -58,7 +58,7 @@ const useDisplayHistoricalExchangeRate = (setData, portfolioData, btcHistory, ti
             // });
             .map(btc => getMarketValueForSatoshis(sumMultiplePurchasesInSameDay(btc), btc.Close));
 
-        // console.log('totalAmount', totalAmount)
+        console.log('totalAmount', totalAmount)
 
         if (timePeriod === TIME_LAPSE.WEEK) {
             totalAmount = totalAmount.splice(totalAmount.length - 10, totalAmount.length - 1);
@@ -107,6 +107,8 @@ const PortfolioPage = ({ portfolioOfAsset }) => {
     const { portfolio, fiatInvestment, totalAmountOfAsset } = activity;
 
     // console.log('activity', activity)
+    // console.log('totalAmountOfAsset', assetHistory[assetHistory.length - 1].Date)
+    const totalV = (totalAmountOfAsset * assetHistory[assetHistory.length - 1]?.Close)?.toFixed(2);
 
     useDisplayHistoricalExchangeRate(setData, activity.portfolio, assetHistory, timePeriod, portfolio, setTotalValue, portfolioOfAsset.color);
 
@@ -122,7 +124,7 @@ const PortfolioPage = ({ portfolioOfAsset }) => {
             <div className="title-container">
                 <div className="title">
                     <p>Invested: ${fiatInvestment?.toFixed(2)}</p>
-                    <p>Valued at: ${totalValue}</p>
+                    <p>Valued at: ${totalV}</p>
                     <p>Total: {totalAmountOfAsset}</p>
                 </div>
             </div>
