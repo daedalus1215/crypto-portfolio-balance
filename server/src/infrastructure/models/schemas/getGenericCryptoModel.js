@@ -1,13 +1,13 @@
 const mongoose = require("mongoose");
 
 const schema = new mongoose.Schema({
-    "unix": String,
-    "date": String,
-    "symbol": String,
-    "open": String,
-    "high": String,
-    "low": String,
-    "close": String,
+    "Unix": String,
+    "Date": String,
+    "Symbol": String,
+    "Open": String,
+    "High": String,
+    "Low": String,
+    "Close": String,
     "Volume BTC": String,
     "Volume USD": String
 });
