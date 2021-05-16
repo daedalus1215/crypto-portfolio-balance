@@ -20,29 +20,55 @@ module.exports = (req, response) => {
         .get(url)
         .then(async resp => {
             const currentCryptos = await resp.data;
-            
+
             const timestamp = currentCryptos.status.timestamp;
-            console.log('timestamp', timestamp)
+            const date = timestamp.match(/\d{4}\-\d{2}\-\d{2}/g)[0] + ' 00:00:00';
+            console.log('timestamp', date)
             const g = portfolio.map(p => {
                 return currentCryptos.data.filter(c => {
                     if (p.code.toUpperCase() === c.symbol) {
                         return true;
                     }
                     return false;
-                }).map(async d => {
+                }).map(d => {
+                    console.log('what')
                     const model = getGenericCryptoModel(d.symbol);
                     const saveable = new model();
                     saveable.toObject();
-                    saveable.symbol = d.symbol;
-                    saveable.date = d.last_updated;
-                    saveable.close = d.quote.USD.price;
+                    saveable.Symbol = d.symbol;
+                    saveable.Date = date;
+                    saveable.Close = d.quote.USD.price;
+                    saveable.Unix = new Date(timestamp).getTime();
+                    saveable.Open = "";
+                    saveable.Low = "";
+                    saveable.High = "";
+                    saveable.Volume = "";
 
-                    const z = await saveable.save((err, doc) => { console.log('error:', err); return doc })
+                    // const existingDoc = model.find({ Date: date });
+                    
+                    let savedDoc;
+                    // if (existingDoc) {
+                    //     console.log('existingDoc', existingDoc);
+                    //     existingDoc.Close = d.quote.USD.price;
+                    //     existingDoc.Unix = new Date(d.last_updated).getTime()
+                    //     savedDoc = await existingDoc.update((err, doc) => {
+                    //         console.log('error, with updating existing doc:', doc);
+                    //         return doc;
+                    //     });
+                    // } else {
+                        console.log('saveable doc', saveable);
+                        savedDoc = saveable.save((err, doc) => {
+                            console.log('error:', err);
+                            console.log('eeee:', doc);
+
+                            return doc;
+                        });
+                    // }
                     // .catch(e => {
                     //     console.log('error: ', e)
                     // });
-                    console.log('saved', z);
-                    return z;
+                    // console.log('saved', savedDoc);
+                    return savedDoc;
                     // return {
                     //     symbol: d.symbol,
                     //     date: d.last_updated,
