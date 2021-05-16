@@ -22,65 +22,32 @@ module.exports = (req, response) => {
             const currentCryptos = await resp.data;
 
             const timestamp = currentCryptos.status.timestamp;
-            const date = timestamp.match(/\d{4}\-\d{2}\-\d{2}/g)[0] + ' 00:00:00';
-            console.log('timestamp', date)
-            const g = portfolio.map(p => {
-                return currentCryptos.data.filter(c => {
-                    if (p.code.toUpperCase() === c.symbol) {
-                        return true;
-                    }
-                    return false;
-                }).map(d => {
-                    console.log('what')
-                    const model = getGenericCryptoModel(d.symbol);
-                    const saveable = new model();
-                    saveable.toObject();
-                    saveable.Symbol = d.symbol;
-                    saveable.Date = date;
-                    saveable.Close = d.quote.USD.price;
-                    saveable.Unix = new Date(timestamp).getTime();
-                    saveable.Open = "";
-                    saveable.Low = "";
-                    saveable.High = "";
-                    saveable.Volume = "";
+            const date = timestamp.match(/\d{4}\-\d{2}\-\d{2}/g)[0] + ' 00:00:00'; // format date proper
 
-                    // const existingDoc = model.find({ Date: date });
-                    
-                    let savedDoc;
-                    // if (existingDoc) {
-                    //     console.log('existingDoc', existingDoc);
-                    //     existingDoc.Close = d.quote.USD.price;
-                    //     existingDoc.Unix = new Date(d.last_updated).getTime()
-                    //     savedDoc = await existingDoc.update((err, doc) => {
-                    //         console.log('error, with updating existing doc:', doc);
-                    //         return doc;
-                    //     });
-                    // } else {
-                        console.log('saveable doc', saveable);
-                        savedDoc = saveable.save((err, doc) => {
-                            console.log('error:', err);
-                            console.log('eeee:', doc);
+            portfolio.map(p => {
+                return currentCryptos.data
+                    .filter(c => p.code.toUpperCase() === c.symbol)
+                    .map(async currentCryptoInPortfolio => {
+                        const model = getGenericCryptoModel(currentCryptoInPortfolio.symbol);
 
-                            return doc;
-                        });
-                    // }
-                    // .catch(e => {
-                    //     console.log('error: ', e)
-                    // });
-                    // console.log('saved', savedDoc);
-                    return savedDoc;
-                    // return {
-                    //     symbol: d.symbol,
-                    //     date: d.last_updated,
-                    //     close: d.quote.USD.price
-                    // }
-                });
-            });
-
-
-
-            console.log('xxxxx', g);
-            response.send(resp.data);
+                        return await model.updateOne(
+                            { Date: `${date}` },
+                            {
+                                Symbol: currentCryptoInPortfolio.symbol,
+                                Date: date,
+                                Close: currentCryptoInPortfolio.quote.USD.price,
+                                Unix: new Date(timestamp).getTime(),
+                                Open: "",
+                                Low: "",
+                                High: "",
+                                Volume: "",
+                            },
+                            { upsert: true });
+                    });
+            })
+            response.send({ 'Updated with': currentCryptos })
         })
-        .catch(err => { response.send('Error fetching data from coinmarket' + err); });
-};
+        .catch(err => {
+            response.send(`error with pollAllCurrentCryptoPriceAction: ${err}`);
+        });
+}
