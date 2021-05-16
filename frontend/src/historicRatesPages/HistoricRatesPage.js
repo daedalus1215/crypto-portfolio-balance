@@ -51,9 +51,17 @@ function HistoricRatesPage() {
         setData(lineGraphData);
     }, [btcHistory, timePeriod]);
 
+    const currentMarketValue = new Intl.NumberFormat().format(parseInt(btcHistory[btcHistory.length - 1]?.Close));
 
     return (
         <div className="historic-rates-page">
+            <div className="title-container">
+                <div className="title">
+                    {/* <p>Invested: ${fiatInvestment?.toFixed(2)}</p>
+                    <p>Valued at: ${totalV}</p> */}
+                    <p>CM Value: {currentMarketValue}</p>
+                </div>
+            </div>
             <Button onClick={() => setTimePeriod(TIME_LAPSE.THREE_MTH)}>Three Month</Button>
             <Button onClick={() => setTimePeriod(TIME_LAPSE.MTH)}>Month</Button>
             <br />
