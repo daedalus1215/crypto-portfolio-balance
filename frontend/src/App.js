@@ -7,6 +7,7 @@ import HistoricBtcPurchases from './historidBtcPurchases/HistoricBtcPurchases';
 import useGetPortfolios from './portfolios/useGetPortfolios';
 import PortfolioPage from './portfolios/PortfolioPage';
 import './App.css';
+import PortfolioPageContainer from './portfolios/PortfolioPageContainer';
 
 const history = createHistory();
 
@@ -26,7 +27,7 @@ const App = () => {
         <Route path="/" exact component={HistoricRatesPage} />
         <Route path="/historicrates" exact component={HistoricRatesPage} />
         <Route path="/historicBtcPurchases" exact component={HistoricBtcPurchases} />
-        {portfolios.map(p => <Route path={"/" + p.code} exact render={props => <PortfolioPage portfolioOfAsset={p} {...props} />} />)}
+        {portfolios.map(p => <Route path={"/" + p.code} exact render={props => <PortfolioPageContainer portfolioOfAsset={p} {...props} />} />)}
         {/* <Route path="/combine-portfolio" exact component={CombinePortfolio} /> */}
       </Router>
     </div>
