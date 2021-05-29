@@ -42,7 +42,7 @@ export const fetchAssetHistory = async (code, setHData) => await axios
 export const fetchAssetActivity = async (code, setActivity) => await axios
     .get(`http://localhost:8081/api/activity/${code}`)
     .then(async resp => {
-        const portfolio = await resp.data;
+        const portfolio = await resp.data.items;
 
         //@TODO: Might need to do something with isNaN here
         const fiatInvestment = portfolio
