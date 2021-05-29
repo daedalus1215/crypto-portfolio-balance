@@ -9,16 +9,10 @@ many wallets.
 ```
 NODE_PATH=src/
 PORT=8081
-NOMIC_API=${insert_nomic_key_here}
 X_CMC_PRO_API_KEY=${insert_coin_market_cap}
+# Not using Nomics anymore, since we are now getting this data from mongo
+# NOMIC_API=${insert_nomic_key_here}
 ```
-
-## Remember
-#### Run and Update
-1. `yarn install`, to install the packages
-1. `yarn start`, hit up the url and make sure we get a response.
-1. `yarn upgrade`, to upgrade all the packages, then rerun the app to make sure it runs.
-
 ## Setup for Front End
 * Trying to make it so we can add cryptos as effortlessly to the project as possible. For the front end there is a `frontend/src/temp/portfolio.json` file that we can use to drive the front end's available pages. Every entry in the json file will indicate a page that will wire into the backend. 
 * For instance, if we wanted to have 2 pages, 1 for btc and 1 for eth, we would have a `portfolio.json :
