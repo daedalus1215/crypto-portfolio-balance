@@ -16,19 +16,21 @@ const TIME_LAPSE = {
  * @TODO: Clean this up 
  * @param {*} setData 
  * @param {*} portfolioData 
- * @param {*} btcHistory 
+ * @param {*} assetHistory 
  * @param {*} timePeriod 
  * @param {*} portfolio 
  * @param {*} setTotalValue 
  */
-const useDisplayHistoricalExchangeRate = (setData, portfolioData, btcHistory, timePeriod, portfolio, setTotalValue, color) => {
+const useDisplayHistoricalExchangeRate = (setData, portfolioData, assetHistory, timePeriod, portfolio, setTotalValue, color) => {
     // console.log('portfolio ', portfolio);
-    const sumMultiplePurchasesInSameDay = (btc) => {
+    const sumMultiplePurchasesInSameDay = (activity) => {
         // return portfolio
-        //     .filter(folio => folio.timestamp === btc.Date)
+        //     .filter(folio => folio.timestamp === activity.Date)
         //     .map(folio => folio.amount)
         //     .reduce((first, second) => +first + +second, 0);
-        return portfolio?.filter(folio => folio.Date === btc.Date)
+        // return portfolio?.filter(folio => folio.Date.replace('/(00):(00):(00)/g') === activity.Date.replace('/(00):(00):(00)/g'))
+        return portfolio?.filter(folio => folio.Date === activity.Date)
+
             // .map(folio => {
             //     console.log('amoutn', folio.Amount)
             //     return folio.Amount
@@ -38,27 +40,27 @@ const useDisplayHistoricalExchangeRate = (setData, portfolioData, btcHistory, ti
     }
 
     React.useEffect(() => {
-        let lastSatoshis = 0;
-        const getMarketValueForSatoshis = (satoshis, rate) => {
+        let accumulatedFractionsOfAsset = 0;
+        const getMarketValueForSatoshis = (fractionUnitOfAsset, rate) => {
             // console.log('satoshis', satoshis)
             // console.log('rate', rate)
-            lastSatoshis = isNaN(lastSatoshis) ? 0 : lastSatoshis
-            lastSatoshis = lastSatoshis + +satoshis;
-            return (lastSatoshis * rate);
+            accumulatedFractionsOfAsset = isNaN(accumulatedFractionsOfAsset) ? 0 : accumulatedFractionsOfAsset
+            accumulatedFractionsOfAsset = accumulatedFractionsOfAsset + +fractionUnitOfAsset;
+            return (accumulatedFractionsOfAsset * rate);
         }
-        let labels = btcHistory?.map(btc => btc.Date);
+        let labels = assetHistory?.map(asset => asset.Date);
         // console.log('labels', labels);
-        let totalAmount = btcHistory
-            // .map(btc => {
-            //     const assetQuantityForAGivenDay = sumMultiplePurchasesInSameDay(btc);
+        let totalAmount = assetHistory
+            // .map(asset => {
+            //     const assetQuantityForAGivenDay = sumMultiplePurchasesInSameDay(asset);
             //     // console.log('totalAmountOfSatoshisInTheSameDay', assetQuantityForAGivenDay)
-            //     const marketValueForAssetQuantity = getMarketValueForSatoshis(assetQuantityForAGivenDay, btc.Close);
+            //     const marketValueForAssetQuantity = getMarketValueForSatoshis(assetQuantityForAGivenDay, asset.Close);
             //     // console.log('getMarketValueForSatoshis', marketValueForAssetQuantity);
             //     return marketValueForAssetQuantity;
             // });
-            .map(btc => getMarketValueForSatoshis(sumMultiplePurchasesInSameDay(btc), btc.Close));
+            .map(asset => getMarketValueForSatoshis(sumMultiplePurchasesInSameDay(asset), asset.Close));
 
-        console.log('totalAmount', totalAmount)
+        // console.log('totalAmount', totalAmount)
 
         if (timePeriod === TIME_LAPSE.WEEK) {
             totalAmount = totalAmount.splice(totalAmount.length - 10, totalAmount.length - 1);
@@ -93,7 +95,7 @@ const useDisplayHistoricalExchangeRate = (setData, portfolioData, btcHistory, ti
             ],
         };
         setData(lineGraphData);
-    }, [portfolioData, btcHistory, timePeriod]);
+    }, [portfolioData, assetHistory, timePeriod]);
 };
 
 const PortfolioPage = ({ portfolioOfAsset }) => {
