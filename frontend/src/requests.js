@@ -16,8 +16,8 @@ export const getHistoricRatesBetweenCurrencies = data => axios
     .get(`${APIURL}/history?${querystring.encode(data)}`);
 
 //@TODO: Clean this up
-export const fetchBitcoinHistory = async (setHData) => await axios
-    .get(`http://localhost:8081/api/history/BTC`)
+export const fetchBitcoinHistory = async (code, setHData) => await axios
+    .get(`http://localhost:8081/api/history/${code}`)
     .then(async resp => {
         setHData(await resp.data);
     })
