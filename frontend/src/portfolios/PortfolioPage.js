@@ -3,6 +3,7 @@ import Button from "react-bootstrap/esm/Button";
 import { Line } from "react-chartjs-2";
 import useFetchAssetHistory from "./useFetchAssetHistory";
 import useFetchActivityWithTotal from "./useFetchWithTotal";
+import HistoricBtcPurchases from '../historicBtcPurchases/HistoricBtcPurchases';
 import "./PortfolioPage.css";
 
 const TIME_LAPSE = {
@@ -115,23 +116,31 @@ const PortfolioPage = ({ portfolioOfAsset }) => {
     useDisplayHistoricalExchangeRate(setData, activity.portfolio, assetHistory, timePeriod, portfolio, setTotalValue, portfolioOfAsset.color);
 
     return (
-        <div className="historic-rates-page">
-            <div>
-                <Button onClick={() => setTimePeriod(TIME_LAPSE.YR)}>Year</Button>
-                <Button onClick={() => setTimePeriod(TIME_LAPSE.THREE_MTH)}>Three Month</Button>
-                <Button onClick={() => setTimePeriod(TIME_LAPSE.MTH)}>Month</Button>
-                <Button onClick={() => setTimePeriod(TIME_LAPSE.WEEK)}>Week</Button>
-            </div>
-            <br />
-            <div className="title-container">
-                <div className="title">
-                    <p>Invested: ${fiatInvestment?.toFixed(2)}</p>
-                    <p>Valued at: ${totalV}</p>
-                    <p>Total: {totalAmountOfAsset}</p>
+        <div className="whole-page">
+            <div className="p-page">
+                <div className="portfolio-page">
+                    <div className="buttons">
+                        <Button onClick={() => setTimePeriod(TIME_LAPSE.YR)}>Year</Button>
+                        <Button onClick={() => setTimePeriod(TIME_LAPSE.THREE_MTH)}>Three Month</Button>
+                        <Button onClick={() => setTimePeriod(TIME_LAPSE.MTH)}>Month</Button>
+                        <Button onClick={() => setTimePeriod(TIME_LAPSE.WEEK)}>Week</Button>
+                    </div>
+                    <br />
+                    <div className="title-container">
+                        <div className="title">
+                            <p>Invested: ${fiatInvestment?.toFixed(2)}</p>
+                            <p>Valued at: ${totalV}</p>
+                            <p>Total: {totalAmountOfAsset}</p>
+                        </div>
+                    </div>
+                    <div className="grid">
+                        <Line data={data} />
+                    </div>
                 </div>
             </div>
-            <div className="grid">
-                <Line data={data} />
+            <div className="hs-page">
+                <HistoricBtcPurchases code={portfolioOfAsset.code}/>
+
             </div>
         </div>
     );
