@@ -4,6 +4,7 @@ import { Line } from "react-chartjs-2";
 import useFetchAssetHistory from "./useFetchAssetHistory";
 import useFetchActivityWithTotal from "./useFetchWithTotal";
 import HistoricBtcPurchases from '../historicBtcPurchases/HistoricBtcPurchases';
+import HistoricRatesPage from '../historicRatesPages/HistoricRatesPage';
 import "./PortfolioPage.css";
 
 const TIME_LAPSE = {
@@ -140,7 +141,9 @@ const PortfolioPage = ({ portfolioOfAsset }) => {
             </div>
             <div className="hs-page">
                 <HistoricBtcPurchases code={portfolioOfAsset.code}/>
-
+            </div>
+            <div className="hr-page">
+                <HistoricRatesPage code={portfolioOfAsset.code}/>
             </div>
         </div>
     );
