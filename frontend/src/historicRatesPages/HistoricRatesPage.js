@@ -11,14 +11,14 @@ const TIME_LAPSE = {
     THREE_MTH: "THREE_MTH",
 }
 
-function HistoricRatesPage() {
+const HistoricRatesPage = ({ code }) => {
     const [data, setData] = React.useState({});
     const [btcHistory, setBtcHistory] = useState([]);
     const [timePeriod, setTimePeriod] = React.useState(TIME_LAPSE.MTH);
 
     useEffect(() => {
-        fetchBitcoinHistory(setBtcHistory);
-    }, []);
+        fetchBitcoinHistory(code, setBtcHistory);
+    }, [code]);
 
     useEffect(() => {
         let labels = btcHistory.map(btc => btc.Date);
@@ -51,7 +51,7 @@ function HistoricRatesPage() {
         setData(lineGraphData);
     }, [btcHistory, timePeriod]);
 
-    const currentMarketValue = new Intl.NumberFormat().format(parseInt(btcHistory[btcHistory.length - 1]?.Close));
+    const currentMarketValue = btcHistory[btcHistory.length - 1]?.Close;
 
     return (
         <div className="historic-rates-page">
