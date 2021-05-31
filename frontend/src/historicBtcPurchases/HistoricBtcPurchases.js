@@ -3,10 +3,10 @@ import { Line } from "react-chartjs-2";
 import useFetchActivityWithTotal from "../portfolios/useFetchWithTotal";
 import "./HistoricBtcPurchases.css";
 
-function HistoricBtcPurchases() {
+const HistoricBtcPurchases = ({ code }) => {
     const [data, setData] = React.useState({});
     const [hData, setHData] = useState([]);
-    useFetchActivityWithTotal('btc', setHData);
+    useFetchActivityWithTotal(code, setHData);
 
     useEffect(() => {
         const labels = hData.portfolio?.map(timeUnit => {
@@ -18,7 +18,7 @@ function HistoricBtcPurchases() {
             datasets: [
                 {
                     data: hData.portfolio?.map(timeUnit => timeUnit.Amount),
-                    label: 'Bitcoin Activity',
+                    label: 'Activity',
                     borderColor: "#FFD700",
                     fill: false,
                 },
