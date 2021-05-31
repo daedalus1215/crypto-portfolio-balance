@@ -25,8 +25,6 @@ const App = () => {
       <Router history={history}>
         <TopBar />
         <Route path="/" exact component={HistoricRatesPage} />
-        <Route path="/historicrates" exact component={HistoricRatesPage} />
-        <Route path="/historicBtcPurchases" exact component={HistoricBtcPurchases} />
         {portfolios.map(p => <Route path={"/" + p.code} exact render={props => <PortfolioPageContainer portfolioOfAsset={p} {...props} />} />)}
         {/* <Route path="/combine-portfolio" exact component={CombinePortfolio} /> */}
       </Router>
