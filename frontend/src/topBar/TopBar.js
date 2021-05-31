@@ -14,20 +14,6 @@ function TopBar({ location }) {
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="mr-auto">
-                    <Nav.Link href="/" active={pathname == "/"}
-                        href="/">
-                        Bitcoin Historical Rate
-                    </Nav.Link>
-                    <Nav.Link
-                        href="/historicBtcPurchases"
-                        active={pathname.includes("/historicBtcPurchases")}>
-                        Btc Purchases
-                    </Nav.Link>
-                    {/* <Nav.Link
-                        href="/combine-portfolio"
-                        active={pathname.includes("/combine-portfolio")}>
-                        Combine Portfolio
-                    </Nav.Link> */}
                     {portfolios?.map(p => (<Nav.Link
                         href={"/" + p.code}
                         active={pathname.includes("/" + p.code)}>
