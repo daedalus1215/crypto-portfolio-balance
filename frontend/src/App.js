@@ -3,9 +3,7 @@ import { Router, Route } from 'react-router-dom';
 import { createBrowserHistory as createHistory } from 'history';
 import TopBar from './topBar/TopBar';
 import HistoricRatesPage from './historicRatesPages/HistoricRatesPage';
-import HistoricBtcPurchases from './historidBtcPurchases/HistoricBtcPurchases';
 import useGetPortfolios from './portfolios/useGetPortfolios';
-import PortfolioPage from './portfolios/PortfolioPage';
 import './App.css';
 import PortfolioPageContainer from './portfolios/PortfolioPageContainer';
 
