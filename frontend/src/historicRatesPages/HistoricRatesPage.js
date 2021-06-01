@@ -11,7 +11,7 @@ const TIME_LAPSE = {
     THREE_MTH: "THREE_MTH",
 }
 
-const HistoricRatesPage = ({ code }) => {
+const HistoricRatesPage = ({ code, color }) => {
     const [data, setData] = React.useState({});
     const [btcHistory, setBtcHistory] = useState([]);
     const [timePeriod, setTimePeriod] = React.useState(TIME_LAPSE.MTH);
@@ -43,7 +43,7 @@ const HistoricRatesPage = ({ code }) => {
                 {
                     data: cryptoData,
                     label: 'Bitcoin',
-                    borderColor: "#FFD700",
+                    borderColor: color,
                     fill: false,
                 },
             ],
