@@ -3,7 +3,7 @@ import { Line } from "react-chartjs-2";
 import useFetchActivityWithTotal from "../portfolios/useFetchWithTotal";
 import "./HistoricBtcPurchases.css";
 
-const HistoricBtcPurchases = ({ code }) => {
+const HistoricBtcPurchases = ({ code, color }) => {
     const [data, setData] = React.useState({});
     const [hData, setHData] = useState([]);
     useFetchActivityWithTotal(code, setHData);
@@ -19,7 +19,7 @@ const HistoricBtcPurchases = ({ code }) => {
                 {
                     data: hData.portfolio?.map(timeUnit => timeUnit.Amount),
                     label: 'Activity',
-                    borderColor: "#FFD700",
+                    borderColor: color,
                     fill: false,
                 },
             ],
