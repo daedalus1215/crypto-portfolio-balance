@@ -8,6 +8,7 @@ import HistoricRatesPage from '../historicRatesPages/HistoricRatesPage';
 import "./PortfolioPage.css";
 
 const TIME_LAPSE = {
+    ALL: "ALL",
     YR: "YR",
     MTH: "MTH",
     WEEK: "WEEK",
@@ -121,6 +122,7 @@ const PortfolioPage = ({ portfolioOfAsset }) => {
             <div className="p-page">
                 <div className="portfolio-page">
                     <div className="buttons">
+                        <Button onClick={() => setTimePeriod(TIME_LAPSE.ALL)}>All</Button>
                         <Button onClick={() => setTimePeriod(TIME_LAPSE.YR)}>Year</Button>
                         <Button onClick={() => setTimePeriod(TIME_LAPSE.THREE_MTH)}>Three Month</Button>
                         <Button onClick={() => setTimePeriod(TIME_LAPSE.MTH)}>Month</Button>
@@ -140,10 +142,10 @@ const PortfolioPage = ({ portfolioOfAsset }) => {
                 </div>
             </div>
             <div className="hs-page">
-                <HistoricBtcPurchases code={portfolioOfAsset.code}/>
+                <HistoricBtcPurchases code={portfolioOfAsset.code} color={portfolioOfAsset.color}/>
             </div>
             <div className="hr-page">
-                <HistoricRatesPage code={portfolioOfAsset.code}/>
+                <HistoricRatesPage code={portfolioOfAsset.code} color={portfolioOfAsset.color}/>
             </div>
         </div>
     );
