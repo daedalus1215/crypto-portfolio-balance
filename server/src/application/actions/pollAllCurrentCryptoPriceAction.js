@@ -1,6 +1,6 @@
 const axios = require('axios');
 const getGenericCryptoModel = require('../../infrastructure/models/schemas/getGenericCryptoModel');
-const portfolio = require('../../portfolio.json');
+const portfolio = require('../../temp/portfolio.json');
 const key = process.env.X_CMC_PRO_API_KEY;
 const COIN_MARKET_CAP_URL = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest";
 
