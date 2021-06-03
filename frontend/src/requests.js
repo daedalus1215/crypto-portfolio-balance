@@ -16,7 +16,14 @@ export const getHistoricRatesBetweenCurrencies = data => axios
     .get(`${APIURL}/history?${querystring.encode(data)}`);
 
 //@TODO: Clean this up
-export const fetchBitcoinHistory = async (code, setHData) => await axios
+export const fetchCurrentCryptoPrices = async (setCurrentCryptoPrices) => await axios
+    .get('http://localhost:8081/api/pollAllCurrentCryptoPriceAction')
+    .then(async resp => {
+        setCurrentCryptoPrices(await resp.data.data)
+    })
+    .catch(err => err);
+
+export const fetchCryptoHistory = async (code, setHData) => await axios
     .get(`http://localhost:8081/api/history/${code}`)
     .then(async resp => {
         setHData(await resp.data);
