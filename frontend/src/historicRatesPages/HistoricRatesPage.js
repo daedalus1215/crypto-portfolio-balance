@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { fetchBitcoinHistory } from "../requests";
+import { fetchCryptoHistory } from "../requests";
 import { Line } from "react-chartjs-2";
 import Button from "react-bootstrap/esm/Button";
 import "./HistoricRatesPage.css";
@@ -17,7 +17,7 @@ const HistoricRatesPage = ({ code, color }) => {
     const [timePeriod, setTimePeriod] = React.useState(TIME_LAPSE.MTH);
 
     useEffect(() => {
-        fetchBitcoinHistory(code, setBtcHistory);
+        fetchCryptoHistory(code, setBtcHistory);
     }, [code]);
 
     useEffect(() => {
