@@ -45,7 +45,7 @@ module.exports = (req, response) => {
                             { upsert: true });
                     });
             })
-            response.send({ 'Updated with': currentCryptos })
+            response.send(currentCryptos)
         })
         .catch(err => {
             response.send(`error with pollAllCurrentCryptoPriceAction: ${err}`);
