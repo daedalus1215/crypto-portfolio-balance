@@ -2,7 +2,7 @@ import React from "react";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import { withRouter } from "react-router-dom";
-import useGetPortfolios from "../portfolios/useGetPortfolios";
+import useGetPortfolios from "../hooks/useGetPortfolios";
 
 function TopBar({ location }) {
     const { pathname } = location;
@@ -10,7 +10,7 @@ function TopBar({ location }) {
 
     return (
         <Navbar bg="primary" expand="lg" variant="dark">
-            <Navbar.Brand href="#home">Crypto Currency Portfolio App</Navbar.Brand>
+            <Navbar.Brand href="/">Crypto Currency Portfolio App</Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="mr-auto">
