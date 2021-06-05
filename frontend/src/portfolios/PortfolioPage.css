@@ -1,14 +1,34 @@
+
+.whole-page {
+display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+}
+
 .title-container {
-  width: 200px;
-  margin: auto;
-  text-align: center;
+  
+      border: black solid .5px;
+
 }
 
 .title {
-  text-align: left;
+      display: flex;
+    justify-content: space-around;
 }
 
-.grid {
-  height: 500px;
-  width: 1000px;
+.portfolio-page {
+  /* everyone has this width */
+      width: 750px;
+      /* too close to top */
+          margin-top: 2em; 
+
+}
+.portfolio-grid {
+    width: 750px;
+    margin: 0 auto 2em auto;
+}
+
+.hs-page {
+      width: 750px;
+
 }
