@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Line } from "react-chartjs-2";
 import useFetchActivityWithTotal from "../portfolios/useFetchWithTotal";
-import "./HistoricBtcPurchases.css";
 
 const HistoricBtcPurchases = ({ code, color }) => {
     const [data, setData] = React.useState({});
@@ -29,7 +28,7 @@ const HistoricBtcPurchases = ({ code, color }) => {
 
     return (
         <div className="historic-rates-page">
-            <div className="grid">
+            <div className="portfolio-grid">
                 <Line data={data} />
             </div>
         </div>
