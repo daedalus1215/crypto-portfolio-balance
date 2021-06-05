@@ -1,6 +1,7 @@
 const APIURL = 'https://api.exchangeratesapi.io';
 const axios = require("axios");
 const querystring = require('querystring');
+const portfolio = require('./temp/portfolio.json');
 
 export const getExchangeRate = () => {
     return axios.get(`${APIURL}/latest`);
@@ -14,8 +15,11 @@ export const getHistoricRates = data => axios
 
 export const getHistoricRatesBetweenCurrencies = data => axios
     .get(`${APIURL}/history?${querystring.encode(data)}`);
+    
+export const getPortfolioList = (dispatch) => {
+    return dispatch(portfolio);
+}
 
-//@TODO: Clean this up
 export const fetchCurrentCryptoPrices = async (setCurrentCryptoPrices) => await axios
     .get('http://localhost:8081/api/pollAllCurrentCryptoPriceAction')
     .then(async resp => {

@@ -1,12 +1,23 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
+import { Provider } from 'react-redux';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { createStore } from "redux";
+import { portfolioListReducer } from './reducers';
+import { composeWithDevTools } from 'redux-devtools-extension';
+import './index.css';
+
+
+const store = createStore(portfolioListReducer, composeWithDevTools(
+  // other store enhancers if any
+));
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Provider store={store}>
+      <App />
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );
