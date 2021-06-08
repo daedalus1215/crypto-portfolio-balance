@@ -1,3 +1,22 @@
+.home-page {
+    height: 1000px;
+    width:100%;
+
+}
+
+.home-ul {
+    display: flex;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    height: 80vh;
+    width: 400px;
+    margin: auto;
+}
+
 .home-assets {
     list-style-type: none;
+    border: #ddd solid;
+    padding: 1em;
+    margin: 1em;
 }

@@ -22,13 +22,15 @@ const Home = ({ portfolios }) => {
 
     console.log('yeah', folios)
 
-    return <ul className="mr-auto">
-        {folios.map(p => {
-            return (<li className="home-assets">
-                <a href={`/${p?.code}`}>{p?.name}</a> - {p?.price}
-            </li>)
-        })}
-    </ul>;
+    return <div className="home-page">
+        <ul className="home-ul">
+            {folios.map(p => {
+                return (<li className="home-assets">
+                    <a href={`/${p?.code}`}>{p?.name}</a> - {Number(p?.price).toLocaleString()}
+                </li>)
+            })}
+        </ul>
+    </div>
 };
 
 export default Home;
