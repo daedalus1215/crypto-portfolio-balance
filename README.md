@@ -31,6 +31,7 @@ X_CMC_PRO_API_KEY=${insert_coin_market_cap}
   ...
 ]
 ```
+* Can add icon_{crypto_code}.webp files to `frontend/public/icons` directory, this will be pulled in to display on screen, e.g.: `frontend/public/icons/icon_ada.webp` for cardano.
 ## Setup for Back End
 #### Will need MongoDB on the system
 * update `db.js` with the mongoDB credentials (probs at least the port)
