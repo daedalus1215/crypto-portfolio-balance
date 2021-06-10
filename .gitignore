@@ -5,3 +5,4 @@ frontend/.env
 frontend/src/temp/
 frontend/src/temp2/
 server/src/temp/
+frontend/public/icons/
