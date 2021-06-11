@@ -1,7 +1,21 @@
 .home-page {
-    height: 1000px;
+    height: 100%;
     width:100%;
+    background-color: #eee;
+}
 
+.home-page-container {
+    width: 90%;
+    max-width:1000px;
+    margin: auto;
+    background-color: #fff;
+    overflow: scroll;
+    height: 1000px;
+}
+
+.home-graph {
+    width: 90%;
+    max-width:1000px;
 }
 
 .home-ul {
@@ -10,13 +24,22 @@
     justify-content: center;
     flex-direction: column;
     height: 80vh;
-    width: 400px;
-    margin: auto;
+    width: 100%;
+    margin: 2em auto;
 }
 
 .home-assets {
     list-style-type: none;
     border: #ddd solid;
     padding: 1em;
-    margin: 1em;
+    margin: .1em;
+}
+
+.crypto-icon {
+
+}
+
+.crypto-img {
+    width: 24px;
+    height: 24px;
 }

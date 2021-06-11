@@ -22,14 +22,21 @@ const Home = ({ portfolios }) => {
 
     console.log('yeah', folios)
 
+
     return <div className="home-page">
-        <ul className="home-ul">
-            {folios.map(p => {
-                return (<li className="home-assets">
-                    <a href={`/${p?.code}`}>{p?.name}</a> - {Number(p?.price).toLocaleString()}
-                </li>)
-            })}
-        </ul>
+        <div className="home-page-container">
+            <div className="home-graph"></div>
+            <ul className="home-ul">
+                {folios.map(p => {
+                    return (<li className="home-assets">
+                        <a className="crypto-link" href={`/${p?.code}`}>
+                            <span className="crypto-icon"><img className="crypto-img" src={`/icons/icon_${p?.code}.webp`} /></span>
+                            <span className="crypto-name">{p?.code}: {Number(p?.price).toLocaleString()}</span>
+                        </a>
+                    </li>)
+                })}
+            </ul>
+        </div>
     </div>
 };
 
