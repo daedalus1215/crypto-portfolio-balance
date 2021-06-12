@@ -1,0 +1,1 @@
+db.auth('admin-user', 'admin-password')

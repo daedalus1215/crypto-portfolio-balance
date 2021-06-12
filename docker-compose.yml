@@ -1,0 +1,26 @@
+version: "2"
+services:
+    db: 
+        restart: always
+        image: "ladams1776/mongo"
+        container_name: "crypto_portfolio"
+        build: 
+            context: ./mongo
+            dockerfile: Dockerfile
+        volumes:
+            - crypto-portfolio:/var/micro-data/mongodb/data/db
+        ports:
+            - 27018:27017
+        networks:
+            react_timer:
+                ipv4_address: 172.29.1.4
+
+networks:
+    react_timer:
+        ipam:
+            driver: default
+            config:
+                - subnet: 172.29.0.0/16                
+
+volumes:
+    crypto-portfolio:
