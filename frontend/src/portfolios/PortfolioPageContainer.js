@@ -7,8 +7,11 @@ import { setPortfolioList } from '../actionCreators';
 import { getPortfolioList } from '../requests';
 import './PortfolioPage.css';
 
-
-
+/**
+ * Leaving an older version of redux as a bookmark.
+ * @param {Object} param0 
+ * @returns 
+ */
 const PortfolioPageContainer = ({ portfolioOfAsset, setList, portfolioList }) => {
 
     React.useEffect(() => {
