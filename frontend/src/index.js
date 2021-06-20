@@ -1,16 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { createStore, applyMiddleware, combineReducers } from 'redux'
+import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { createStore } from "redux";
-import { portfolioListReducer } from './reducers';
+import { cryptoHistoryReducer, portfolioListReducer } from './reducers';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import './index.css';
 
 
-const store = createStore(portfolioListReducer, composeWithDevTools(
-  // other store enhancers if any
+const rootReducer = combineReducers({
+  portfolio: portfolioListReducer,
+  cryptoHistory: cryptoHistoryReducer
+});
+const store = createStore(rootReducer, { }, composeWithDevTools(
+  applyMiddleware(thunk)
 ));
 
 ReactDOM.render(
