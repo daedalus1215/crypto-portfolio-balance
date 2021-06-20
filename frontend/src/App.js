@@ -23,7 +23,7 @@ const App = () => {
       <Router history={history}>
         <TopBar />
         <Route path="/" exact render={props => <Home portfolios={portfolios} />} />
-        {portfolios.map(p => <Route path={"/" + p.code} exact render={props => <PortfolioPageContainer portfolioOfAsset={p} {...props} />} />)}
+        {portfolios.map(p => <Route path={"/" + p.code} exact render={props => <PortfolioPageContainer portfolioOfAsset={p} {...props} />} key={p.code}/>)}
         {/* <Route path="/combine-portfolio" exact component={CombinePortfolio} /> */}
       </Router>
     </div>
