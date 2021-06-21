@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { connect } from "react-redux";
 import Button from "react-bootstrap/esm/Button";
 import { Line } from "react-chartjs-2";
-import useFetchAssetHistory from "./useFetchAssetHistory";
 import useFetchActivityWithTotal from "./useFetchWithTotal";
+import { fetchCryptoHistory } from "../actionCreators";
 
 const TIME_LAPSE = {
     ALL: "ALL",
@@ -48,41 +49,53 @@ const useDisplayHistoricalExchangeRate = (setData, portfolioData, assetHistory, 
             accumulatedFractionsOfAsset = accumulatedFractionsOfAsset + +fractionUnitOfAsset;
             return (accumulatedFractionsOfAsset * rate);
         }
-        let labels = assetHistory?.map(asset => asset.Date);
-        // console.log('labels', labels);
-        let totalAmount = assetHistory
-            // .map(asset => {
-            //     const assetQuantityForAGivenDay = sumMultiplePurchasesInSameDay(asset);
-            //     // console.log('totalAmountOfSatoshisInTheSameDay', assetQuantityForAGivenDay)
-            //     const marketValueForAssetQuantity = getMarketValueForSatoshis(assetQuantityForAGivenDay, asset.Close);
-            //     // console.log('getMarketValueForSatoshis', marketValueForAssetQuantity);
-            //     return marketValueForAssetQuantity;
-            // });
-            .map(asset => getMarketValueForSatoshis(sumMultiplePurchasesInSameDay(asset), asset.Close));
 
-        // console.log('totalAmount', totalAmount)
+        let labels;
+        let totalAmount;
 
-        if (timePeriod === TIME_LAPSE.WEEK) {
-            totalAmount = totalAmount.splice(totalAmount.length - 10, totalAmount.length - 1);
-            labels = labels.splice(labels.length - 10, labels.length - 1);
+        //@TODO: Could error out to the user saying that we did not get data back or something
+        if (assetHistory !== undefined) {
+            labels = assetHistory.map(asset => asset.Date);
+            // console.log('labels', labels);
+            totalAmount = assetHistory
+                // .map(asset => {
+                //     const assetQuantityForAGivenDay = sumMultiplePurchasesInSameDay(asset);
+                //     // console.log('totalAmountOfSatoshisInTheSameDay', assetQuantityForAGivenDay)
+                //     const marketValueForAssetQuantity = getMarketValueForSatoshis(assetQuantityForAGivenDay, asset.Close);
+                //     // console.log('getMarketValueForSatoshis', marketValueForAssetQuantity);
+                //     return marketValueForAssetQuantity;
+                // });
+                .map(asset => getMarketValueForSatoshis(sumMultiplePurchasesInSameDay(asset), asset.Close));
+
+            // console.log('totalAmount', totalAmount)
+
+            if (timePeriod === TIME_LAPSE.WEEK) {
+                totalAmount = totalAmount.splice(totalAmount.length - 10, totalAmount.length - 1);
+                labels = labels.splice(labels.length - 10, labels.length - 1);
+            }
+
+            if (timePeriod === TIME_LAPSE.MTH) {
+                totalAmount = totalAmount.splice(totalAmount.length - 34, totalAmount.length - 1);
+                labels = labels.splice(labels.length - 34, labels.length - 1);
+            }
+
+            if (timePeriod === TIME_LAPSE.THREE_MTH) {
+                totalAmount = totalAmount.splice(totalAmount.length - 90, totalAmount.length - 1);
+                labels = labels.splice(labels.length - 90, labels.length - 1);
+            }
+
+            if (timePeriod === TIME_LAPSE.YR) {
+                totalAmount = totalAmount.splice(totalAmount.length - 150, totalAmount.length - 1);
+                labels = labels.splice(labels.length - 150, labels.length - 1);
+            }
+
+            setTotalValue(totalAmount[totalAmount.length - 1]?.toFixed(2));
+        } else {
+            totalAmount = 0;
+            setTotalValue(0);
+            labels = '';
         }
 
-        if (timePeriod === TIME_LAPSE.MTH) {
-            totalAmount = totalAmount.splice(totalAmount.length - 34, totalAmount.length - 1);
-            labels = labels.splice(labels.length - 34, labels.length - 1);
-        }
-
-        if (timePeriod === TIME_LAPSE.THREE_MTH) {
-            totalAmount = totalAmount.splice(totalAmount.length - 90, totalAmount.length - 1);
-            labels = labels.splice(labels.length - 90, labels.length - 1);
-        }
-
-        if (timePeriod === TIME_LAPSE.YR) {
-            totalAmount = totalAmount.splice(totalAmount.length - 150, totalAmount.length - 1);
-            labels = labels.splice(labels.length - 150, labels.length - 1);
-        }
-
-        setTotalValue(totalAmount[totalAmount.length - 1]?.toFixed(2));
         const lineGraphData = {
             labels,
             datasets: [
@@ -98,37 +111,51 @@ const useDisplayHistoricalExchangeRate = (setData, portfolioData, assetHistory, 
     }, [portfolioData, assetHistory, timePeriod]);
 };
 
-const PortfolioPage = ({ portfolioOfAsset }) => {
+// Legacy HOC way of tieing into Redux Store. \\
+
+const PortfolioPage = ({ portfolioOfAsset, cryptoHistory, fetchCryptoHistory, dispatch }) => {
+    const code = portfolioOfAsset.code;
+    useEffect(() => {
+        dispatch(fetchCryptoHistory(code))
+    }, []);
+
+    const assetHistory = cryptoHistory;
+    // console.log('asset history, ', assetHistory)
+    // console.log('portfolio', portfolioOfAsset.code)
+    // useFetchAssetHistory(dispatch, portfolioOfAsset.code);
+
     const [timePeriod, setTimePeriod] = React.useState(TIME_LAPSE.MTH);
     const [data, setData] = React.useState({});
     const [activity, setActivity] = React.useState({});
-    const [assetHistory, setAssetHistory] = React.useState([]);
+    // const [assetHistory, setAssetHistory] = React.useState([]);
     const [totalValue, setTotalValue] = React.useState(0);
-    useFetchAssetHistory(portfolioOfAsset.code, setAssetHistory)
+    // useFetchAssetHistory(setAssetHistory, portfolioOfAsset.code)
     useFetchActivityWithTotal(portfolioOfAsset.code, setActivity);
     const { portfolio, fiatInvestment, totalAmountOfAsset } = activity;
 
     // console.log('activity', activity)
     // console.log('totalAmountOfAsset', assetHistory[assetHistory.length - 1].Date)
-    const totalV = (totalAmountOfAsset * assetHistory[assetHistory.length - 1]?.Close)?.toFixed(2);
+    const totalV = assetHistory && (totalAmountOfAsset * assetHistory[assetHistory.length - 1]?.Close)?.toFixed(2);
 
     useDisplayHistoricalExchangeRate(setData, activity.portfolio, assetHistory, timePeriod, portfolio, setTotalValue, portfolioOfAsset.color);
+
 
     return (
         <div className="p-page">
             <div className="portfolio-page">
                 <div className="title-container">
-                <div className="buttons">
-                    <Button onClick={() => setTimePeriod(TIME_LAPSE.ALL)}>All</Button>
-                    <Button onClick={() => setTimePeriod(TIME_LAPSE.YR)}>Year</Button>
-                    <Button onClick={() => setTimePeriod(TIME_LAPSE.THREE_MTH)}>Three Month</Button>
-                    <Button onClick={() => setTimePeriod(TIME_LAPSE.MTH)}>Month</Button>
-                    <Button onClick={() => setTimePeriod(TIME_LAPSE.WEEK)}>Week</Button>
-                </div>
+                    <div className="buttons">
+                        <Button onClick={() => setTimePeriod(TIME_LAPSE.ALL)}>All</Button>
+                        <Button onClick={() => setTimePeriod(TIME_LAPSE.YR)}>Year</Button>
+                        <Button onClick={() => setTimePeriod(TIME_LAPSE.THREE_MTH)}>Three Month</Button>
+                        <Button onClick={() => setTimePeriod(TIME_LAPSE.MTH)}>Month</Button>
+                        <Button onClick={() => setTimePeriod(TIME_LAPSE.WEEK)}>Week</Button>
+                    </div>
                     <div className="title">
                         <p>Invested: ${fiatInvestment?.toFixed(2)}</p>
                         <p>Valued at: ${totalV}</p>
                         <p>Total: {totalAmountOfAsset}</p>
+
                     </div>
                 </div>
                 <div className="portfolio-grid">
@@ -139,4 +166,5 @@ const PortfolioPage = ({ portfolioOfAsset }) => {
     );
 }
 
-export default PortfolioPage;
+export default connect(state => ({ cryptoHistory: state.cryptoHistory.asset }),
+    dispatch => ({ fetchCryptoHistory: fetchCryptoHistory, dispatch }))(PortfolioPage);
