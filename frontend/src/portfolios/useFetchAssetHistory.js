@@ -1,9 +1,9 @@
 import { useEffect } from "react";
-import { fetchAssetHistory } from "../requests";
+import { fetchCryptoHistory } from "../actionCreators";
 
-const useFetchAssetHistory = (code, setData) => {
+const useFetchAssetHistory = (dispatch, code) => {
     useEffect(() => {
-        fetchAssetHistory(code, setData);
+        fetchCryptoHistory(dispatch, code)
     }, [code]);
 };
 
