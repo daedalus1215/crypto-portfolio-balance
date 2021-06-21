@@ -9,13 +9,19 @@ import { cryptoHistoryReducer, portfolioListReducer } from './reducers';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import './index.css';
 
+const loggerMiddleware = storeAPI => next => action => {
+  console.log('dispatching', action)
+  let result = next(action)
+  console.log('next state', storeAPI.getState())
+  return result
+}
 
 const rootReducer = combineReducers({
   portfolio: portfolioListReducer,
   cryptoHistory: cryptoHistoryReducer
 });
 const store = createStore(rootReducer, { }, composeWithDevTools(
-  applyMiddleware(thunk)
+  applyMiddleware(thunk, loggerMiddleware)
 ));
 
 ReactDOM.render(
