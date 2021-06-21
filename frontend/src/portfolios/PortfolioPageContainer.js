@@ -18,8 +18,6 @@ const PortfolioPageContainer = ({ portfolioOfAsset, setList, portfolioList }) =>
         getPortfolioList(setList);
     }, []);
 
-    console.log('portfolio list from redux', portfolioList)
-
     return <div className="whole-page">
 
         <PortfolioPage portfolioOfAsset={portfolioOfAsset} />
@@ -35,7 +33,7 @@ const PortfolioPageContainer = ({ portfolioOfAsset, setList, portfolioList }) =>
 
 
 const mapStateToProps = state => {
-    return { portfolioList: state?.portfolioList }
+    return { portfolioList: state.portfolioList }
 };
 
 export default connect(mapStateToProps, { setList: setPortfolioList })(PortfolioPageContainer);
