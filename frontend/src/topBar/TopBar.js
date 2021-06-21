@@ -16,7 +16,8 @@ function TopBar({ location }) {
                 <Nav className="mr-auto">
                     {portfolios?.map(p => (<Nav.Link
                         href={"/" + p.code}
-                        active={pathname.includes("/" + p.code)}>
+                        active={pathname.includes("/" + p.code)}
+                        key={p.code}>
                         {p.name}
                     </Nav.Link>))}
                 </Nav>
