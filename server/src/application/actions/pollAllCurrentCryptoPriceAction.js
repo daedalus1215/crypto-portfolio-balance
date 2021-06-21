@@ -12,9 +12,9 @@ const COIN_MARKET_CAP_URL = "https://pro-api.coinmarketcap.com/v1/cryptocurrency
  * @param {import('express').Response} response
  */
 module.exports = (req, response) => {
-    console.log('getAllCurrentCryptoPriceAction');
+    // console.log('getAllCurrentCryptoPriceAction');
     const url = COIN_MARKET_CAP_URL;
-    console.log('portfolio', portfolio)
+    // console.log('portfolio', portfolio)
     axios.defaults.headers.common = { "Accept": "application/json", "X-CMC_PRO_API_KEY": key };
     axios
         .get(url)
