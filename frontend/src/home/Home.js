@@ -1,10 +1,12 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
+import { selectPortfolioList } from '../App';
 import { fetchCurrentCryptoPrices } from '../requests';
 import './Home.css';
 
-const Home = ({ portfolios }) => {
+const Home = () => {
     const [cryptoPrices, setCryptoPrices] = React.useState([]);
-
+    const portfolios = useSelector(selectPortfolioList);
     React.useEffect(() => {
         fetchCurrentCryptoPrices(setCryptoPrices);
     }, []);
