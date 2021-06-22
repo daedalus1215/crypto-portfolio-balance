@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { fetchCryptoHistory } from "../requests";
+import React, { useEffect } from "react";
+import { useSelector } from "react-redux";
 import { Line } from "react-chartjs-2";
 import Button from "react-bootstrap/esm/Button";
 
@@ -10,44 +10,40 @@ const TIME_LAPSE = {
     THREE_MTH: "THREE_MTH",
 }
 
-const HistoricRatesPage = ({ code, color }) => {
-    const [data, setData] = React.useState({});
-    const [btcHistory, setBtcHistory] = useState([]);
-    const [timePeriod, setTimePeriod] = React.useState(TIME_LAPSE.MTH);
-
+const useSetGraphData = (setData, btcHistory, timePeriod, color) => {
     useEffect(() => {
-        fetchCryptoHistory(code, setBtcHistory);
-    }, [code]);
+        let labels;
+        let cryptoData;
 
-    useEffect(() => {
-        let labels = btcHistory.map(btc => btc.Date);
-        let cryptoData = btcHistory.map(btc => btc.Close);
+        if (btcHistory) {
+            labels = btcHistory.map(btc => btc.Date);
+            cryptoData = btcHistory.map(btc => btc.Close);
 
-        if (timePeriod === TIME_LAPSE.WEEK) {
-            cryptoData = cryptoData.splice(cryptoData.length - 10, cryptoData.length - 1);
-            labels = labels.splice(labels.length - 10, labels.length - 1);
+            if (timePeriod === TIME_LAPSE.WEEK) {
+                cryptoData = cryptoData.splice(cryptoData.length - 10, cryptoData.length - 1);
+                labels = labels.splice(labels.length - 10, labels.length - 1);
+            }
+
+            if (timePeriod === TIME_LAPSE.MTH) {
+                cryptoData = cryptoData.splice(cryptoData.length - 34, cryptoData.length - 1);
+                labels = labels.splice(labels.length - 34, labels.length - 1);
+            }
+
+            if (timePeriod === TIME_LAPSE.THREE_MTH) {
+                cryptoData = cryptoData.splice(cryptoData.length - 90, cryptoData.length - 1);
+                labels = labels.splice(labels.length - 90, labels.length - 1);
+            }
+
+            if (timePeriod === TIME_LAPSE.YR) {
+                cryptoData = cryptoData.splice(cryptoData.length - 150, cryptoData.length - 1);
+                labels = labels.splice(labels.length - 150, labels.length - 1);
+            }
+        } else {
+            labels = '';
+            cryptoData = [];
         }
 
-        if (timePeriod === TIME_LAPSE.MTH) {
-            cryptoData = cryptoData.splice(cryptoData.length - 34, cryptoData.length - 1);
-            labels = labels.splice(labels.length - 34, labels.length - 1);
-        }
-
-        if (timePeriod === TIME_LAPSE.THREE_MTH) {
-            cryptoData = cryptoData.splice(cryptoData.length - 90, cryptoData.length - 1);
-            labels = labels.splice(labels.length - 90, labels.length - 1);
-        }
-
-        if (timePeriod === TIME_LAPSE.YR) {
-            cryptoData = cryptoData.splice(cryptoData.length - 150, cryptoData.length - 1);
-            labels = labels.splice(labels.length - 150, labels.length - 1);
-        }
-
-
-        // console.log('labels', labels)
-        // console.log('cryptoData', cryptoData);
-
-        const lineGraphData = {
+        setData({
             labels,
             datasets: [
                 {
@@ -57,11 +53,18 @@ const HistoricRatesPage = ({ code, color }) => {
                     fill: false,
                 },
             ],
-        };
-        setData(lineGraphData);
+        });
     }, [btcHistory, timePeriod]);
+}
 
-    const currentMarketValue = btcHistory[btcHistory.length - 1]?.Close;
+const HistoricRatesPage = ({ color }) => {
+    const btcHistory = useSelector(state => state.cryptoHistory.asset);
+    const [data, setData] = React.useState({});
+    const [timePeriod, setTimePeriod] = React.useState(TIME_LAPSE.MTH);
+
+    useSetGraphData(setData, btcHistory, timePeriod, color);
+
+    const currentMarketValue = btcHistory && btcHistory[btcHistory.length - 1]?.Close;
 
     return (
         <div className="p-page">
@@ -75,7 +78,7 @@ const HistoricRatesPage = ({ code, color }) => {
                         <Button onClick={() => setTimePeriod(TIME_LAPSE.WEEK)}>Week</Button>
                     </div>
                     <div className="title">
-                    <p>CM Value: {currentMarketValue}</p>
+                        <p>CM Value: {currentMarketValue}</p>
                     </div>
                 </div>
                 <div className="portfolio-grid">
