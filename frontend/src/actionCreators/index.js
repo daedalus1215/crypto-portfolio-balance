@@ -1,14 +1,15 @@
 import axios from "axios";
+const portfolios = require('../temp/portfolio.json');
 
 export const PORTFOLIO_LIST = 'PORTFOLIO_LIST';
 export const FETCH_CRYPTO_HISTORY_RESPONSE = 'FETCH_CRYPTO_HISTORY_RESPONSE';
 export const FETCH_CRYPTO_HISTORY_ERROR = 'FETCH_CRYPTO_HISTORY_ERROR';
 
-export const setPortfolioList = portfolios => {
-    return {
-        type: 'PORTFOLIO_LIST',
-        payload: portfolios
-    }
+export const fetchPortfolioList = () => dispatch => {
+    //@TODO: should throw error here if portfolios is not set. Would help if temp file was missing. 
+    dispatch({
+        type: 'PORTFOLIO_LIST', payload: portfolios
+    });
 };
 
 /** 
