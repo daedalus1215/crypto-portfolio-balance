@@ -27,28 +27,12 @@ export const fetchCurrentCryptoPrices = async (setCurrentCryptoPrices) => await 
     })
     .catch(err => err);
 
-export const fetchCryptoHistory = async (code, setHData) => await axios
-    .get(`http://localhost:8081/api/history/${code}`)
-    .then(async resp => {
-        setHData(await resp.data);
-    })
-    .catch(err => err);
-
 export const fetchEtherHistory = async (setHData) => await axios
     .get('http://localhost:8081/api/history/ETH')
     .then(async resp => {
         setHData(await resp.data);
     })
     .catch(err => err);
-
-//@TODO: Swap this out so that the backend is dynamic and we are not hitting specific endpoint
-export const fetchAssetHistory = async (code, setHData) => await axios
-    .get(`http://localhost:8081/api/history/${code.toUpperCase()}`)
-    .then(async resp => setHData(await resp.data))
-    .catch(err => {
-        console.log(`issue with fetching asset history: ${err}`);
-        return err;
-    });
 
 export const fetchAssetActivity = async (code, setActivity) => await axios
     .get(`http://localhost:8081/api/activity/${code}`)
