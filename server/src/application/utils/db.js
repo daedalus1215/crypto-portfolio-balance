@@ -27,7 +27,7 @@ mongoose.Promise = global.Promise;
 mongoose.connection
     .on('connected', () => {
         console.log(
-            `Mongoose connection open on mongodb://${SERVER_AND_PORT}/tasks`,
+            `Mongoose connection open on mongodb://${SERVER_AND_PORT}`,
         );
     })
     .on('error', err => {
