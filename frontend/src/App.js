@@ -11,7 +11,7 @@ import './App.css';
 
 const history = createHistory();
 
-const selectPortfolioList = createSelector(
+export const selectPortfolioList = createSelector(
   state => state?.portfolio,
   item => item?.assets || []
 );
@@ -37,7 +37,8 @@ const App = () => {
     <div className="App">
       <Router history={history}>
         <TopBar />
-        <Route path="/" exact render={props => <Home portfolios={portfolios} />} />
+        <Route path="/" exact render={props => <Home />} />
+
         {portfolios.map(p => <Route path={"/" + p.code} exact render={props =>
           <PortfolioPageContainer portfolioOfAsset={p} {...props} />} key={p.code}
         />)}
