@@ -26,7 +26,7 @@ const PortfolioPageContainer = ({ portfolioOfAsset, setList, portfolioList }) =>
             <HistoricBtcPurchases code={portfolioOfAsset.code} color={portfolioOfAsset.color} />
         </div>
         <div className="hr-page">
-            <HistoricRatesPage code={portfolioOfAsset.code} color={portfolioOfAsset.color} />
+            <HistoricRatesPage color={portfolioOfAsset.color} />
         </div>
     </div>
 }
