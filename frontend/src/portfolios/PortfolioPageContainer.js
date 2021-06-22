@@ -1,10 +1,7 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import PortfolioPage from './PortfolioPage';
 import HistoricBtcPurchases from '../historicBtcPurchases/HistoricBtcPurchases';
 import HistoricRatesPage from '../historicRatesPages/HistoricRatesPage';
-import { setPortfolioList } from '../actionCreators';
-import { getPortfolioList } from '../requests';
 import './PortfolioPage.css';
 
 /**
@@ -12,12 +9,7 @@ import './PortfolioPage.css';
  * @param {Object} param0 
  * @returns 
  */
-const PortfolioPageContainer = ({ portfolioOfAsset, setList, portfolioList }) => {
-
-    React.useEffect(() => {
-        getPortfolioList(setList);
-    }, []);
-
+const PortfolioPageContainer = ({ portfolioOfAsset }) => {
     return <div className="whole-page">
 
         <PortfolioPage portfolioOfAsset={portfolioOfAsset} />
@@ -31,9 +23,4 @@ const PortfolioPageContainer = ({ portfolioOfAsset, setList, portfolioList }) =>
     </div>
 }
 
-
-const mapStateToProps = state => {
-    return { portfolioList: state.portfolioList }
-};
-
-export default connect(mapStateToProps, { setList: setPortfolioList })(PortfolioPageContainer);
+export default PortfolioPageContainer;
