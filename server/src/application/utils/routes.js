@@ -10,7 +10,7 @@ const routes = (app, key) => {
     app.get('/api/history/:currency', getCryptoPriceAction);
     app.get('/api/activity/:code', getCryptoProfileActivity);
     app.get('/api/pollAllCurrentCryptoPriceAction', pollAllCurrentCryptoPriceAction);
-    app.get('/api/test', getAllActivity);
+    app.get('/api/all-activity', getAllActivity);
 }
 
 module.exports = routes;
