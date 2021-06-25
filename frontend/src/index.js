@@ -1,12 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { composeWithDevTools } from 'redux-devtools-extension';
 import { createStore, applyMiddleware, combineReducers } from 'redux'
 import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { cryptoHistoryReducer, portfolioListReducer } from './reducers';
-import { composeWithDevTools } from 'redux-devtools-extension';
+import { cryptoHistoryReducer, getAllAssetReducer, portfolioListReducer } from './reducers';
 import './index.css';
 
 const loggerMiddleware = storeAPI => next => action => {
@@ -18,9 +18,10 @@ const loggerMiddleware = storeAPI => next => action => {
 
 const rootReducer = combineReducers({
   portfolio: portfolioListReducer,
-  cryptoHistory: cryptoHistoryReducer
+  cryptoHistory: cryptoHistoryReducer,
+  allActivity: getAllAssetReducer
 });
-const store = createStore(rootReducer, { }, composeWithDevTools(
+const store = createStore(rootReducer, {}, composeWithDevTools(
   applyMiddleware(thunk, loggerMiddleware)
 ));
 
