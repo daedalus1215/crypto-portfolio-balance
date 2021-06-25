@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { connect, useSelector } from "react-redux";
+import { useSelectAllActivity, useSelectPortfolioList } from "../selectors";
 import Button from "react-bootstrap/esm/Button";
 import { Line } from "react-chartjs-2";
 import { fetchAllAssets } from '../actionCreators'
@@ -18,10 +19,15 @@ const TIME_LAPSE = {
 // 4.
 
 
-const PortfolioChart = ({ cryptoHistory, fetchAllAssets, dispatch }) => {
+const PortfolioChart = ({ fetchAllAssets, dispatch }) => {
     const [timePeriod, setTimePeriod] = React.useState(TIME_LAPSE.MTH);
-    
-    
+    const cryptoHistory = useSelectAllActivity();
+    const portfolios = useSelectPortfolioList();
+
+    //@TODO: Abstract this out
+    useEffect(() => {
+        dispatch(fetchAllAssets());
+    }, []);
 
     return (
         <div className="p-page">
@@ -35,7 +41,7 @@ const PortfolioChart = ({ cryptoHistory, fetchAllAssets, dispatch }) => {
                         <Button onClick={() => setTimePeriod(TIME_LAPSE.WEEK)}>Week</Button>
                     </div>
                     <div className="title">
-                        
+
                     </div>
                 </div>
 
@@ -44,5 +50,5 @@ const PortfolioChart = ({ cryptoHistory, fetchAllAssets, dispatch }) => {
     );
 }
 
-export default connect(state => ({ cryptoHistory: state.allActivity.assets?.items }),
+export default connect(state => ({}),
     dispatch => ({ fetchAllAssets: fetchAllAssets, dispatch }))(PortfolioChart);
