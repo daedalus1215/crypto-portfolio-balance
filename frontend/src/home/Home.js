@@ -1,12 +1,12 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
-import { selectPortfolioList } from '../App';
 import { fetchCurrentCryptoPrices } from '../requests';
+import { useSelectPortfolioList } from '../selectors';
+import PortfolioChart from './PortfolioChart';
 import './Home.css';
 
 const Home = () => {
     const [cryptoPrices, setCryptoPrices] = React.useState([]);
-    const portfolios = useSelector(selectPortfolioList);
+    const portfolios = useSelectPortfolioList();
     React.useEffect(() => {
         fetchCurrentCryptoPrices(setCryptoPrices);
     }, []);
@@ -24,7 +24,9 @@ const Home = () => {
 
     return <div className="home-page">
         <div className="home-page-container">
-            <div className="home-graph"></div>
+            <div className="home-graph">
+                <PortfolioChart />
+            </div>
             <ul className="home-ul">
                 {folios.map(p => {
                     return (<li className="home-assets">
