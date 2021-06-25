@@ -1,20 +1,15 @@
 import React, { useEffect } from 'react';
 import { Router, Route } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { createSelector } from 'reselect';
 import { fetchPortfolioList } from './actionCreators';
 import { createBrowserHistory as createHistory } from 'history';
 import TopBar from './topBar/TopBar';
 import Home from './home/Home';
 import PortfolioPageContainer from './portfolios/PortfolioPageContainer';
+import { useSelectPortfolioList } from './selectors';
 import './App.css';
 
 const history = createHistory();
-
-export const selectPortfolioList = createSelector(
-  state => state?.portfolio,
-  item => item?.assets || []
-);
 
 const useFetchPortfolioList = () => {
   const dispatch = useDispatch();
@@ -31,7 +26,7 @@ const App = () => {
   sans-serif`;
 
   useFetchPortfolioList();
-  const portfolios = useSelector(selectPortfolioList);
+  const portfolios = useSelectPortfolioList();
 
   return (
     <div className="App">
