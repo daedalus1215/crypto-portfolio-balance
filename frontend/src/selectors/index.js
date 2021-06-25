@@ -6,7 +6,7 @@ export const selectPortfolioList = createSelector(
     item => item?.assets || []
 );
 
-export const selectAllActivity = state => state.allActivity.assets.items;
+export const selectAllActivity = state => state.allActivity?.assets?.items || [];
 
 export const useSelectPortfolioList = () => useSelector(selectPortfolioList);
 
