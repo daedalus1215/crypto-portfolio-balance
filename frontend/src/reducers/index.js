@@ -1,4 +1,10 @@
-import { FETCH_ALL_ACTIVITY_ERROR, FETCH_ALL_ACTIVITY_RESPONSE, FETCH_CRYPTO_HISTORY_ERROR, FETCH_CRYPTO_HISTORY_RESPONSE, PORTFOLIO_LIST } from "../actionCreators";
+import {
+    FETCH_ALL_ACTIVITY_ERROR,
+    FETCH_ALL_ACTIVITY_RESPONSE,
+    FETCH_INSTRUMENT_HISTORY_ERROR,
+    FETCH_INSTRUMENT_HISTORY_RESPONSE,
+    PORTFOLIO_LIST
+} from "../actionCreators";
 
 export const portfolioListReducer = (state = [], action) => {
     switch (action.type) {
@@ -14,8 +20,8 @@ export const portfolioListReducer = (state = [], action) => {
 
 export const cryptoHistoryReducer = (state = [], action) => {
     switch (action.type) {
-        case FETCH_CRYPTO_HISTORY_RESPONSE:
-        case FETCH_CRYPTO_HISTORY_ERROR:
+        case FETCH_INSTRUMENT_HISTORY_RESPONSE:
+        case FETCH_INSTRUMENT_HISTORY_ERROR:
             return {
                 ...state,
                 asset: action.payload,
@@ -25,7 +31,7 @@ export const cryptoHistoryReducer = (state = [], action) => {
     }
 }
 
-export const getAllAssetReducer = (state = [], action) => {
+export const getAllActivityReducer = (state = [], action) => {
     switch (action.type) {
         case FETCH_ALL_ACTIVITY_RESPONSE:
         case FETCH_ALL_ACTIVITY_ERROR:

@@ -1,9 +1,12 @@
 import React, { useEffect } from "react";
-import { connect, useSelector } from "react-redux";
-import { useSelectAllActivity, useSelectPortfolioList } from "../selectors";
+import { connect } from "react-redux";
 import Button from "react-bootstrap/esm/Button";
 import { Line } from "react-chartjs-2";
-import { fetchAllAssets } from '../actionCreators'
+import useFetchAssetHistory from "../hooks/useGetAssetHistory";
+import { useSelectAllActivity } from "../selectors/activitySelectors";
+import { useSelectInstrumentHistory } from "../selectors/instrumentSelectors";
+import { fetchAllActivity } from "../actionCreators/activityActionCreators";
+import useFetchAllActivity from "../hooks/useFetchAllActivity";
 
 const TIME_LAPSE = {
     ALL: "ALL",
@@ -18,56 +21,51 @@ const TIME_LAPSE = {
 // 3. reduce on the activities to get the full amount 
 // 4.
 
-
-const getMarketValueForFraction = (fractionUnitOfAsset, rate) => {
-    // console.log('satoshis', satoshis)
-    // console.log('rate', rate)
-    // accumulatedFractionsOfAsset = isNaN(accumulatedFractionsOfAsset) ? 0 : accumulatedFractionsOfAsset
-    // accumulatedFractionsOfAsset = accumulatedFractionsOfAsset + +fractionUnitOfAsset;
-    return (fractionUnitOfAsset * rate);
-}
-
-export const getTheStuff = (cryptoHistory, portfolios) => {
+export const aggregateValueByDay = cryptoHistory => {
     const labels = cryptoHistory.map(c => c.Date);
-    let dates = [...new Set(labels)];
+    const dates = [...new Set(labels)];
 
-    // const d = portfolios.map(portfolio => {
-    // const { code } = portfolio;
     return dates.map(date => {
         return cryptoHistory
             .filter(c => c.Date === date)
             .map(asset => ({ ...asset, Amount: asset.Amount * asset.PricePerCoin }))
-            .reduce((first, second) => {
-                return {
-                    Date: date,
-                    Amount: first.Amount + second.Amount,
-                }
-            }, { Amount: 0, Date: date });
-        // });
-
+            .reduce((first, second) => ({
+                Date: date,
+                Amount: first.Amount + second.Amount,
+            }), { Amount: 0, Date: date });
     });
 };
 
-const PortfolioChart = ({ fetchAllAssets, dispatch }) => {
+const PortfolioChart = ({ fetchAllActivity, dispatch }) => {
     const [timePeriod, setTimePeriod] = React.useState(TIME_LAPSE.MTH);
     const [data, setData] = React.useState([]);
-    const cryptoHistory = useSelectAllActivity();
-    const portfolios = useSelectPortfolioList();
-    //@TODO: Abstract this out
-    useEffect(() => {
-        dispatch(fetchAllAssets());
-    }, []);
+    
+    const portfolioActivity = useSelectAllActivity();
+    useFetchAllActivity();
+
+    useFetchAssetHistory('btc');
+    useSelectInstrumentHistory();
 
     useEffect(() => {
-        // if we can take an array of objects
-        // [
-        // { Amount: 0, Date: '2021-01-01, Coin: btc}
-        // ]
+        const totalAmount = aggregateValueByDay(portfolioActivity).map(c => c.Amount);
+        const labels = portfolioActivity.map(c => c.Date);
 
+        const lineGraphData = {
+            labels,
+            datasets: [
+                {
+                    data: totalAmount,
+                    label: 'Portfolio',
+                    borderColor: '#ffff',
+                    fill: false,
+                },
+            ],
+        };
+        setData(lineGraphData);
 
-    }, []);
+    }, [portfolioActivity]);
 
-    console.log('cryptoHiustory', cryptoHistory)
+    // console.log('cryptoHiustory', cryptoHistory)
     return (
         <div className="p-page">
             <div className="portfolio-page">
@@ -82,6 +80,9 @@ const PortfolioChart = ({ fetchAllAssets, dispatch }) => {
                     <div className="title">
 
                     </div>
+                    <div className="portfolio-grid">
+                        <Line data={data} />
+                    </div>
                 </div>
 
             </div>
@@ -90,4 +91,4 @@ const PortfolioChart = ({ fetchAllAssets, dispatch }) => {
 }
 
 export default connect(state => ({}),
-    dispatch => ({ fetchAllAssets: fetchAllAssets, dispatch }))(PortfolioChart);
+    dispatch => ({ fetchAllActivity: fetchAllActivity, dispatch }))(PortfolioChart);

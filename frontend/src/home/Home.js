@@ -1,14 +1,14 @@
 import React from 'react';
-import { fetchCurrentCryptoPrices } from '../requests';
-import { useSelectPortfolioList } from '../selectors';
+import { fetchCurrentInstrumentPrices } from '../requests';
 import PortfolioChart from './PortfolioChart';
+import { useSelectPortfolioList } from '../selectors/portfolioSelectors';
 import './Home.css';
 
 const Home = () => {
     const [cryptoPrices, setCryptoPrices] = React.useState([]);
     const portfolios = useSelectPortfolioList();
     React.useEffect(() => {
-        fetchCurrentCryptoPrices(setCryptoPrices);
+        fetchCurrentInstrumentPrices(setCryptoPrices);
     }, []);
 
     const folios = portfolios

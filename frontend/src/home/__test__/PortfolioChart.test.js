@@ -1,7 +1,7 @@
-import { getTheStuff } from '../PortfolioChart';
+import { aggregateValueByDay } from '../PortfolioChart';
 
 describe('PortfolioChart.test.js', () => {
-    it('should...', () => {
+    it('should ', () => {
         // Arrange
         const cryptoHistory = [
             {
@@ -60,7 +60,15 @@ describe('PortfolioChart.test.js', () => {
                 + (cryptoHistory[4].Amount * cryptoHistory[4].PricePerCoin)
                 + (cryptoHistory[6].Amount * cryptoHistory[6].PricePerCoin),
             Date: cryptoHistory[0].Date
-        }
+        };
+
+        const expectedTwo = {
+            Amount: (cryptoHistory[1].Amount * cryptoHistory[1].PricePerCoin)
+                + (cryptoHistory[3].Amount * cryptoHistory[3].PricePerCoin)
+                + (cryptoHistory[5].Amount * cryptoHistory[5].PricePerCoin)
+                + (cryptoHistory[7].Amount * cryptoHistory[7].PricePerCoin),
+            Date: cryptoHistory[1].Date
+        };
 
         const portfolios = [
             {
@@ -71,13 +79,13 @@ describe('PortfolioChart.test.js', () => {
             },
             {
                 code: 'one'
-            }
-        ];
+            }];
 
         // Act
-        const actual = getTheStuff(cryptoHistory, portfolios);
+        const actual = aggregateValueByDay(cryptoHistory, portfolios);
 
         // Assert
         expect(actual[0]).toEqual(expectedOne);
+        expect(actual[1]).toEqual(expectedTwo);
     });
 });

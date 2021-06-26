@@ -10,7 +10,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'build')));
 
 require('./src/application/utils/routes')(app);
-require('./src/application/utils/errors')(app);
+// require('./src/application/utils/errors')(app);
 require('./src/application/utils/db');
 
 

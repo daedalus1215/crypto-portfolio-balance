@@ -6,7 +6,7 @@ import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { cryptoHistoryReducer, getAllAssetReducer, portfolioListReducer } from './reducers';
+import { cryptoHistoryReducer, getAllActivityReducer, portfolioListReducer } from './reducers';
 import './index.css';
 
 const loggerMiddleware = storeAPI => next => action => {
@@ -19,7 +19,7 @@ const loggerMiddleware = storeAPI => next => action => {
 const rootReducer = combineReducers({
   portfolio: portfolioListReducer,
   cryptoHistory: cryptoHistoryReducer,
-  allActivity: getAllAssetReducer
+  allActivity: getAllActivityReducer
 });
 const store = createStore(rootReducer, {}, composeWithDevTools(
   applyMiddleware(thunk, loggerMiddleware)

@@ -1,16 +1,17 @@
 import React, { useEffect } from 'react';
 import { Router, Route } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchPortfolioList } from './actionCreators';
 import { createBrowserHistory as createHistory } from 'history';
+import { fetchPortfolioList } from './actionCreators/portfolioActionCreators';
 import TopBar from './topBar/TopBar';
 import Home from './home/Home';
+import { useSelectPortfolioList } from './selectors/portfolioSelectors';
 import PortfolioPageContainer from './portfolios/PortfolioPageContainer';
-import { useSelectPortfolioList } from './selectors';
 import './App.css';
 
 const history = createHistory();
 
+//@TODO: Migrate this
 const useFetchPortfolioList = () => {
   const dispatch = useDispatch();
   useEffect(() => {

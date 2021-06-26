@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import Button from "react-bootstrap/esm/Button";
 import { Line } from "react-chartjs-2";
 import useFetchActivityWithTotal from "./useFetchWithTotal";
-import { fetchCryptoHistory } from "../actionCreators";
+import { fetchInstrumentHistory } from "../actionCreators/instrumentActionCreators";
 
 const TIME_LAPSE = {
     ALL: "ALL",
@@ -167,4 +167,4 @@ const PortfolioPage = ({ portfolioOfAsset, cryptoHistory, fetchCryptoHistory, di
 }
 
 export default connect(state => ({ cryptoHistory: state.cryptoHistory.asset }),
-    dispatch => ({ fetchCryptoHistory: fetchCryptoHistory, dispatch }))(PortfolioPage);
+    dispatch => ({ fetchCryptoHistory: fetchInstrumentHistory, dispatch }))(PortfolioPage);

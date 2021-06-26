@@ -1,40 +1,15 @@
-const APIURL = 'https://api.exchangeratesapi.io';
 const axios = require("axios");
-const querystring = require('querystring');
-const portfolio = require('./temp/portfolio.json');
 
-export const getExchangeRate = () => {
-    return axios.get(`${APIURL}/latest`);
-}
-
-export const getRateBetweenCurrencies = data => axios
-    .get(`${APIURL}/history?${querystring.encode(data)}`);
-
-export const getHistoricRates = data => axios
-    .get(`${APIURL}/history?${querystring.encode(data)}`);
-
-export const getHistoricRatesBetweenCurrencies = data => axios
-    .get(`${APIURL}/history?${querystring.encode(data)}`);
-    
-export const getPortfolioList = (dispatch) => {
-    return dispatch(portfolio);
-}
-
-export const fetchCurrentCryptoPrices = async (setCurrentCryptoPrices) => await axios
+//@TODO: ActionCreation this
+export const fetchCurrentInstrumentPrices = async (setCurrentCryptoPrices) => await axios
     .get('http://localhost:8081/api/pollAllCurrentCryptoPriceAction')
     .then(async resp => {
         setCurrentCryptoPrices(await resp.data.data)
     })
     .catch(err => err);
 
-export const fetchEtherHistory = async (setHData) => await axios
-    .get('http://localhost:8081/api/history/ETH')
-    .then(async resp => {
-        setHData(await resp.data);
-    })
-    .catch(err => err);
-
-export const fetchAssetActivity = async (code, setActivity) => await axios
+//@TODO: ActionCreation this
+export const fetchSpecificActivity = async (code, setActivity) => await axios
     .get(`http://localhost:8081/api/activity/${code}`)
     .then(async resp => {
         const portfolio = await resp.data.items;

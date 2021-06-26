@@ -1,9 +1,9 @@
 import { useEffect } from 'react';
-import { fetchAssetActivity } from '../requests';
+import { fetchSpecificActivity } from '../requests';
 
 const useFetchActivityWithTotal = (code, setActivity) => {
     useEffect(() => {
-        fetchAssetActivity(code, setActivity);
+        fetchSpecificActivity(code, setActivity);
     }, [code]);
 };
 
