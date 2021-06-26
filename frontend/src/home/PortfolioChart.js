@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { connect, useSelector } from "react-redux";
 import { useSelectAllActivity, useSelectPortfolioList } from "../selectors";
-// import Button from "react-bootstrap/esm/Button";
+import Button from "react-bootstrap/esm/Button";
 import { Line } from "react-chartjs-2";
 import { fetchAllAssets } from '../actionCreators'
 
@@ -46,7 +46,6 @@ export const getTheStuff = (cryptoHistory, portfolios) => {
         // });
 
     });
-    console.log('dates', d);
 };
 
 const PortfolioChart = ({ fetchAllAssets, dispatch }) => {
