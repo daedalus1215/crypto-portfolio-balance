@@ -1,12 +1,11 @@
 import React, { useEffect } from "react";
-import { connect } from "react-redux";
 import Button from "react-bootstrap/esm/Button";
 import { Line } from "react-chartjs-2";
 import useFetchAssetHistory from "../hooks/useGetAssetHistory";
 import { useSelectAllActivity } from "../selectors/activitySelectors";
 import { useSelectInstrumentHistory } from "../selectors/instrumentSelectors";
-import { fetchAllActivity } from "../actionCreators/activityActionCreators";
 import useFetchAllActivity from "../hooks/useFetchAllActivity";
+import useFetchPortfolioList from "../hooks/useFetchPortfolioList";
 
 const TIME_LAPSE = {
     ALL: "ALL",
@@ -16,39 +15,56 @@ const TIME_LAPSE = {
     THREE_MTH: "THREE_MTH",
 }
 
-// 1. grab portfolios
-// 2. iterate over them, use their code to filter on activities
-// 3. reduce on the activities to get the full amount 
-// 4.
-
 export const aggregateValueByDay = cryptoHistory => {
     const labels = cryptoHistory.map(c => c.Date);
     const dates = [...new Set(labels)];
 
+    //@TODO: I need to accumulate here per instrument code
+    //@TODO: then do the addition in the reducer. 
     return dates.map(date => {
         return cryptoHistory
             .filter(c => c.Date === date)
-            .map(asset => ({ ...asset, Amount: asset.Amount * asset.PricePerCoin }))
-            .reduce((first, second) => ({
-                Date: date,
-                Amount: first.Amount + second.Amount,
-            }), { Amount: 0, Date: date });
+            .map(asset => ({ ...asset, Amount: +asset.Amount * +asset.PricePerCoin }))
+            .reduce((first, second) => {
+                console.log('first', first)
+                console.log('second', second)
+                return {
+                    Date: date,
+                    Amount: first.Amount + second.Amount,
+                }
+            }, { Amount: 0, Date: date });
     });
 };
 
-const PortfolioChart = ({ fetchAllActivity, dispatch }) => {
+export const addValueAcrossAllAssets = activities => {
+    let summedUp = 0;
+
+    return activities.map(a => {
+        console.log('activities', a)
+        summedUp += a;
+        // summedUp = summedUp + a;
+        return summedUp;
+    });
+}
+
+const PortfolioChart = () => {
     const [timePeriod, setTimePeriod] = React.useState(TIME_LAPSE.MTH);
     const [data, setData] = React.useState([]);
-    
-    const portfolioActivity = useSelectAllActivity();
+
+    const portfolio = useFetchPortfolioList();
+    const activity = useSelectAllActivity();
     useFetchAllActivity();
 
     useFetchAssetHistory('btc');
     useSelectInstrumentHistory();
 
     useEffect(() => {
-        const totalAmount = aggregateValueByDay(portfolioActivity).map(c => c.Amount);
-        const labels = portfolioActivity.map(c => c.Date);
+        const totalAmount = aggregateValueByDay(activity).map(c => c.Amount);
+        // const t = aggregateValueByDay(portfolioActivity).map(c => c.Amount);
+        console.log('what are you ', totalAmount)
+        // const t = addValueAcrossAllAssets(totalAmount);
+        // console.log('total amount', t)
+        const labels = activity.map(c => c.Date);
 
         const lineGraphData = {
             labels,
@@ -56,14 +72,14 @@ const PortfolioChart = ({ fetchAllActivity, dispatch }) => {
                 {
                     data: totalAmount,
                     label: 'Portfolio',
-                    borderColor: '#ffff',
+                    borderColor: '#9a5',
                     fill: false,
                 },
             ],
         };
         setData(lineGraphData);
 
-    }, [portfolioActivity]);
+    }, [activity]);
 
     // console.log('cryptoHiustory', cryptoHistory)
     return (
@@ -90,5 +106,4 @@ const PortfolioChart = ({ fetchAllActivity, dispatch }) => {
     );
 }
 
-export default connect(state => ({}),
-    dispatch => ({ fetchAllActivity: fetchAllActivity, dispatch }))(PortfolioChart);
+export default PortfolioChart;

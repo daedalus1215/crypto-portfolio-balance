@@ -1,23 +1,14 @@
 import React, { useEffect } from 'react';
 import { Router, Route } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
 import { createBrowserHistory as createHistory } from 'history';
-import { fetchPortfolioList } from './actionCreators/portfolioActionCreators';
 import TopBar from './topBar/TopBar';
-import Home from './home/Home';
+import useFetchPortfolioList from './hooks/useFetchPortfolioList';
 import { useSelectPortfolioList } from './selectors/portfolioSelectors';
+import Home from './home/Home';
 import PortfolioPageContainer from './portfolios/PortfolioPageContainer';
 import './App.css';
 
 const history = createHistory();
-
-//@TODO: Migrate this
-const useFetchPortfolioList = () => {
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(fetchPortfolioList());
-  }, []);
-}
 
 const App = () => {
   window.Chart.defaults.global.defaultFontFamily = `
