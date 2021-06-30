@@ -1,4 +1,5 @@
 import React from 'react';
+import useFetchInstrument from "../hooks/useFetchInstrumentHistory";
 import { fetchCurrentInstrumentPrices } from '../requests';
 import PortfolioChart from './PortfolioChart';
 import { useSelectPortfolioList } from '../selectors/portfolioSelectors';
@@ -7,6 +8,10 @@ import './Home.css';
 const Home = () => {
     const [cryptoPrices, setCryptoPrices] = React.useState([]);
     const portfolios = useSelectPortfolioList();
+    //@TODO: Got to change this, we should not be depending on btc as a financial instrument.
+    //@TODO: I just need the full date range and I picked anyone of the financial instruments.
+    useFetchInstrument('btc');
+
     React.useEffect(() => {
         fetchCurrentInstrumentPrices(setCryptoPrices);
     }, []);
