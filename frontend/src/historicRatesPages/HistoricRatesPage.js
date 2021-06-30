@@ -10,7 +10,7 @@ const TIME_LAPSE = {
     THREE_MTH: "THREE_MTH",
 }
 
-const useSetGraphData = (setData, btcHistory, timePeriod, color) => {
+const useSetGraphData = (setData, btcHistory, timePeriod, color, name, code) => {
     useEffect(() => {
         let labels;
         let cryptoData;
@@ -48,7 +48,7 @@ const useSetGraphData = (setData, btcHistory, timePeriod, color) => {
             datasets: [
                 {
                     data: cryptoData,
-                    label: 'Bitcoin',
+                    label: `Current Market Value for ${name} (${code})`,
                     borderColor: color,
                     fill: false,
                 },
@@ -57,12 +57,13 @@ const useSetGraphData = (setData, btcHistory, timePeriod, color) => {
     }, [btcHistory, timePeriod]);
 }
 
-const HistoricRatesPage = ({ color }) => {
+const HistoricRatesPage = ({ portfolio }) => {
+    const { color, code, name } = portfolio;
     const btcHistory = useSelector(state => state.cryptoHistory.asset);
     const [data, setData] = React.useState({});
     const [timePeriod, setTimePeriod] = React.useState(TIME_LAPSE.MTH);
 
-    useSetGraphData(setData, btcHistory, timePeriod, color);
+    useSetGraphData(setData, btcHistory, timePeriod, color, name, code);
 
     const currentMarketValue = btcHistory && btcHistory[btcHistory.length - 1]?.Close;
 
@@ -78,7 +79,7 @@ const HistoricRatesPage = ({ color }) => {
                         <Button onClick={() => setTimePeriod(TIME_LAPSE.WEEK)}>Week</Button>
                     </div>
                     <div className="title">
-                        <p>CM Value: {currentMarketValue}</p>
+                        <p>Current Market Value Value: {currentMarketValue}</p>
                     </div>
                 </div>
                 <div className="portfolio-grid">
