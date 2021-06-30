@@ -2,7 +2,7 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { fetchInstrumentHistory } from "../actionCreators/instrumentActionCreators";
 
-const useFetchAssetHistory = (code) => {
+const useFetchInstrumentHistory = (code) => {
     const dispatch = useDispatch();
 
     React.useEffect(() => {
@@ -10,4 +10,4 @@ const useFetchAssetHistory = (code) => {
     }, [code]);
 };
 
-export default useFetchAssetHistory;
+export default useFetchInstrumentHistory;

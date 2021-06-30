@@ -1,4 +1,4 @@
-import { aggregateValueByDay } from '../PortfolioChart';
+import { aggregateValueByDay } from '../utilities';
 
 describe('PortfolioChart.test.js', () => {
     it('should ', () => {
@@ -89,3 +89,13 @@ describe('PortfolioChart.test.js', () => {
         expect(actual[1]).toEqual(expectedTwo);
     });
 });
+
+
+const d = [
+    [
+        { "Amount": 12, "Coin": "btc", "Date": "2021-06-21 00:00:00", "PricePerCoin": 30000 }, 
+        { "Amount": 24, "Coin": "btc", "Date": "2021-06-21 00:00:00", "PricePerCoin": 30000 }
+    ], 
+    [
+        { "Amount": 15024, "Coin": "eth", "Date": "2021-06-21 00:00:00", "PricePerCoin": 15000 }, 
+        { "Amount": 16924, "Coin": "eth", "Date": "2021-06-21 00:00:00", "PricePerCoin": 1900 }], []]

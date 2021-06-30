@@ -11,9 +11,14 @@ display: flex;
 
 }
 
+.buttons { 
+    margin-top: 1em;
+}
+
 .title {
-      display: flex;
+    display: flex;
     justify-content: space-around;
+    margin-top: 1em;
 }
 
 .portfolio-page {

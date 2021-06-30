@@ -2,8 +2,8 @@ import { useSelector } from "react-redux";
 import { createSelector } from "reselect";
 
 const selectFinancialInstrumentHistory = createSelector(
-    state => state.state?.cryptoHistory,
-    items => items?.asset || [],
+    state => state?.cryptoHistory,
+    asset => asset?.asset || []
 );
 
 export const useSelectInstrumentHistory = () => useSelector(selectFinancialInstrumentHistory);

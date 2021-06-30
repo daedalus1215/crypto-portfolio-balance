@@ -1,4 +1,7 @@
 import {
+    FETCH_ACTIVITY_BY_CODE_ERROR,
+    FETCH_ACTIVITY_BY_CODE_RESPONSE,
+    FETCH_ALL_ACTIVITY_BY_CODE_ERROR,
     FETCH_ALL_ACTIVITY_ERROR,
     FETCH_ALL_ACTIVITY_RESPONSE,
     FETCH_INSTRUMENT_HISTORY_ERROR,
@@ -38,6 +41,19 @@ export const getAllActivityReducer = (state = [], action) => {
             return {
                 ...state,
                 assets: action.payload,
+            }
+        default:
+            return state
+    }
+}
+
+export const getActivityByCodeReducer = (state = [], action) => {
+    switch (action.type) {
+        case FETCH_ACTIVITY_BY_CODE_RESPONSE:
+        case FETCH_ACTIVITY_BY_CODE_ERROR:
+            return {
+                ...state,
+                asset: action.payload,
             }
         default:
             return state

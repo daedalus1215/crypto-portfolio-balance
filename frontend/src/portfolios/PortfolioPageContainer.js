@@ -1,7 +1,8 @@
 import React from 'react';
 import PortfolioPage from './PortfolioPage';
-import HistoricBtcPurchases from '../historicBtcPurchases/HistoricBtcPurchases';
+import ActivityByPricePanel from '../activityPanel/ActivityByPricePanel';
 import HistoricRatesPage from '../historicRatesPages/HistoricRatesPage';
+import ActivityByQuantityPanel from '../activityPanel/ActivityByQuantityPanel';
 import './PortfolioPage.css';
 
 /**
@@ -12,13 +13,17 @@ import './PortfolioPage.css';
 const PortfolioPageContainer = ({ portfolioOfAsset }) => {
     return <div className="whole-page">
 
+        <div className="hr-page">
+            <HistoricRatesPage portfolio={portfolioOfAsset} />
+        </div>
+
         <PortfolioPage portfolioOfAsset={portfolioOfAsset} />
 
         <div className="hs-page">
-            <HistoricBtcPurchases code={portfolioOfAsset.code} color={portfolioOfAsset.color} />
+            <ActivityByPricePanel selectedPortfolio={portfolioOfAsset}/>
         </div>
-        <div className="hr-page">
-            <HistoricRatesPage color={portfolioOfAsset.color} />
+        <div className="hs-page">
+            <ActivityByQuantityPanel selectedPortfolio={portfolioOfAsset} />
         </div>
     </div>
 }

@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const schema = new mongoose.Schema({
     "Unix": String,
     "Date": String,
-    "Symbol": String,
+    "Symbol": String, 
     "Open": String,
     "High": String,
     "Low": String,
