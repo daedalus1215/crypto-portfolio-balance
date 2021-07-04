@@ -17,8 +17,7 @@ const Home = () => {
     }, []);
 
     const folios = portfolios
-        .map(portfolio => cryptoPrices
-            .filter(p => p.symbol.toLowerCase() === portfolio.code)
+        .map(portfolio => cryptoPrices?.filter(p => p.symbol.toLowerCase() === portfolio.code)
             .map(cryptoPrice => {
                 return {
                     ...portfolio,
@@ -56,7 +55,7 @@ const Home = () => {
                         <div className="crypto-price">${Number(p?.price).toLocaleString()}</div>
                         <div className="crypto-onehour">{p?.oneHour?.toFixed(2)}</div>
                         <div className="crypto-oneday">{p?.oneDay.toFixed(2)}</div>
-                        <div className="crypto-marketcap">{p?.marketCap.toFixed(2)}</div>
+                        <div className="crypto-marketcap">{p?.marketCap.toLocaleString()}</div>
                         {/* </a> */}
                     </li>)
                 })}

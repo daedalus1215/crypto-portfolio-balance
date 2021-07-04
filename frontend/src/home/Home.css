@@ -11,17 +11,9 @@
     overflow: scroll;
     height: 1000px;
 }
-
 .home-ul {
-    display: flex;
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    height: 80vh;
-    width: 100%;
-    margin: 2em auto;
+    padding: 0; /* override default ul padding */
 }
-
 .home-assets {
     list-style-type: none;
     border: #ddd solid;
