@@ -23,57 +23,70 @@ const PortfolioChart = ({ fetchAllActivity, dispatch }) => {
 
     useFetchAllActivity();
     const portfolioActivity = useSelectAllActivity();
-    
+
     const instrumentHistory = useSelectInstrumentHistory()
-    
-    
+
+
     useEffect(() => {
         let totalAmount = aggregateValueByDay(portfolioActivity, instrumentHistory);
         // const t = aggregateValueByDay(portfolioActivity).map(c => c.Amount);
-        console.log('what are you ', totalAmount)
+        // console.log('what are you ', totalAmount)
         // const t = addValueAcrossAllAssets(totalAmount);
         // console.log('total amount', t)
         // const labels = portfolioActivity.map(c => c.Date);
-        let labels = instrumentHistory.map(c => c.Date);
+        let labels = instrumentHistory.map(c => c.Date.replace(' 00:00:00', ''));
 
+        if (timePeriod === TIME_LAPSE.WEEK) {
+            totalAmount = totalAmount.splice(totalAmount.length - 10, totalAmount.length - 1);
+            labels = labels.splice(labels.length - 10, labels.length - 1);
+        }
 
-            if (timePeriod === TIME_LAPSE.WEEK) {
-                totalAmount = totalAmount.splice(totalAmount.length - 10, totalAmount.length - 1);
-                labels = labels.splice(labels.length - 10, labels.length - 1);
+        if (timePeriod === TIME_LAPSE.MTH) {
+            totalAmount = totalAmount.splice(totalAmount.length - 34, totalAmount.length - 1);
+            labels = labels.splice(labels.length - 34, labels.length - 1);
+        }
+
+        if (timePeriod === TIME_LAPSE.THREE_MTH) {
+            totalAmount = totalAmount.splice(totalAmount.length - 90, totalAmount.length - 1);
+            labels = labels.splice(labels.length - 90, labels.length - 1);
+        }
+
+        if (timePeriod === TIME_LAPSE.YR) {
+            totalAmount = totalAmount.splice(totalAmount.length - 150, totalAmount.length - 1);
+            labels = labels.splice(labels.length - 150, labels.length - 1);
+        }
+        const options = {
+            // scaleBeginAtZero: true,
+            /*This is how to customize how the labels look :) */
+            tooltips: {
+                tooltipModel: (data) => `$${data}`
             }
-
-            if (timePeriod === TIME_LAPSE.MTH) {
-                totalAmount = totalAmount.splice(totalAmount.length - 34, totalAmount.length - 1);
-                labels = labels.splice(labels.length - 34, labels.length - 1);
-            }
-
-            if (timePeriod === TIME_LAPSE.THREE_MTH) {
-                totalAmount = totalAmount.splice(totalAmount.length - 90, totalAmount.length - 1);
-                labels = labels.splice(labels.length - 90, labels.length - 1);
-            }
-
-            if (timePeriod === TIME_LAPSE.YR) {
-                totalAmount = totalAmount.splice(totalAmount.length - 150, totalAmount.length - 1);
-                labels = labels.splice(labels.length - 150, labels.length - 1);
-            }
-
-
+        };
         const lineGraphData = {
             labels,
+            options,
             datasets: [
                 {
                     data: totalAmount,
-                    label: 'Portfolio',
                     borderColor: '#9a5',
                     fill: false,
+                    label: 'label',
+                    options
                 },
             ],
         };
         setData(lineGraphData);
         //@TODO: Violation here by doing 2 things in this useEffect
-        setTotalValue(totalAmount[totalAmount.length -1])
+        setTotalValue(totalAmount[totalAmount.length - 1])
     }, [portfolioActivity, instrumentHistory, timePeriod]);
 
+
+    const options = {
+        // scaleBeginAtZero: true,
+        /*This is how to customize how the labels look :) */
+        tooltips: {
+            tooltipModel: (data) => `$${data}`}
+    };
     // console.log('cryptoHiustory', cryptoHistory)
     return (
         <div className="p-page">
@@ -92,8 +105,8 @@ const PortfolioChart = ({ fetchAllActivity, dispatch }) => {
                         <p>Total Value: {totalValue}</p>
 
                     </div>
-                    <div className="portfolio-grid">
-                        <Line data={data} />
+                    <div className="portfolio-grid-max">
+                        <Line data={data} options={options}/>
                     </div>
                 </div>
 
