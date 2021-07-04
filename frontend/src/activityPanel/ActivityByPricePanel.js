@@ -26,7 +26,6 @@ const ActivityByPricePanel = ({ selectedPortfolio }) => {
 
     useFetchActivityByCode(code);
     const activity = useSelectActivityByCode(code);
-    // console.log('what activity', activity)
 
     useEffect(() => {
         let totalAmount = aggregateValueByDay(activity, instrumentHistory);

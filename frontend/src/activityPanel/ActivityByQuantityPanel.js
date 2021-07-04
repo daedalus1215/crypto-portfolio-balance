@@ -26,7 +26,6 @@ const ActivityByQuantityPanel = ({ selectedPortfolio }) => {
 
     useFetchActivityByCode(code);
     const activity = useSelectActivityByCode(code);
-    // console.log('what activity', activity)
 
     useEffect(() => {
         let totalAmount = aggregateQuantityByDay(activity, instrumentHistory);

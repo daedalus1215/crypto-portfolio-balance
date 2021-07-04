@@ -29,6 +29,8 @@ const Home = () => {
             })[0]
         );
 
+        
+
     return <div className="home-page">
         <div className="home-page-container">
             <div className="home-graph">

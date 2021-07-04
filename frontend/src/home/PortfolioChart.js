@@ -29,11 +29,6 @@ const PortfolioChart = ({ fetchAllActivity, dispatch }) => {
 
     useEffect(() => {
         let totalAmount = aggregateValueByDay(portfolioActivity, instrumentHistory);
-        // const t = aggregateValueByDay(portfolioActivity).map(c => c.Amount);
-        // console.log('what are you ', totalAmount)
-        // const t = addValueAcrossAllAssets(totalAmount);
-        // console.log('total amount', t)
-        // const labels = portfolioActivity.map(c => c.Date);
         let labels = instrumentHistory.map(c => c.Date.replace(' 00:00:00', ''));
 
         if (timePeriod === TIME_LAPSE.WEEK) {
@@ -87,7 +82,6 @@ const PortfolioChart = ({ fetchAllActivity, dispatch }) => {
         tooltips: {
             tooltipModel: (data) => `$${data}`}
     };
-    // console.log('cryptoHiustory', cryptoHistory)
     return (
         <div className="p-page">
             <div className="portfolio-page">
