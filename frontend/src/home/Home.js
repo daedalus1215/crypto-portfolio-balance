@@ -23,6 +23,9 @@ const Home = () => {
                 return {
                     ...portfolio,
                     price: cryptoPrice.quote.USD.price,
+                    oneHour: cryptoPrice.quote.USD.percent_change_1h,
+                    oneDay: cryptoPrice.quote.USD.percent_change_24h,
+                    marketCap: cryptoPrice.quote.USD.market_cap,
                 }
             })[0]
         );
@@ -33,12 +36,28 @@ const Home = () => {
                 <PortfolioChart />
             </div>
             <ul className="home-ul">
-                {folios.map(p => {
+                <li className="home-assets">
+                    <div className="crypto-index">#</div>
+                    <div className="crypto-name">Name</div>
+                    <div className="crypto-price">Price</div>
+                    <div className="crypto-onehour">1hr Change</div>
+                    <div className="crypto-oneday">24hr Change</div>
+                    <div className="crypto-marketcap">Market Cap</div>
+                </li>
+                {folios.map((p, index) => {
                     return (<li className="home-assets">
-                        <a className="crypto-link" href={`/${p?.code}`}>
-                            <span className="crypto-icon"><img className="crypto-img" src={`/icons/icon_${p?.code}.webp`} /></span>
-                            <span className="crypto-name">{p?.code}: {Number(p?.price).toLocaleString()}</span>
-                        </a>
+                        {/* <a className="crypto-link" href={`/${p?.code}`}> */}
+                        <div className="crypto-index">{index}</div>
+                        <div className="crypto-name">
+                            <span className="crypto-image"><img className="crypto-img" src={`/icons/icon_${p?.code}.webp`} /> </span>
+                            <span className="name">{p?.name}</span>
+                            <span className="code">({p?.code.toUpperCase()})</span>
+                        </div>
+                        <div className="crypto-price">${Number(p?.price).toLocaleString()}</div>
+                        <div className="crypto-onehour">{p?.oneHour?.toFixed(2)}</div>
+                        <div className="crypto-oneday">{p?.oneDay.toFixed(2)}</div>
+                        <div className="crypto-marketcap">{p?.marketCap.toFixed(2)}</div>
+                        {/* </a> */}
                     </li>)
                 })}
             </ul>
