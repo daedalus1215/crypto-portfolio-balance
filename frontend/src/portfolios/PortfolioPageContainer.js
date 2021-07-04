@@ -16,13 +16,13 @@ const PortfolioPageContainer = ({ portfolioOfAsset }) => {
         <div className="hr-page">
             <HistoricRatesPage portfolio={portfolioOfAsset} />
         </div>
-
-        <PortfolioPage portfolioOfAsset={portfolioOfAsset} />
-
-        <div className="hs-page">
-            <ActivityByPricePanel selectedPortfolio={portfolioOfAsset}/>
+        <div className="hr-page">
+            <PortfolioPage portfolioOfAsset={portfolioOfAsset} />
         </div>
-        <div className="hs-page">
+        <div className="hr-page">
+            <ActivityByPricePanel selectedPortfolio={portfolioOfAsset} />
+        </div>
+        <div className="hr-page">
             <ActivityByQuantityPanel selectedPortfolio={portfolioOfAsset} />
         </div>
     </div>
