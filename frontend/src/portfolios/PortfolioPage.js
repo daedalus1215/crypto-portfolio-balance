@@ -92,8 +92,11 @@ const useDisplayHistoricalExchangeRate = (setData, portfolioData, instrumentHist
         } else {
             totalAmount = 0;
             setTotalValue(0);
-            labels = '';
+            labels = [];
         }
+
+        labels = labels?.map(d => d.replace(' 00:00:00', ''));
+
 
         const lineGraphData = {
             labels,
@@ -117,13 +120,13 @@ const PortfolioPage = ({ portfolioOfAsset, instrumentHistory, fetchInstrumentHis
     useEffect(() => {
         dispatch(fetchInstrumentHistory(code))
     }, []);
-    
+
     const [timePeriod, setTimePeriod] = React.useState(TIME_LAPSE.MTH);
     const [data, setData] = React.useState({});
     const [activity, setActivity] = React.useState({});
-    
+
     const [totalValue, setTotalValue] = React.useState(0);
-    
+
     useFetchActivityWithTotal(portfolioOfAsset.code, setActivity);
     const { portfolio, fiatInvestment, totalAmountOfAsset } = activity;
 

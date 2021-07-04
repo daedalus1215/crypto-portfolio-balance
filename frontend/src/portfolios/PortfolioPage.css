@@ -1,6 +1,6 @@
 
 .whole-page {
-display: flex;
+    display: flex;
     flex-wrap: wrap;
     align-items: flex-end;
 }
@@ -22,18 +22,39 @@ display: flex;
 }
 
 .portfolio-page {
-  /* everyone has this width */
-      width: 750px;
-      /* too close to top */
-          margin-top: 2em; 
-
+    /* everyone has this width */
+    /* width: 90vw; */
+    /* too close to top */
+    margin-top: 2em; 
 }
+
 .portfolio-grid {
-    width: 750px;
+    width: 90vw;
     margin: 0 auto 2em auto;
 }
 
-.hs-page {
-      width: 750px;
+.portfolio-grid-max {
+    width: 90vw;
+    margin: 0 auto 2em auto;
+}
+.hr-page-max {
+    margin: auto;
+}
 
+.hs-page {
+    width: 750px;
+}
+
+.hr-page {
+    margin: auto;
+}
+
+
+@media screen and (min-width: 1300px) {
+    .hr-page {
+        width: 595px;
+    }
+    .portfolio-grid {
+        width: 600px;
+    }
 }
