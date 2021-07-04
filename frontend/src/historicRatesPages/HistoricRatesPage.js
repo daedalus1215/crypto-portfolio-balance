@@ -12,7 +12,7 @@ const TIME_LAPSE = {
 
 const useSetGraphData = (setData, btcHistory, timePeriod, color, name, code) => {
     useEffect(() => {
-        let labels;
+        let labels = [];
         let cryptoData;
 
         if (btcHistory) {
@@ -39,9 +39,12 @@ const useSetGraphData = (setData, btcHistory, timePeriod, color, name, code) => 
                 labels = labels.splice(labels.length - 150, labels.length - 1);
             }
         } else {
-            labels = '';
+            labels = [];
             cryptoData = [];
         }
+
+        labels = labels?.map(d => d.replace(' 00:00:00', ''));
+
 
         setData({
             labels,
