@@ -52,6 +52,8 @@ const ActivityByQuantityPanel = ({ selectedPortfolio }) => {
             labels = labels.splice(labels.length - 150, labels.length - 1);
         }
 
+        labels = labels?.map(d => d.replace(' 00:00:00', ''));
+
 
         const lineGraphData = {
             labels,
@@ -69,24 +71,26 @@ const ActivityByQuantityPanel = ({ selectedPortfolio }) => {
     }, [activity, instrumentHistory, timePeriod]);
 
     return (
-        <div className="historic-rates-page">
-            <div className="title-container">
-                <div className="buttons">
-                    <Button onClick={() => setTimePeriod(TIME_LAPSE.ALL)}>All</Button>
-                    <Button onClick={() => setTimePeriod(TIME_LAPSE.YR)}>Year</Button>
-                    <Button onClick={() => setTimePeriod(TIME_LAPSE.THREE_MTH)}>Three Month</Button>
-                    <Button onClick={() => setTimePeriod(TIME_LAPSE.MTH)}>Month</Button>
-                    <Button onClick={() => setTimePeriod(TIME_LAPSE.WEEK)}>Week</Button>
-                </div>
-                <div className="title">
-                    {/* <p>Invested: ${fiatInvestment?.toFixed(2)}</p> */}
-                    {/* <p>Valued at: ${totalV}</p> */}
-                    <p>Quantity {name} ({code.toUpperCase()}): {totalValue}</p>
+        <div className="p-page">
+            <div className="portfolio-page">
+                <div className="title-container">
+                    <div className="buttons">
+                        <Button onClick={() => setTimePeriod(TIME_LAPSE.ALL)}>All</Button>
+                        <Button onClick={() => setTimePeriod(TIME_LAPSE.YR)}>Year</Button>
+                        <Button onClick={() => setTimePeriod(TIME_LAPSE.THREE_MTH)}>Three Month</Button>
+                        <Button onClick={() => setTimePeriod(TIME_LAPSE.MTH)}>Month</Button>
+                        <Button onClick={() => setTimePeriod(TIME_LAPSE.WEEK)}>Week</Button>
+                    </div>
+                    <div className="title">
+                        {/* <p>Invested: ${fiatInvestment?.toFixed(2)}</p> */}
+                        {/* <p>Valued at: ${totalV}</p> */}
+                        <p>Quantity {name} ({code.toUpperCase()}): {totalValue}</p>
 
+                    </div>
                 </div>
-            </div>
-            <div className="portfolio-grid">
-                <Line data={data} />
+                <div className="portfolio-grid">
+                    <Line data={data} />
+                </div>
             </div>
         </div>
     );
