@@ -5,16 +5,11 @@
 }
 
 .home-page-container {
-    width: 90%;
-    max-width:1000px;
+    width: 90vw;
     margin: auto;
     background-color: #fff;
     overflow: scroll;
     height: 1000px;
-}
-
-.home-graph {
-    width:1400px;
 }
 
 .home-ul {
@@ -32,13 +27,50 @@
     border: #ddd solid;
     padding: 1em;
     margin: .1em;
+    display: flex;
 }
 
-.crypto-icon {
+.home-assets--header {
+    flex-grow: 1;
+}
 
+.crypto-link {
+    display: flex;
+}
+
+.crypto {
+    flex-grow: 1;
 }
 
 .crypto-img {
     width: 24px;
     height: 24px;
+}
+
+
+.crypto-index {
+    flex: 1;
+}
+
+.crypto-name {
+    flex: 2;
+    text-align: justify;
+}
+
+.crypto-price {
+    flex: 2;
+    text-align: justify;
+}
+
+.crypto-onehour {
+    flex: 2;
+    text-align: justify;
+}
+.crypto-oneday {
+    flex: 2;
+    text-align: justify;
+}
+.crypto-marketcap {
+    flex: 2;
+    text-align: justify;
 }
