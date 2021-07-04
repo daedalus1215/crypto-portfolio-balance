@@ -34,9 +34,10 @@
 }
 
 .portfolio-grid-max {
-    width: 90vw;
+    width: 80%;
     margin: 0 auto 2em auto;
 }
+
 .hr-page-max {
     margin: auto;
 }
