@@ -13,26 +13,35 @@ const isNegative = percentageChange => {
     return false;
 };
 
-const upDown = p => isNegative(p?.oneHour?.toFixed(2))
-    ? (<ion-icon name="arrow-down" className="red"></ion-icon>)
-    : (<ion-icon name="arrow-up" className="green"></ion-icon>);
+const upDown = entry => isNegative(entry.toFixed(2))
+    ? (<span className="red"><ion-icon name="arrow-down">entry.toFixed(2)</ion-icon></span>)
+    : (<span className="green"><ion-icon name="arrow-up">entry.toFixed(2)</ion-icon></span>);
 
-const PortfolioGridRow = ({p, index}) => {
-    return <li className="home-assets">
-        {/* <a className="crypto-link" href={`/${p?.code}`}> */}
-
-        <div className="crypto-index">{index}</div>
-        <div className="crypto-name">
-            <span className="crypto-image"><img className="crypto-img" src={`/icons/icon_${p?.code}.webp`} /> </span>
-            <span className="name">{p?.name}</span>
-            <span className="code">({p?.code.toUpperCase()})</span>
-        </div>
-        <div className="crypto-price">${Number(p?.price).toLocaleString()}</div>
-        <div className="crypto-onehour">{upDown(p?.oneHour)}{p?.oneHour?.toFixed(2)}</div>
-        <div className="crypto-oneday">{upDown(p?.oneDay)}{p?.oneDay.toFixed(2)}</div>
-        <div className="crypto-marketcap">{p?.marketCap.toLocaleString()}</div>
-        {/* </a> */}
-    </li>
+const PortfolioGridRow = ({ p, index }) => {
+    const { name, code, price, oneHour, oneDay, marketCap } = p;
+    const nameFormat = name;
+    const priceFormat = Number(price).toLocaleString();
+    const oneHourFormat = oneHour.toFixed(2);
+    const oneDayFormat = oneDay.toFixed(2);
+    const marketCapFormat = marketCap.toLocaleString();
+    const codeFormat = code.toUpperCase();
+    const oneHourPercentSign = upDown(oneHour);
+    const oneDayPercentSign = upDown(oneDay);
+    
+    return <a className="crypto-link" href={`/${code}`}>
+        <li className="home-assets">
+            <div className="crypto-index">{index}</div>
+            <div className="crypto-name">
+                <span className="crypto-image"><img className="crypto-img" src={`/icons/icon_${code}.webp`} /> </span>
+                <span className="name">{nameFormat}</span>
+                <span className="code">{codeFormat}</span>
+            </div>
+            <div className="crypto-price">{priceFormat}</div>
+            <div className="crypto-onehour">{oneHourPercentSign}{oneHourFormat}</div>
+            <div className="crypto-oneday">{oneDayPercentSign}{oneDayFormat}</div>
+            <div className="crypto-marketcap">{marketCapFormat}</div>
+        </li>
+    </a>
 };
 
 export default PortfolioGridRow;
