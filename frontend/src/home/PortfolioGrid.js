@@ -33,7 +33,7 @@ const PortfolioGrid = () => {
             <div className="crypto-marketcap">Market Cap</div>
         </li>
         {folios.map((p, index) => {
-            return <PortfolioGridRow p={p} index={index} />
+            return p ? <PortfolioGridRow p={p} index={index} key={index}/> : []
         })}
     </ul>;
 };
