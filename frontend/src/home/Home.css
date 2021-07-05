@@ -9,7 +9,6 @@
     margin: auto;
     background-color: #fff;
     overflow: scroll;
-    height: 1000px;
 }
 .home-ul {
     padding: 0; /* override default ul padding */
@@ -29,7 +28,15 @@
 .crypto-link {
     display: flex;
 }
-
+a.crypto-link:link {
+    display: inline;
+    text-decoration: inherit;
+    color: inherit;
+}
+a.crypto-link:visited {
+    text-decoration: inherit;
+    color: inherit;
+}
 .crypto {
     flex-grow: 1;
 }
@@ -65,4 +72,15 @@
 .crypto-marketcap {
     flex: 2;
     text-align: justify;
+}
+.green {
+    color: green;
+}
+.red {
+    color: red;
+}
+.crypto-name {
+  width: 50px;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
