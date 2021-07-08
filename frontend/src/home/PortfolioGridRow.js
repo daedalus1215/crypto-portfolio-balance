@@ -17,13 +17,35 @@ const upDown = entry => isNegative(entry.toFixed(2))
     ? (<span className="red"><ion-icon name="arrow-down">entry.toFixed(2)</ion-icon></span>)
     : (<span className="green"><ion-icon name="arrow-up">entry.toFixed(2)</ion-icon></span>);
 
+
+function commarize(min) {
+    console.log('min', min)
+    // Alter numbers larger than 1k
+    if (min) {
+        var units = ["k", "M", "B", "T"];
+
+        var order = Math.floor(Math.log(min) / Math.log(1000));
+
+        var unitname = units[(order - 1)];
+        var num = Math.floor(min / 1000 ** order);
+        // output number remainder + unitname
+        return num + unitname
+    }
+}
+
+
 const PortfolioGridRow = ({ p, index }) => {
     const { name, code, price, oneHour, oneDay, marketCap } = p;
     const nameFormat = name;
     const priceFormat = Number(price).toLocaleString();
     const oneHourFormat = oneHour.toFixed(2);
     const oneDayFormat = oneDay.toFixed(2);
-    const marketCapFormat = marketCap.toLocaleString();
+
+    const marketCapFormat = commarize(marketCap);
+
+
+    // const marketCapFormat = commarize(1000000000);
+    console.log('marketCapFormat', marketCapFormat)
     const codeFormat = code.toUpperCase();
     const oneHourPercentSign = upDown(oneHour);
     const oneDayPercentSign = upDown(oneDay);
