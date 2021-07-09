@@ -18,18 +18,14 @@ const upDown = entry => isNegative(entry.toFixed(2))
     : (<span className="green"><ion-icon name="arrow-up">entry.toFixed(2)</ion-icon></span>);
 
 
-function commarize(min) {
-    console.log('min', min)
+const commarize = (min) => {
     // Alter numbers larger than 1k
     if (min) {
-        var units = ["k", "M", "B", "T"];
-
+        var units = ["k", "m", "b", "t"];
         var order = Math.floor(Math.log(min) / Math.log(1000));
-
         var unitname = units[(order - 1)];
         var num = Math.floor(min / 1000 ** order);
-        // output number remainder + unitname
-        return num + unitname
+        return `${num} ${unitname}`;
     }
 }
 
