@@ -3,7 +3,6 @@ import useFetchInstrument from "../hooks/useFetchInstrumentHistory";
 import { fetchCurrentInstrumentPrices } from '../requests';
 import PortfolioChart from './PortfolioChart';
 import PortfolioGrid from './PortfolioGrid';
-import { useSelectPortfolioList } from '../selectors/portfolioSelectors';
 import './Home.css';
 
 const Home = () => {
