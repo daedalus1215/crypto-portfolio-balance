@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Router, Route } from 'react-router-dom';
 import { createBrowserHistory as createHistory } from 'history';
 import TopBar from './topBar/TopBar';
