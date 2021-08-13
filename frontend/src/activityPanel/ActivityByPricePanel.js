@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Line } from "react-chartjs-2";
 import Button from "react-bootstrap/esm/Button";
-import { aggregateValueByDay } from "../home/utilities";
+import { aggregateValueByDayAcrossMultipleDays } from "../home/utilities";
 import useFetchActivityByCode from "../hooks/useFetchActivityByCode";
 import useFetchInstrumentHistory from "../hooks/useFetchInstrumentHistory";
 import { useSelectActivityByCode } from "../selectors/activitySelectors";
@@ -28,7 +28,7 @@ const ActivityByPricePanel = ({ selectedPortfolio }) => {
     const activity = useSelectActivityByCode(code);
 
     useEffect(() => {
-        let totalAmount = aggregateValueByDay(activity, instrumentHistory);
+        let totalAmount = aggregateValueByDayAcrossMultipleDays(activity, instrumentHistory);
         let labels = instrumentHistory.map(a => a.Date);
 
         if (timePeriod === TIME_LAPSE.WEEK) {

@@ -6,7 +6,7 @@ import { useSelectAllActivity } from "../selectors/activitySelectors";
 import { useSelectInstrumentHistory } from "../selectors/instrumentSelectors";
 import { fetchAllActivity } from "../actionCreators/activityActionCreators";
 import useFetchAllActivity from "../hooks/useFetchAllActivity";
-import { aggregateValueByDay } from "./utilities";
+import { aggregateValueByDayAcrossMultipleDays } from "./utilities";
 
 const TIME_LAPSE = {
     ALL: "ALL",
@@ -28,7 +28,7 @@ const PortfolioChart = ({ fetchAllActivity, dispatch }) => {
 
 
     useEffect(() => {
-        let totalAmount = aggregateValueByDay(portfolioActivity, instrumentHistory);
+        let totalAmount = aggregateValueByDayAcrossMultipleDays(portfolioActivity, instrumentHistory);
         let labels = instrumentHistory.map(c => c.Date.replace(' 00:00:00', ''));
 
         if (timePeriod === TIME_LAPSE.WEEK) {

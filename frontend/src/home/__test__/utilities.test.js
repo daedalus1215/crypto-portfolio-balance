@@ -1,9 +1,9 @@
-import { aggregateValueByDay } from '../utilities';
+import { aggregateValueByDayAcrossMultipleDays } from '../utilities';
 
-describe('PortfolioChart.test.js', () => {
-    it('should ', () => {
+describe('utilities.test.js', () => {
+    it('should accumulate the quantity * exchange rate across multiple days', () => {
         // Arrange
-        const cryptoHistory = [
+        const activity = [
             {
                 Date: "2021-06-21 00:00:00",
                 Coin: 'btc',
@@ -54,48 +54,30 @@ describe('PortfolioChart.test.js', () => {
             },
         ];
 
-        const expectedOne = {
-            Amount: (cryptoHistory[0].Amount * cryptoHistory[0].PricePerCoin)
-                + (cryptoHistory[2].Amount * cryptoHistory[2].PricePerCoin)
-                + (cryptoHistory[4].Amount * cryptoHistory[4].PricePerCoin)
-                + (cryptoHistory[6].Amount * cryptoHistory[6].PricePerCoin),
-            Date: cryptoHistory[0].Date
-        };
+        const expectedOne = (activity[0].Amount * activity[0].PricePerCoin)
+            + (activity[2].Amount * activity[2].PricePerCoin)
+            + (activity[4].Amount * activity[4].PricePerCoin)
+            + (activity[6].Amount * activity[6].PricePerCoin);
 
-        const expectedTwo = {
-            Amount: (cryptoHistory[1].Amount * cryptoHistory[1].PricePerCoin)
-                + (cryptoHistory[3].Amount * cryptoHistory[3].PricePerCoin)
-                + (cryptoHistory[5].Amount * cryptoHistory[5].PricePerCoin)
-                + (cryptoHistory[7].Amount * cryptoHistory[7].PricePerCoin),
-            Date: cryptoHistory[1].Date
-        };
+        const expectedTwo = expectedOne
+            + (activity[1].Amount * activity[1].PricePerCoin)
+            + (activity[3].Amount * activity[3].PricePerCoin)
+            + (activity[5].Amount * activity[5].PricePerCoin)
+            + (activity[7].Amount * activity[7].PricePerCoin);
 
-        const portfolios = [
+        const instrumentHistory = [
             {
-                code: 'btc'
+                Date: '2021-06-21 00:00:00',
             },
             {
-                code: 'eth'
-            },
-            {
-                code: 'one'
+                Date: '2021-06-22 00:00:00',
             }];
 
         // Act
-        const actual = aggregateValueByDay(cryptoHistory, portfolios);
+        const actual = aggregateValueByDayAcrossMultipleDays(activity, instrumentHistory);
 
         // Assert
         expect(actual[0]).toEqual(expectedOne);
         expect(actual[1]).toEqual(expectedTwo);
     });
 });
-
-
-const d = [
-    [
-        { "Amount": 12, "Coin": "btc", "Date": "2021-06-21 00:00:00", "PricePerCoin": 30000 }, 
-        { "Amount": 24, "Coin": "btc", "Date": "2021-06-21 00:00:00", "PricePerCoin": 30000 }
-    ], 
-    [
-        { "Amount": 15024, "Coin": "eth", "Date": "2021-06-21 00:00:00", "PricePerCoin": 15000 }, 
-        { "Amount": 16924, "Coin": "eth", "Date": "2021-06-21 00:00:00", "PricePerCoin": 1900 }], []]
