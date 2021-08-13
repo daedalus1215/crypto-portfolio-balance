@@ -1,11 +1,18 @@
 import React from 'react';
+import useInterval from '../hooks/useInterval';
 import { fetchCurrentInstrumentPrices } from '../requests';
 import { useSelectPortfolioList } from '../selectors/portfolioSelectors';
 import PortfolioGridRow from './PortfolioGridRow';
 
+const TWENTY_MINUTES = 1200000;
+
 const PortfolioGrid = () => {
     const [cryptoPrices, setCryptoPrices] = React.useState([]);
     const portfolios = useSelectPortfolioList();
+
+    useInterval(() => {
+        fetchCurrentInstrumentPrices(setCryptoPrices);
+    }, TWENTY_MINUTES);
 
     React.useEffect(() => {
         fetchCurrentInstrumentPrices(setCryptoPrices);
@@ -33,7 +40,7 @@ const PortfolioGrid = () => {
             <div className="crypto-marketcap">Market Cap</div>
         </li>
         {folios.map((p, index) => {
-            return p ? <PortfolioGridRow p={p} index={index} key={index}/> : []
+            return p ? <PortfolioGridRow p={p} index={index} key={index} /> : []
         })}
     </ul>;
 };
