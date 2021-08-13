@@ -1,7 +1,7 @@
 import React from 'react';
 
 const isNegative = percentageChange => {
-    console.log('percentageChange', percentageChange)
+    // console.log('percentageChange', percentageChange)
     if (percentageChange === undefined) {
         return false;
     }
@@ -39,9 +39,6 @@ const PortfolioGridRow = ({ p, index }) => {
 
     const marketCapFormat = commarize(marketCap);
 
-
-    // const marketCapFormat = commarize(1000000000);
-    console.log('marketCapFormat', marketCapFormat)
     const codeFormat = code.toUpperCase();
     const oneHourPercentSign = upDown(oneHour);
     const oneDayPercentSign = upDown(oneDay);
