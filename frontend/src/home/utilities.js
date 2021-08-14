@@ -1,13 +1,13 @@
 /**
  * Multiply exchange rate with the amount, and then add it across each day
- * @param {Array} activity 
+ * @param {Array} activities 
  * @param {Array} instrumentHistory 
  * @returns 
  */
-export const aggregateValueByDayAcrossMultipleDays = (activity, instrumentHistory) => {
+export const aggregateValueByDayAcrossMultipleDays = (activities, instrumentHistory) => {
     let summation = 0;
     return instrumentHistory.map(instrument => {
-        return activity
+        return activities
             .filter(c => c.Date === instrument.Date)
             .map(asset => asset.Amount * asset.PricePerCoin)
             .reduce((first, second) => {
@@ -17,11 +17,10 @@ export const aggregateValueByDayAcrossMultipleDays = (activity, instrumentHistor
     });
 };
 
-//@TODO: Left off writing a test for this
-export const aggregateQuantityByDay = (activity, instrumentHistory) => {
+export const aggregateQuantityByDay = (activities, instrumentHistory) => {
     let summation = 0;
     return instrumentHistory.map(instrument => {
-        return activity
+        return activities
             .filter(c => c.Date === instrument.Date)
             .map(asset => +asset.Amount)
             .reduce((first, second) => {
