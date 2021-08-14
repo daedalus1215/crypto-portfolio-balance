@@ -1,4 +1,4 @@
-import { aggregateValueByDayAcrossMultipleDays } from '../utilities';
+import { aggregateQuantityByDayAcrossMultipleDays, aggregateValueByDayAcrossMultipleDays } from '../utilities';
 
 describe('utilities.test.js', () => {
     describe('aggregateValueByDayAcrossMultipleDays', () => {
@@ -81,5 +81,79 @@ describe('utilities.test.js', () => {
             expect(actual[0]).toEqual(expectedOne);
             expect(actual[1]).toEqual(expectedTwo);
         });
+    });
+    describe('aggregateQuantityByDayAcrossMultipleDays', () => {
+        it('should accumulate the quantity across multiple days', () => {
+            // Arrange
+            const activities = [
+                {
+                    Date: "2021-06-21 00:00:00",
+                    Coin: 'btc',
+                    Amount: .0004,
+                    PricePerCoin: 30000,
+                },
+                {
+                    Date: "2021-06-22 00:00:00",
+                    Coin: 'btc',
+                    Amount: 10,
+                    PricePerCoin: 36000,
+                },
+                {
+                    Date: "2021-06-21 00:00:00",
+                    Coin: 'btc',
+                    Amount: .0004,
+                    PricePerCoin: 30000,
+                },
+                {
+                    Date: "2021-06-22 00:00:00",
+                    Coin: 'btc',
+                    Amount: 2,
+                    PricePerCoin: 36000,
+                },
+                {
+                    Date: "2021-06-21 00:00:00",
+                    Coin: 'eth',
+                    Amount: 1,
+                    PricePerCoin: 15000
+                },
+                {
+                    Date: "2021-06-22 00:00:00",
+                    Coin: 'eth',
+                    Amount: 3,
+                    PricePerCoin: 2000
+                },
+                {
+                    Date: "2021-06-21 00:00:00",
+                    Coin: 'eth',
+                    Amount: 1,
+                    PricePerCoin: 1900
+                },
+                {
+                    Date: "2021-06-22 00:00:00",
+                    Coin: 'eth',
+                    Amount: 3,
+                    PricePerCoin: 2000
+                },
+            ];
+            const instrumentHistory = [
+                {
+                    Date: '2021-06-21 00:00:00',
+                },
+                {
+                    Date: '2021-06-22 00:00:00',
+                }];
+
+            const expectedFirstEntry = activities[0].Amount + activities[2].Amount + activities[4].Amount + activities[6].Amount;
+            const expected = [
+                expectedFirstEntry,
+                expectedFirstEntry + activities[1].Amount + activities[3].Amount + activities[5].Amount + activities[7].Amount
+            ];
+
+            // Act
+            const actual = aggregateQuantityByDayAcrossMultipleDays(activities, instrumentHistory)
+
+            // Assert
+            expect(actual).toEqual(expected);
+        })
     });
 });
