@@ -1,9 +1,10 @@
 /**
  * Multiply exchange rate with the amount, and then add it across each day
  * @param {Array} activities 
- * @param {Array} instrumentHistory 
+ * @param {Array} instrumentHistory
  * @returns 
  */
+//@TODO: We really only need the dates from the instrumentHistory now, we were getting the exchange rate before from it, but now our activities actually store the exchange rate, so will have to clean this up.
 export const aggregateValueByDayAcrossMultipleDays = (activities, instrumentHistory) => {
     let summation = 0;
     return instrumentHistory.map(instrument => {
@@ -17,7 +18,8 @@ export const aggregateValueByDayAcrossMultipleDays = (activities, instrumentHist
     });
 };
 
-export const aggregateQuantityByDay = (activities, instrumentHistory) => {
+//@TODO: We really only need the dates from the instrumentHistory now, we were getting the exchange rate before from it, but now our activities actually store the exchange rate, so will have to clean this up.
+export const aggregateQuantityByDayAcrossMultipleDays = (activities, instrumentHistory) => {
     let summation = 0;
     return instrumentHistory.map(instrument => {
         return activities
