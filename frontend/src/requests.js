@@ -1,8 +1,9 @@
+const settings = require('./settings.json');
 const axios = require("axios");
 
 //@TODO: ActionCreation this
 export const fetchCurrentInstrumentPrices = async (setCurrentCryptoPrices) => await axios
-    .get('http://localhost:8081/api/pollAllCurrentCryptoPriceAction')
+    .get(`${settings.domain}:8081/api/pollAllCurrentCryptoPriceAction`)
     .then(async resp => {
         setCurrentCryptoPrices(await resp.data.data)
     })
@@ -10,7 +11,7 @@ export const fetchCurrentInstrumentPrices = async (setCurrentCryptoPrices) => aw
 
 //@TODO: ActionCreation this
 export const fetchSpecificActivity = async (code, setActivity) => await axios
-    .get(`http://localhost:8081/api/activity/${code}`)
+    .get(`${settings.domain}:8081/api/activity/${code}`)
     .then(async resp => {
         const portfolio = await resp.data.items;
 
