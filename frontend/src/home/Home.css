@@ -3,7 +3,6 @@
     width:100%;
     background-color: #eee;
 }
-
 .home-page-container {
     width: 90vw;
     margin: auto;
@@ -79,8 +78,86 @@ a.crypto-link:visited {
 .red {
     color: red;
 }
+
+
 .crypto-name {
   width: 50px;
   text-overflow: ellipsis;
   overflow: hidden;
+}
+
+
+@media screen and (min-width: 1300px) {
+    .hr-page {
+        width: 595px;
+    }
+    .portfolio-grid {
+        width: 600px;
+    }
+}
+
+/* no need to display this column when we are too small */
+@media screen and (max-width: 1080px) {
+    .crypto-index {
+        display:none;
+    }
+}
+
+/* no need to display names when this small */
+@media screen and (max-width: 1010px) {
+    div.crypto-name span.name{
+        display:none;
+    }
+}
+
+/*  */
+@media screen and (max-width: 616px) {
+.crypto-onehour .sub {
+        display:none;
+    }
+    .crypto-oneday .sub {
+        display:none;
+    }
+    .crypto-marketcap .sub {
+        display:none;
+    }
+}
+
+@media screen and (max-width: 445px) {
+    .home-page-container {
+        width: 100%;
+    }
+    .home-assets {
+        padding: 10px;
+    }
+    div.crypto-name {
+        display: flex;
+        flex-direction: column;
+        flex:1;
+        justify-content: center;
+    }
+    .crypto-price {
+        flex: 2;
+        align-items: center;
+        display: flex;
+        justify-content: center;
+    }
+    .crypto-onehour {
+        flex: 1;
+        align-items: center;
+        display: flex;
+        justify-content: center;
+    }
+    .crypto-oneday {
+        flex: 2;
+        align-items: center;
+        display: flex;
+        justify-content: center;
+    }
+    .crypto-marketcap {
+        flex: 1;
+        align-items: center;
+        display: flex;
+        justify-content: center;
+    }
 }
