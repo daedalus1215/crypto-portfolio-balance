@@ -49,13 +49,3 @@
 .hr-page {
     margin: auto;
 }
-
-
-@media screen and (min-width: 1300px) {
-    .hr-page {
-        width: 595px;
-    }
-    .portfolio-grid {
-        width: 600px;
-    }
-}
