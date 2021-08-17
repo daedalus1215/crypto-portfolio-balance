@@ -35,9 +35,9 @@ const PortfolioGrid = () => {
             <div className="crypto-index">#</div>
             <div className="crypto-name">Name</div>
             <div className="crypto-price">Price</div>
-            <div className="crypto-onehour">1hr Change</div>
-            <div className="crypto-oneday">24hr Change</div>
-            <div className="crypto-marketcap">Market Cap</div>
+            <div className="crypto-onehour">1hr <span className="sub">Change</span></div>
+            <div className="crypto-oneday">24hr<span className="sub">Change</span></div>
+            <div className="crypto-marketcap"><span className="sub">Market </span>Cap</div>
         </li>
         {folios.map((p, index) => {
             return p ? <PortfolioGridRow p={p} index={index} key={index} /> : []
